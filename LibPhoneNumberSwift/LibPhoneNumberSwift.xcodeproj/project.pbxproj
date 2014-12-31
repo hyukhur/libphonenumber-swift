@@ -1,0 +1,420 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4DA6936A1A52E18A00565EAC /* LibPhoneNumberSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DA693691A52E18A00565EAC /* LibPhoneNumberSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4DA693701A52E18A00565EAC /* LibPhoneNumberSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DA693641A52E18A00565EAC /* LibPhoneNumberSwift.framework */; };
+		4DA693771A52E18A00565EAC /* LibPhoneNumberSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA693761A52E18A00565EAC /* LibPhoneNumberSwiftTests.swift */; };
+		4DA693E61A52E4F000565EAC /* PhoneNumberUtilTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA693E51A52E4F000565EAC /* PhoneNumberUtilTest.swift */; };
+		4DA693E81A52E4FB00565EAC /* AsYouTypeFormatterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA693E71A52E4FB00565EAC /* AsYouTypeFormatterTest.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4DA693711A52E18A00565EAC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DA6935B1A52E18A00565EAC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4DA693631A52E18A00565EAC;
+			remoteInfo = LibPhoneNumberSwift;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		4DA693641A52E18A00565EAC /* LibPhoneNumberSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LibPhoneNumberSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4DA693681A52E18A00565EAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4DA693691A52E18A00565EAC /* LibPhoneNumberSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LibPhoneNumberSwift.h; sourceTree = "<group>"; };
+		4DA6936F1A52E18A00565EAC /* LibPhoneNumberSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LibPhoneNumberSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4DA693751A52E18A00565EAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4DA693761A52E18A00565EAC /* LibPhoneNumberSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibPhoneNumberSwiftTests.swift; sourceTree = "<group>"; };
+		4DA693E51A52E4F000565EAC /* PhoneNumberUtilTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumberUtilTest.swift; sourceTree = "<group>"; };
+		4DA693E71A52E4FB00565EAC /* AsYouTypeFormatterTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsYouTypeFormatterTest.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4DA693601A52E18A00565EAC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DA6936C1A52E18A00565EAC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4DA693701A52E18A00565EAC /* LibPhoneNumberSwift.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4DA6935A1A52E18A00565EAC = {
+			isa = PBXGroup;
+			children = (
+				4DA693661A52E18A00565EAC /* LibPhoneNumberSwift */,
+				4DA693731A52E18A00565EAC /* LibPhoneNumberSwiftTests */,
+				4DA693651A52E18A00565EAC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4DA693651A52E18A00565EAC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4DA693641A52E18A00565EAC /* LibPhoneNumberSwift.framework */,
+				4DA6936F1A52E18A00565EAC /* LibPhoneNumberSwiftTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4DA693661A52E18A00565EAC /* LibPhoneNumberSwift */ = {
+			isa = PBXGroup;
+			children = (
+				4DA693691A52E18A00565EAC /* LibPhoneNumberSwift.h */,
+				4DA693671A52E18A00565EAC /* Supporting Files */,
+			);
+			path = LibPhoneNumberSwift;
+			sourceTree = "<group>";
+		};
+		4DA693671A52E18A00565EAC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4DA693681A52E18A00565EAC /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4DA693731A52E18A00565EAC /* LibPhoneNumberSwiftTests */ = {
+			isa = PBXGroup;
+			children = (
+				4DA693761A52E18A00565EAC /* LibPhoneNumberSwiftTests.swift */,
+				4DA693E51A52E4F000565EAC /* PhoneNumberUtilTest.swift */,
+				4DA693E71A52E4FB00565EAC /* AsYouTypeFormatterTest.swift */,
+				4DA693741A52E18A00565EAC /* Supporting Files */,
+			);
+			path = LibPhoneNumberSwiftTests;
+			sourceTree = "<group>";
+		};
+		4DA693741A52E18A00565EAC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4DA693751A52E18A00565EAC /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		4DA693611A52E18A00565EAC /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4DA6936A1A52E18A00565EAC /* LibPhoneNumberSwift.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		4DA693631A52E18A00565EAC /* LibPhoneNumberSwift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4DA6937A1A52E18A00565EAC /* Build configuration list for PBXNativeTarget "LibPhoneNumberSwift" */;
+			buildPhases = (
+				4DA6935F1A52E18A00565EAC /* Sources */,
+				4DA693601A52E18A00565EAC /* Frameworks */,
+				4DA693611A52E18A00565EAC /* Headers */,
+				4DA693621A52E18A00565EAC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LibPhoneNumberSwift;
+			productName = LibPhoneNumberSwift;
+			productReference = 4DA693641A52E18A00565EAC /* LibPhoneNumberSwift.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		4DA6936E1A52E18A00565EAC /* LibPhoneNumberSwiftTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4DA6937D1A52E18A00565EAC /* Build configuration list for PBXNativeTarget "LibPhoneNumberSwiftTests" */;
+			buildPhases = (
+				4DA6936B1A52E18A00565EAC /* Sources */,
+				4DA6936C1A52E18A00565EAC /* Frameworks */,
+				4DA6936D1A52E18A00565EAC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4DA693721A52E18A00565EAC /* PBXTargetDependency */,
+			);
+			name = LibPhoneNumberSwiftTests;
+			productName = LibPhoneNumberSwiftTests;
+			productReference = 4DA6936F1A52E18A00565EAC /* LibPhoneNumberSwiftTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4DA6935B1A52E18A00565EAC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0620;
+				ORGANIZATIONNAME = "Hyuk Hur";
+				TargetAttributes = {
+					4DA693631A52E18A00565EAC = {
+						CreatedOnToolsVersion = 6.2;
+					};
+					4DA6936E1A52E18A00565EAC = {
+						CreatedOnToolsVersion = 6.2;
+					};
+				};
+			};
+			buildConfigurationList = 4DA6935E1A52E18A00565EAC /* Build configuration list for PBXProject "LibPhoneNumberSwift" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 4DA6935A1A52E18A00565EAC;
+			productRefGroup = 4DA693651A52E18A00565EAC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4DA693631A52E18A00565EAC /* LibPhoneNumberSwift */,
+				4DA6936E1A52E18A00565EAC /* LibPhoneNumberSwiftTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4DA693621A52E18A00565EAC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DA6936D1A52E18A00565EAC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4DA6935F1A52E18A00565EAC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4DA6936B1A52E18A00565EAC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4DA693771A52E18A00565EAC /* LibPhoneNumberSwiftTests.swift in Sources */,
+				4DA693E61A52E4F000565EAC /* PhoneNumberUtilTest.swift in Sources */,
+				4DA693E81A52E4FB00565EAC /* AsYouTypeFormatterTest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4DA693721A52E18A00565EAC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4DA693631A52E18A00565EAC /* LibPhoneNumberSwift */;
+			targetProxy = 4DA693711A52E18A00565EAC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		4DA693781A52E18A00565EAC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		4DA693791A52E18A00565EAC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		4DA6937B1A52E18A00565EAC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = LibPhoneNumberSwift/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		4DA6937C1A52E18A00565EAC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = LibPhoneNumberSwift/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		4DA6937E1A52E18A00565EAC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = LibPhoneNumberSwiftTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		4DA6937F1A52E18A00565EAC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = LibPhoneNumberSwiftTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4DA6935E1A52E18A00565EAC /* Build configuration list for PBXProject "LibPhoneNumberSwift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4DA693781A52E18A00565EAC /* Debug */,
+				4DA693791A52E18A00565EAC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4DA6937A1A52E18A00565EAC /* Build configuration list for PBXNativeTarget "LibPhoneNumberSwift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4DA6937B1A52E18A00565EAC /* Debug */,
+				4DA6937C1A52E18A00565EAC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		4DA6937D1A52E18A00565EAC /* Build configuration list for PBXNativeTarget "LibPhoneNumberSwiftTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4DA6937E1A52E18A00565EAC /* Debug */,
+				4DA6937F1A52E18A00565EAC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4DA6935B1A52E18A00565EAC /* Project object */;
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:LibPhoneNumberSwift/LibPhoneNumberSwift.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:LibPhoneNumberSwift_OSX/LibPhoneNumberSwift_OSX.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:LibPhoneNumberSwift_iOS/LibPhoneNumberSwift_iOS.xcodeproj">
+   </FileRef>
+</Workspace>

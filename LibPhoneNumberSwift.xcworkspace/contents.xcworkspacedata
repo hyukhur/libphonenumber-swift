@@ -16,4 +16,7 @@
    <FileRef
        location = "group:.travis.yml">
    </FileRef>
+   <FileRef
+       location = "group:.coveralls.yml">
+   </FileRef>
 </Workspace>

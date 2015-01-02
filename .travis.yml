@@ -5,7 +5,6 @@ before_script:
     - sudo easy_install PyYAML
 
 xcode_workspace: LibPhoneNumberSwift.xcworkspace
-xcode_project: LibPhoneNumberSwift.xcodeproj
 xcode_scheme: LibPhoneNumberSwift
 xcode_sdk: macosx
 after_success:

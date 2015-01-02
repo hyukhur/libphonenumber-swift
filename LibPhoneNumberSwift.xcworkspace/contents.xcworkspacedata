@@ -10,4 +10,10 @@
    <FileRef
       location = "group:LibPhoneNumberSwift_iOS/LibPhoneNumberSwift_iOS.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:README.md">
+   </FileRef>
+   <FileRef
+       location = "group:.travis.yml">
+   </FileRef>
 </Workspace>

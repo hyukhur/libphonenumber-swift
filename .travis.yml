@@ -1,10 +1,12 @@
 language: objective-c
 before_script:
-    - brew update && brew upgrade xctool
+#    - brew update && brew upgrade xctool
     - sudo easy_install cpp-coveralls
     - sudo easy_install PyYAML
-xcode_workspace: LibPhoneNumberSwift.xcworkspace
-xcode_scheme: LibPhoneNumberSwift
-xcode_sdk: macosx
+#xcode_workspace: LibPhoneNumberSwift.xcworkspace
+#xcode_scheme: LibPhoneNumberSwift
+#xcode_sdk: macosx
+script:
+- xctool -workspace LibPhoneNumberSwift.xcworkspace -scheme LibPhoneNumberSwift -sdk macosx build test ARCHS=i386 VALID_ARCHS=i386 ONLY_ACTIVE_ARCH=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES
 after_success:
     - ./coveralls.rb -h -x m -e LibPhoneNumberSwiftTests

@@ -3,9 +3,8 @@ before_script:
     - brew update && brew upgrade xctool
     - sudo easy_install cpp-coveralls
     - sudo easy_install PyYAML
-
 xcode_workspace: LibPhoneNumberSwift.xcworkspace
 xcode_scheme: LibPhoneNumberSwift
 xcode_sdk: macosx
 after_success:
-    - ./coveralls.rb -h -x m -e Pods -e LibPhoneNumberSwiftTests -e LibPhoneNumberSwift/LibPhoneNumberSwiftTests/**
+    - ./coveralls.rb -h -x m -e LibPhoneNumberSwiftTests

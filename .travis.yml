@@ -7,6 +7,6 @@ before_script:
 #xcode_scheme: LibPhoneNumberSwift
 #xcode_sdk: macosx
 script:
-- xctool -workspace LibPhoneNumberSwift.xcworkspace -scheme LibPhoneNumberSwift -sdk macosx build test ARCHS=i386 VALID_ARCHS=i386 ONLY_ACTIVE_ARCH=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES
+- xctool -workspace LibPhoneNumberSwift.xcworkspace -scheme LibPhoneNumberSwift -sdk macosx build test ARCHS=x86_64 VALID_ARCHS=x86_64 ONLY_ACTIVE_ARCH=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES
 after_success:
     - ./coveralls.rb -h -x m -e LibPhoneNumberSwiftTests

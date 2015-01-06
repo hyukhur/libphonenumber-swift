@@ -7,4 +7,4 @@ xcode_scheme: LibPhoneNumberSwift
 xcode_sdk: macosx
 xctool_args: GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES
 after_success:
-    - ./coveralls.rb -h -x swift -e LibPhoneNumberSwiftTests
+    - ./coveralls.rb -x swift -e LibPhoneNumberSwiftTests

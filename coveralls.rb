@@ -71,8 +71,6 @@ Find.find(derivedDataDir) do |gcda_file|
       result = %x( gcov '#{gcda_file}' -o '#{gcov_dir}' )
       
       puts "\nRESULT: #{result}"
-      exe_result = $?.exitstatus
-      puts "\nResutl: #{exe_result}"
 
       # filter the resulting output
       Dir.glob("*.gcov") do |gcov_file|

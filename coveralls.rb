@@ -70,11 +70,15 @@ Find.find(derivedDataDir) do |gcda_file|
       #process the file
       result = %x( gcov '#{gcda_file}' -o '#{gcov_dir}' )
       
+      puts "\nRESULT: #{result}"
+
       # filter the resulting output
       Dir.glob("*.gcov") do |gcov_file|
         
         firstLine = File.open(gcov_file).readline
         match = GCOV_SOURCE_PATTERN.match(firstLine)
+
+	puts "\nFIRST LINE: ${firstLine}"
         
         if (match)
           

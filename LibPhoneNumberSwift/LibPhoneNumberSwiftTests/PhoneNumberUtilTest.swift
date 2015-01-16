@@ -18,7 +18,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
     }
 
     func testGetSupportedRegions() {
-        XCTAssertTrue(phoneUtil.getSupportedRegions().count > 0, "")
+        XCTAssertTrue(phoneUtil.getSupportedRegions().count > 1, "")
     }
 }
 

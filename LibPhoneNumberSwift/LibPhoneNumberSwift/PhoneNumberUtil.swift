@@ -13,7 +13,7 @@ public class PhoneNumberUtil {
         
     }
 
-    public func getSupportedRegions() -> Array<Int> {
-        return [1]
+    public func getSupportedRegions() -> [String:AnyObject] {
+        return ["1":[], "2":[]]
     }
 }

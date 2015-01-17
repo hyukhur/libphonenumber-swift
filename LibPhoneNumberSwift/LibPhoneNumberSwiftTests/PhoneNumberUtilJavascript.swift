@@ -32,11 +32,40 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         return sharedInstance
     }
 
-    func saveJavascript(string:String) {
+    func cacheFilePath() -> String? {
+        let path = NSTemporaryDirectory().stringByAppendingPathComponent("LibPhoneNumberSwift")
+        var error:NSError?;
+        if (!NSFileManager.defaultManager().fileExistsAtPath(path) && !NSFileManager.defaultManager().createDirectoryAtPath(path, withIntermediateDirectories: false, attributes: nil, error: &error)) {
+            println("Cache File Directory making fail \(error?)")
+            return nil
+        }
+        return path.stringByAppendingPathComponent("libphonenumber.js")
+    }
 
+    func saveJavascript(string:String) {
+        if let path = cacheFilePath() {
+            var error:NSError?;
+            string.writeToFile(path, atomically: false, encoding: NSUTF8StringEncoding, error: &error)
+            if let error = error {
+                println("cache fila save error: \(error)")
+            }
+        } else {
+            println("cache fila path search fail")
+        }
     }
 
     func loadJavascript() -> String? {
+        if let path = cacheFilePath() {
+            var error:NSError?;
+            if let result = String(contentsOfFile: path, encoding: NSUTF8StringEncoding, error: &error) {
+                return result
+            }
+            if let error = error {
+                println("cache fila load error: \(error)")
+            }
+        } else {
+            println("cache fila path search fail")
+        }
         return nil
     }
 
@@ -130,6 +159,7 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         } else if let cachedJavascript:String? = loadJavascript() {
             loadLibrary(javascript: cachedJavascript)
         }
+        println("############## PhoneNumberUtilJavascript init Fail ################")
     }
 
     public override func getSupportedRegions() -> [String] {

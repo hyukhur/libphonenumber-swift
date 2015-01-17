@@ -48,6 +48,6 @@ class LibPhoneNumberSwift_SwiftTests: XCTestCase {
 
 class LibPhoneNumberSwift_JavascriptTests: LibPhoneNumberSwift_SwiftTests {
     override var driver:PhoneNumberUtil {
-        return PhoneNumberUtilJavascript()
+        return PhoneNumberUtilJavascript.getInstance()
     }
 }

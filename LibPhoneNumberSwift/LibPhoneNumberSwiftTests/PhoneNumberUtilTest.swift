@@ -24,6 +24,6 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
 
 class PhoneNumberUtil_JavascriptTests: PhoneNumberUtil_SwiftTests {
     override var driver:PhoneNumberUtil {
-        return PhoneNumberUtilJavascript()
+        return PhoneNumberUtilJavascript.getInstance()
     }
 }

@@ -7,14 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4D4F79041A5BC5F50040D0E1 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D4F79031A5BC5F50040D0E1 /* WebKit.framework */; };
 		4D83514A1A53C3E000585B79 /* PhoneNumberUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8351491A53C3E000585B79 /* PhoneNumberUtil.swift */; };
 		4D83514C1A54C19C00585B79 /* PhoneNumberUtilJavascript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D83514B1A54C19C00585B79 /* PhoneNumberUtilJavascript.swift */; };
 		4DA6936A1A52E18A00565EAC /* LibPhoneNumberSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DA693691A52E18A00565EAC /* LibPhoneNumberSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DA693701A52E18A00565EAC /* LibPhoneNumberSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DA693641A52E18A00565EAC /* LibPhoneNumberSwift.framework */; };
 		4DA693771A52E18A00565EAC /* LibPhoneNumberSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA693761A52E18A00565EAC /* LibPhoneNumberSwiftTests.swift */; };
 		4DA693E61A52E4F000565EAC /* PhoneNumberUtilTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA693E51A52E4F000565EAC /* PhoneNumberUtilTest.swift */; };
-		4DD220461A68A13D006CFBA5 /* libphonenumber.js in Resources */ = {isa = PBXBuildFile; fileRef = 4DD220451A68A13D006CFBA5 /* libphonenumber.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,7 +26,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4D4F79031A5BC5F50040D0E1 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		4D8351491A53C3E000585B79 /* PhoneNumberUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumberUtil.swift; sourceTree = "<group>"; };
 		4D83514B1A54C19C00585B79 /* PhoneNumberUtilJavascript.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumberUtilJavascript.swift; sourceTree = "<group>"; };
 		4DA693641A52E18A00565EAC /* LibPhoneNumberSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LibPhoneNumberSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -38,7 +35,6 @@
 		4DA693751A52E18A00565EAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4DA693761A52E18A00565EAC /* LibPhoneNumberSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibPhoneNumberSwiftTests.swift; sourceTree = "<group>"; };
 		4DA693E51A52E4F000565EAC /* PhoneNumberUtilTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumberUtilTest.swift; sourceTree = "<group>"; };
-		4DD220451A68A13D006CFBA5 /* libphonenumber.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = libphonenumber.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,7 +49,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4D4F79041A5BC5F50040D0E1 /* WebKit.framework in Frameworks */,
 				4DA693701A52E18A00565EAC /* LibPhoneNumberSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -111,8 +106,6 @@
 		4DA693741A52E18A00565EAC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				4DD220451A68A13D006CFBA5 /* libphonenumber.js */,
-				4D4F79031A5BC5F50040D0E1 /* WebKit.framework */,
 				4DA693751A52E18A00565EAC /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -215,7 +208,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4DD220461A68A13D006CFBA5 /* libphonenumber.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

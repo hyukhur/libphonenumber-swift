@@ -129,6 +129,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4DA6937A1A52E18A00565EAC /* Build configuration list for PBXNativeTarget "LibPhoneNumberSwift" */;
 			buildPhases = (
+				4DF4F9ED1A75543000ED6811 /* Download Metadata */,
 				4DA6935F1A52E18A00565EAC /* Sources */,
 				4DA693601A52E18A00565EAC /* Frameworks */,
 				4DA693611A52E18A00565EAC /* Headers */,
@@ -212,6 +213,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4DF4F9ED1A75543000ED6811 /* Download Metadata */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Download Metadata";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "ORIGIN_URL=https://raw.githubusercontent.com/googlei18n/libphonenumber/master/resources/PhoneNumberMetadata.xml\nWORK_DIR=$SRCROOT/metadata\nMETADATA_FILENAME=PhoneNumberMetadata.plist\nDATAFILE=$WORK_DIR/$METADATA_FILENAME\n\nif [ -e $DATAFILE ]\nthen\n    echo \"Meta Data Cached in\" $DATAFILE\nelse\n    echo \"Download Meta Data to\" $DATAFILE\n    curl -fsSL $ORIGIN_URL | xsltproc $WORK_DIR/xml2plist.xsl - | plutil -convert json - -o $DATAFILE\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4DA6935F1A52E18A00565EAC /* Sources */ = {

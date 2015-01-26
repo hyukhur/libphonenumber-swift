@@ -13,10 +13,20 @@
    <FileRef
       location = "group:README.md">
    </FileRef>
-   <FileRef
-       location = "group:.travis.yml">
-   </FileRef>
-   <FileRef
-       location = "group:.coveralls.yml">
-   </FileRef>
+   <Group
+      location = "container:"
+      name = "Scripts">
+      <FileRef
+         location = "group:.travis.yml">
+      </FileRef>
+      <FileRef
+         location = "group:.coveralls.yml">
+      </FileRef>
+      <FileRef
+         location = "group:LibPhoneNumberSwift/metadata/update_metadata.sh">
+      </FileRef>
+      <FileRef
+         location = "group:LibPhoneNumberSwift/metadata/xml2plist.xsl">
+      </FileRef>
+   </Group>
 </Workspace>

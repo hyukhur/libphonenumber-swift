@@ -22,6 +22,7 @@ import Foundation
 import LibPhoneNumberSwift
 import JavaScriptCore
 
+let isTestData = true
 var sharedInstance: PhoneNumberUtilJavascript = PhoneNumberUtilJavascript()
 
 public class PhoneNumberUtilJavascript: PhoneNumberUtil {
@@ -76,15 +77,17 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         request.HTTPMethod = "POST"
 
         let libphonenumberJavascriptRepo = "https%3A%2F%2Fraw.githubusercontent.com%2Fgooglei18n%2Flibphonenumber%2Fmaster%2Fjavascript%2Fi18n%2Fphonenumbers%2F"
+        let metadataFileName = isTestData ? "metadatafortesting.js" : "metadata.js"
+
         let body:String = "" +
             "output_format=json" +
             "&output_info=compiled_code" +
             "&output_info=errors" +
             "&compilation_level=SIMPLE_OPTIMIZATIONS" +
             "&use_closure_library=true" +
-            "&code_url=" + libphonenumberJavascriptRepo + "phonemetadata.pb.js" +
+            "&code_url=" + libphonenumberJavascriptRepo + "phonemetadata.pb.js"
             "&code_url=" + libphonenumberJavascriptRepo + "phonenumber.pb.js" +
-            "&code_url=" + libphonenumberJavascriptRepo + "metadata.js" +
+            "&code_url=" + libphonenumberJavascriptRepo + metadataFileName +
             "&code_url=" + libphonenumberJavascriptRepo + "phonenumberutil.js" +
             "&code_url=" + libphonenumberJavascriptRepo + "asyoutypeformatter.js"
 

@@ -9,11 +9,20 @@
 import Foundation
 
 public class PhoneNumberUtil {
+    var metaData:NSArray
     public init() {
-        
+        self.metaData = []
+    }
+
+    public convenience init(URL:NSURL) {
+        self.init()
+        if let metaData = NSArray(contentsOfURL: URL)? {
+            self.metaData = metaData;
+        }
     }
 
     public func getSupportedRegions() -> [String] {
-        return ["AC", "BC"]
+        let result = metaData.valueForKey("id") as [String]
+        return result
     }
 }

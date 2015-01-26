@@ -14,11 +14,14 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
     lazy var phoneUtil:PhoneNumberUtil = self.driver
 
     var driver:PhoneNumberUtil {
+        if let plist = NSURL(fileURLWithPath:"metadata/PhoneNumberMetadataForTesting.plist")? {
+            return PhoneNumberUtil(URL:plist)
+        }
         return PhoneNumberUtil()
     }
 
     func testGetSupportedRegions() {
-        XCTAssertTrue(phoneUtil.getSupportedRegions().count > 1, "")
+        XCTAssertTrue(phoneUtil.getSupportedRegions().count > 1, "\(phoneUtil.getSupportedRegions().count)")
     }
 }
 

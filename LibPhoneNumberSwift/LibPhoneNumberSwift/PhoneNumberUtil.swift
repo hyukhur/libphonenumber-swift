@@ -9,20 +9,22 @@
 import Foundation
 
 public class PhoneNumberUtil {
-    var metaData:NSArray
+    var metaData:Array<Dictionary<String, AnyObject>>
     public init() {
-        self.metaData = []
+        self.metaData = [Dictionary()]
     }
 
     public convenience init(URL:NSURL) {
         self.init()
-        if let metaData = NSArray(contentsOfURL: URL)? {
+        if let metaData = NSArray(contentsOfURL: URL)? as? Array<Dictionary<String, AnyObject>> {
             self.metaData = metaData;
         }
     }
 
     public func getSupportedRegions() -> [String] {
-        let result = metaData.valueForKey("id") as [String]
-        return result
+        return metaData.reduce([], combine: { (var result:[String], each) -> [String] in
+            result.append(each["id"] as String)
+            return result
+        })
     }
 }

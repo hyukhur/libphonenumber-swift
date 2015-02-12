@@ -17,51 +17,65 @@ public enum CountryCodeSource {
 
 public class PhoneNumber:Equatable {
     public init() {
+        // TODO: should be implemented
     }
     public func setCountryCode(code:Int) -> PhoneNumber {
+        // TODO: should be implemented
         return self
     }
     public func setNationalNumber(nationalNumber:Int) -> PhoneNumber {
+        // TODO: should be implemented
         return self
     }
     public func setItalianLeadingZero(value:Bool) -> PhoneNumber {
+        // TODO: should be implemented
         return self
     }
     public func setRawInput(value:String) -> PhoneNumber {
+        // TODO: should be implemented
         return self
     }
     public func clear() {
-        
+        // TODO: should be implemented
     }
     public func mergeFrom(other:PhoneNumber) -> PhoneNumber {
+        // TODO: should be implemented
         return self
     }
     public func setExtension(value:String) -> PhoneNumber {
+        // TODO: should be implemented
         return self
     }
     public func clearRawInput() -> PhoneNumber {
+        // TODO: should be implemented
         return self
     }
     public func setPreferredDomesticCarrierCode(value:String) -> PhoneNumber {
+        // TODO: should be implemented
         return self
     }
     public func setNumberOfLeadingZeros(value:Int) -> PhoneNumber {
+        // TODO: should be implemented
         return self
     }
     public func getCountryCodeSource() -> CountryCodeSource {
+        // TODO: should be implemented
         return CountryCodeSource.FROM_DEFAULT_COUNTRY
     }
     public func setCountryCodeSource(value:CountryCodeSource) -> PhoneNumber {
+        // TODO: should be implemented
         return self
     }
     public func hasCountryCodeSource() -> Bool {
+        // TODO: should be implemented
         return false
     }
     public func clearItalianLeadingZero() {
-        
+        // TODO: should be implemented
     }
 }
 
 public func == (lhs: PhoneNumber, rhs: PhoneNumber) -> Bool {
+    // TODO: should be implemented
     return false
 }

@@ -56,42 +56,50 @@ public enum MatchType {
     case EXACT_MATCH
 }
 
+/**
+* Possible outcomes when testing if a PhoneNumber is possible.
+*/
+public enum ValidationResult {
+    case IS_POSSIBLE
+    case INVALID_COUNTRY_CODE
+    case TOO_SHORT
+    case TOO_LONG
+}
+
+/**
+* Type of phone numbers.
+*/
+public enum PhoneNumberType {
+    case FIXED_LINE,
+    MOBILE,
+    // In some regions (e.g. the USA), it is impossible to distinguish between fixed-line and
+    // mobile numbers by looking at the phone number itself.
+    FIXED_LINE_OR_MOBILE,
+    // Freephone lines
+    TOLL_FREE,
+    PREMIUM_RATE,
+    // The cost of this call is shared between the caller and the recipient, and is hence typically
+    // less than PREMIUM_RATE calls. See // http://en.wikipedia.org/wiki/Shared_Cost_Service for
+    // more information.
+    SHARED_COST,
+    // Voice over IP numbers. This includes TSoIP (Telephony Service over IP).
+    VOIP,
+    // A personal number is associated with a particular person, and may be routed to either a
+    // MOBILE or FIXED_LINE number. Some more information can be found here:
+    // http://en.wikipedia.org/wiki/Personal_Numbers
+    PERSONAL_NUMBER,
+    PAGER,
+    // Used for "Universal Access Numbers" or "Company Numbers". They may be further routed to
+    // specific offices, but allow one number to be used for a company.
+    UAN,
+    // Used for "Voice Mail Access Numbers".
+    VOICEMAIL,
+    // A phone number is of type UNKNOWN when it does not fit any of the known patterns for a
+    // specific region.
+    UNKNOWN
+}
+
 public class PhoneNumberUtil {
-    public enum ValidationResult {
-        case IS_POSSIBLE
-        case INVALID_COUNTRY_CODE
-        case TOO_SHORT
-        case TOO_LONG
-    }
-    public enum PhoneNumberType {
-        case FIXED_LINE,
-        MOBILE,
-        // In some regions (e.g. the USA), it is impossible to distinguish between fixed-line and
-        // mobile numbers by looking at the phone number itself.
-        FIXED_LINE_OR_MOBILE,
-        // Freephone lines
-        TOLL_FREE,
-        PREMIUM_RATE,
-        // The cost of this call is shared between the caller and the recipient, and is hence typically
-        // less than PREMIUM_RATE calls. See // http://en.wikipedia.org/wiki/Shared_Cost_Service for
-        // more information.
-        SHARED_COST,
-        // Voice over IP numbers. This includes TSoIP (Telephony Service over IP).
-        VOIP,
-        // A personal number is associated with a particular person, and may be routed to either a
-        // MOBILE or FIXED_LINE number. Some more information can be found here:
-        // http://en.wikipedia.org/wiki/Personal_Numbers
-        PERSONAL_NUMBER,
-        PAGER,
-        // Used for "Universal Access Numbers" or "Company Numbers". They may be further routed to
-        // specific offices, but allow one number to be used for a company.
-        UAN,
-        // Used for "Voice Mail Access Numbers".
-        VOICEMAIL,
-        // A phone number is of type UNKNOWN when it does not fit any of the known patterns for a
-        // specific region.
-        UNKNOWN
-    }
     public class var REGION_CODE_FOR_NON_GEO_ENTITY:String {
         // TODO: should be implemented
         get {
@@ -124,7 +132,6 @@ public class PhoneNumberUtil {
     }
 
     // MARK: - APIs
-
     public func getSupportedRegions() -> [String] {
         return metaData.reduce([], combine: { (var result:[String], each) -> [String] in
             result.append(each["id"] as! String)
@@ -140,6 +147,7 @@ public class PhoneNumberUtil {
         return ""
     }
     public func getCountryCodeForRegion(countryCode:String) -> Int{
+        // TODO: should be implemented
         return -1
     }
     public func getMetadataForRegion(regionCode:String) -> PhoneMetadata {
@@ -151,147 +159,193 @@ public class PhoneNumberUtil {
         return PhoneMetadata()
     }
     public func isNumberGeographical(phoneNumber:PhoneNumber) -> Bool {
+        // TODO: should be implemented
         return false
     }
     public func isLeadingZeroPossible(countryCallingCode:Int) -> Bool {
+        // TODO: should be implemented
         return false
     }
     public func getLengthOfGeographicalAreaCode(phoneNumber:PhoneNumber) -> Int {
+        // TODO: should be implemented
         return -1
     }
     public func getLengthOfNationalDestinationCode(phoneNumber:PhoneNumber) -> Int {
+        // TODO: should be implemented
         return -1
     }
     public func getNationalSignificantNumber(phoneNumber:PhoneNumber) -> String {
+        // TODO: should be implemented
         return ""
     }
     public func getExampleNumber(regionCode:String) -> PhoneNumber {
+        // TODO: should be implemented
         return PhoneNumber()
     }
     public func getExampleNumberForType(regionCode:String, phoneNumberType:PhoneNumberType) -> PhoneNumber {
+        // TODO: should be implemented
         return PhoneNumber()
     }
     public func getExampleNumberForNonGeoEntity(countryCallingCode:Int) -> PhoneNumber {
+        // TODO: should be implemented
         return PhoneNumber()
     }
     public func format(number:PhoneNumber, numberFormat:PhoneNumberFormat) -> String {
+        // TODO: should be implemented
         return ""
     }
     public func formatOutOfCountryCallingNumber(number:PhoneNumber, regionCallingFrom:String) -> String {
+        // TODO: should be implemented
         return ""
     }
     public func formatOutOfCountryKeepingAlphaChars(number:PhoneNumber, regionCallingFrom:String) -> String {
+        // TODO: should be implemented
         return ""
     }
     public func formatNationalNumberWithCarrierCode(number:PhoneNumber, carrierCode:String) -> String {
+        // TODO: should be implemented
         return ""
     }
     public func formatNationalNumberWithPreferredCarrierCode(number:PhoneNumber, fallbackCarrierCode:String) -> String {
+        // TODO: should be implemented
         return ""
     }
     public func formatNumberForMobileDialing(number:PhoneNumber, regionCallingFrom:String, withFormatting:Bool) -> String {
+        // TODO: should be implemented
         return ""
     }
     public func formatByPattern(number:PhoneNumber, numberFormat:PhoneNumberFormat, userDefinedFormats:[NumberFormat]) -> String {
+        // TODO: should be implemented
         return ""
     }
     public func parseAndKeepRawInput(numberToParse:String, defaultRegion:String, error:NSErrorPointer) -> PhoneNumber {
+        // TODO: should be implemented
         error.memory = NSError(domain: "", code: -1, userInfo:[NSLocalizedDescriptionKey:""])
         return PhoneNumber()
     }
     public func formatInOriginalFormat(number:PhoneNumber, regionCallingFrom:String) -> String {
+        // TODO: should be implemented
         return ""
     }
     public func parse(numberToParse:String, defaultRegion:String, error:NSErrorPointer) -> PhoneNumber {
+        // TODO: should be implemented
         error.memory = NSError(domain: "", code: -1, userInfo:[NSLocalizedDescriptionKey:""])
         return PhoneNumber()
     }
     public func getNumberType(number:PhoneNumber) -> PhoneNumberType {
+        // TODO: should be implemented
         return PhoneNumberType.UNKNOWN
     }
     public func isValidNumber(number:PhoneNumber) -> Bool {
+        // TODO: should be implemented
         return false
     }
     public func isValidNumberForRegion(number:PhoneNumber, regionCode:String) -> Bool {
+        // TODO: should be implemented
         return false
     }
     public func getRegionCodeForNumber(number:PhoneNumber) -> String {
+        // TODO: should be implemented
         return ""
     }
     public func getRegionCodesForCountryCode(countryCallingCode:Int) -> [String] {
+        // TODO: should be implemented
         return [""]
     }
     public func getNddPrefixForRegion(regionCode:String, stripNonDigits:Bool) -> String {
+        // TODO: should be implemented
         return ""
     }
     public func isNANPACountry(regionCode:String) -> Bool {
+        // TODO: should be implemented
         return false
     }
     public func isPossibleNumber(number:PhoneNumber) -> Bool {
+        // TODO: should be implemented
         return false
     }
     public func isPossibleNumber(number:String, regionDialingFrom:String) -> Bool {
+        // TODO: should be implemented
         return false
     }
     public func isPossibleNumberWithReason(number:PhoneNumber) -> ValidationResult {
+        // TODO: should be implemented
         return ValidationResult.TOO_SHORT
     }
     public func truncateTooLongNumber(number:PhoneNumber) -> Bool {
+        // TODO: should be implemented
         return false
     }
     public func maybeStripNationalPrefixAndCarrierCode(number:String, metadata:PhoneMetadata, carrierCode:String) -> Bool {
+        // TODO: should be implemented
         return false
     }
     public func maybeStripInternationalPrefixAndNormalize(number:String, possibleIddPrefix:String) -> CountryCodeSource {
+        // TODO: should be implemented
         return CountryCodeSource.FROM_DEFAULT_COUNTRY
     }
     public func maybeExtractCountryCode(number:String, defaultRegionMetadata:PhoneMetadata, nationalNumber:String, keepRawInput:Bool, phoneNumber:PhoneNumber, error:NSErrorPointer) -> Int {
+        // TODO: should be implemented
         error.memory = NSError(domain: "", code: -1, userInfo:[NSLocalizedDescriptionKey:""])
-            return -1
+        return -1
     }
     public func isNumberMatch(firstString:String, secondString:String) -> MatchType {
+        // TODO: should be implemented
         return MatchType.NOT_A_NUMBER
     }
     public func isNumberMatch(firstNumber:PhoneNumber, secondString:String) -> MatchType {
+        // TODO: should be implemented
         return MatchType.NOT_A_NUMBER
     }
     public func isNumberMatch(firstNumber:PhoneNumber, secondNumber:PhoneNumber) -> MatchType {
+        // TODO: should be implemented
         return MatchType.NOT_A_NUMBER
     }
     public func canBeInternationallyDialled(number:PhoneNumber) -> Bool {
+        // TODO: should be implemented
         return false
     }
     public func isAlphaNumber(number:String) -> Bool {
+        // TODO: should be implemented
         return false
     }
     public func isMobileNumberPortableRegion(regionCode:String) -> Bool {
+        // TODO: should be implemented
         return false
     }
 
     // MARK: - Class APIs
 
     public class func getCountryMobileToken(countryCode:Int) -> String {
+        // TODO: should be implemented
         return ""
     }
     public class func convertAlphaCharactersInNumber(input:String) -> String {
+        // TODO: should be implemented
         return ""
     }
     public class func normalize(phoneNumberString:String) -> String {
+        // TODO: should be implemented
         return ""
     }
     public class func normalizeDigitsOnly(inputNumber:String) -> String {
+        // TODO: should be implemented
         return ""
     }
     public class func normalizeDiallableCharsOnly(inputNumber:String) -> String {
+        // TODO: should be implemented
         return ""
     }
     public class func isViablePhoneNumber(number:String) -> Bool {
+        // TODO: should be implemented
         return false
     }
     public class func extractPossibleNumber(number:String) -> String {
+        // TODO: should be implemented
         return ""
     }
     public class func nsNumberMatch(firstNumberIn:PhoneNumber, secondNumberIn:PhoneNumber) -> MatchType {
+        // TODO: should be implemented
         return MatchType.NO_MATCH
     }
 }

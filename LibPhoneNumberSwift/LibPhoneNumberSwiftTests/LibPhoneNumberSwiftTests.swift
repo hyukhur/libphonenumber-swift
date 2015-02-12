@@ -40,7 +40,7 @@ class LibPhoneNumberSwift_SwiftTests: XCTestCase {
             XCTAssertTrue(testDriver.returnTrue(), "Pass")
         }
     }
-    
+
     func testPerformanceExample() {
         self.measureBlock() {
             let testDriver = self.driver

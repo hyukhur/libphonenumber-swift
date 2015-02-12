@@ -27,7 +27,7 @@ class LibPhoneNumberSwift_SwiftTests: XCTestCase {
     lazy var testDriver:PhoneNumberUtil = self.driver
 
     var driver:PhoneNumberUtil {
-        if let plist = NSURL(fileURLWithPath:"metadata/PhoneNumberMetadata.plist")? {
+        if let plist = NSURL(fileURLWithPath:"metadata/PhoneNumberMetadata.plist") {
             return PhoneNumberUtil(URL:plist)
         }
         return PhoneNumberUtil()

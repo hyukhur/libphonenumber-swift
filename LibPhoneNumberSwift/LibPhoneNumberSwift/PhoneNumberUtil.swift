@@ -8,8 +8,61 @@
 
 import Foundation
 
+/**
+* INTERNATIONAL and NATIONAL formats are consistent with the definition in ITU-T Recommendation
+* E123. For example, the number of the Google Switzerland office will be written as
+* "+41 44 668 1800" in INTERNATIONAL format, and as "044 668 1800" in NATIONAL format.
+* E164 format is as per INTERNATIONAL format but with no formatting applied, e.g.
+* "+41446681800". RFC3966 is as per INTERNATIONAL format, but with all spaces and other
+* separating symbols replaced with a hyphen, and with any phone number extension appended with
+* ";ext=". It also will have a prefix of "tel:" added, e.g. "tel:+41-44-668-1800".
+*
+* Note: If you are considering storing the number in a neutral format, you are highly advised to
+* use the PhoneNumber class.
+*/
+public enum PhoneNumberFormat {
+    case E164
+    case INTERNATIONAL
+    case NATIONAL
+    case RFC3966
+}
+
+
+public enum ErrorType:Int {
+    case INVALID_COUNTRY_CODE = 0
+    // This generally indicates the string passed in had less than 3 digits in it. More
+    // specifically, the number failed to match the regular expression VALID_PHONE_NUMBER in
+    // PhoneNumberUtil.java.
+    case NOT_A_NUMBER
+    // This indicates the string started with an international dialing prefix, but after this was
+    // stripped from the number, had less digits than any valid phone number (including country
+    // code) could have.
+    case TOO_SHORT_AFTER_IDD
+    // This indicates the string, after any country code has been stripped, had less digits than any
+    // valid phone number could have.
+    case TOO_SHORT_NSN
+    // This indicates the string had more digits than any valid phone number could have.
+    case TOO_LONG
+}
+
+/**
+* Types of phone number matches. See detailed description beside the isNumberMatch() method.
+*/
+public enum MatchType {
+    case NOT_A_NUMBER
+    case NO_MATCH
+    case SHORT_NSN_MATCH
+    case NSN_MATCH
+    case EXACT_MATCH
+}
 
 public class PhoneNumberUtil {
+    public enum ValidationResult {
+        case IS_POSSIBLE
+        case INVALID_COUNTRY_CODE
+        case TOO_SHORT
+        case TOO_LONG
+    }
     public enum PhoneNumberType {
         case FIXED_LINE,
         MOBILE,
@@ -60,20 +113,21 @@ public class PhoneNumberUtil {
 
     public convenience init(URL:NSURL) {
         self.init()
-        if let metaData = NSArray(contentsOfURL: URL)? as? Array<Dictionary<String, AnyObject>> {
+        if let metaData = NSArray(contentsOfURL: URL) as? Array<Dictionary<String, AnyObject>> {
             self.metaData = metaData;
         }
     }
 
     public func loadMetadataFromFile(#filePrefix:String, regionCode:String, countryCallingCode:Int, metadataLoader:MetadataLoader, error:NSErrorPointer) {
         // TODO: should be implemented
+        error.memory = NSError(domain: "", code: -1, userInfo:[NSLocalizedDescriptionKey:""])
     }
 
     // MARK: - APIs
 
     public func getSupportedRegions() -> [String] {
         return metaData.reduce([], combine: { (var result:[String], each) -> [String] in
-            result.append(each["id"] as String)
+            result.append(each["id"] as! String)
             return result
         })
     }
@@ -120,7 +174,99 @@ public class PhoneNumberUtil {
     public func getExampleNumberForNonGeoEntity(countryCallingCode:Int) -> PhoneNumber {
         return PhoneNumber()
     }
-
+    public func format(number:PhoneNumber, numberFormat:PhoneNumberFormat) -> String {
+        return ""
+    }
+    public func formatOutOfCountryCallingNumber(number:PhoneNumber, regionCallingFrom:String) -> String {
+        return ""
+    }
+    public func formatOutOfCountryKeepingAlphaChars(number:PhoneNumber, regionCallingFrom:String) -> String {
+        return ""
+    }
+    public func formatNationalNumberWithCarrierCode(number:PhoneNumber, carrierCode:String) -> String {
+        return ""
+    }
+    public func formatNationalNumberWithPreferredCarrierCode(number:PhoneNumber, fallbackCarrierCode:String) -> String {
+        return ""
+    }
+    public func formatNumberForMobileDialing(number:PhoneNumber, regionCallingFrom:String, withFormatting:Bool) -> String {
+        return ""
+    }
+    public func formatByPattern(number:PhoneNumber, numberFormat:PhoneNumberFormat, userDefinedFormats:[NumberFormat]) -> String {
+        return ""
+    }
+    public func parseAndKeepRawInput(numberToParse:String, defaultRegion:String, error:NSErrorPointer) -> PhoneNumber {
+        error.memory = NSError(domain: "", code: -1, userInfo:[NSLocalizedDescriptionKey:""])
+        return PhoneNumber()
+    }
+    public func formatInOriginalFormat(number:PhoneNumber, regionCallingFrom:String) -> String {
+        return ""
+    }
+    public func parse(numberToParse:String, defaultRegion:String, error:NSErrorPointer) -> PhoneNumber {
+        error.memory = NSError(domain: "", code: -1, userInfo:[NSLocalizedDescriptionKey:""])
+        return PhoneNumber()
+    }
+    public func getNumberType(number:PhoneNumber) -> PhoneNumberType {
+        return PhoneNumberType.UNKNOWN
+    }
+    public func isValidNumber(number:PhoneNumber) -> Bool {
+        return false
+    }
+    public func isValidNumberForRegion(number:PhoneNumber, regionCode:String) -> Bool {
+        return false
+    }
+    public func getRegionCodeForNumber(number:PhoneNumber) -> String {
+        return ""
+    }
+    public func getRegionCodesForCountryCode(countryCallingCode:Int) -> [String] {
+        return [""]
+    }
+    public func getNddPrefixForRegion(regionCode:String, stripNonDigits:Bool) -> String {
+        return ""
+    }
+    public func isNANPACountry(regionCode:String) -> Bool {
+        return false
+    }
+    public func isPossibleNumber(number:PhoneNumber) -> Bool {
+        return false
+    }
+    public func isPossibleNumber(number:String, regionDialingFrom:String) -> Bool {
+        return false
+    }
+    public func isPossibleNumberWithReason(number:PhoneNumber) -> ValidationResult {
+        return ValidationResult.TOO_SHORT
+    }
+    public func truncateTooLongNumber(number:PhoneNumber) -> Bool {
+        return false
+    }
+    public func maybeStripNationalPrefixAndCarrierCode(number:String, metadata:PhoneMetadata, carrierCode:String) -> Bool {
+        return false
+    }
+    public func maybeStripInternationalPrefixAndNormalize(number:String, possibleIddPrefix:String) -> CountryCodeSource {
+        return CountryCodeSource.FROM_DEFAULT_COUNTRY
+    }
+    public func maybeExtractCountryCode(number:String, defaultRegionMetadata:PhoneMetadata, nationalNumber:String, keepRawInput:Bool, phoneNumber:PhoneNumber, error:NSErrorPointer) -> Int {
+        error.memory = NSError(domain: "", code: -1, userInfo:[NSLocalizedDescriptionKey:""])
+            return -1
+    }
+    public func isNumberMatch(firstString:String, secondString:String) -> MatchType {
+        return MatchType.NOT_A_NUMBER
+    }
+    public func isNumberMatch(firstNumber:PhoneNumber, secondString:String) -> MatchType {
+        return MatchType.NOT_A_NUMBER
+    }
+    public func isNumberMatch(firstNumber:PhoneNumber, secondNumber:PhoneNumber) -> MatchType {
+        return MatchType.NOT_A_NUMBER
+    }
+    public func canBeInternationallyDialled(number:PhoneNumber) -> Bool {
+        return false
+    }
+    public func isAlphaNumber(number:String) -> Bool {
+        return false
+    }
+    public func isMobileNumberPortableRegion(regionCode:String) -> Bool {
+        return false
+    }
 
     // MARK: - Class APIs
 
@@ -136,5 +282,16 @@ public class PhoneNumberUtil {
     public class func normalizeDigitsOnly(inputNumber:String) -> String {
         return ""
     }
-
+    public class func normalizeDiallableCharsOnly(inputNumber:String) -> String {
+        return ""
+    }
+    public class func isViablePhoneNumber(number:String) -> Bool {
+        return false
+    }
+    public class func extractPossibleNumber(number:String) -> String {
+        return ""
+    }
+    public class func nsNumberMatch(firstNumberIn:PhoneNumber, secondNumberIn:PhoneNumber) -> MatchType {
+        return MatchType.NO_MATCH
+    }
 }

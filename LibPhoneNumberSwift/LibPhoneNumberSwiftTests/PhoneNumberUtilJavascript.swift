@@ -37,7 +37,7 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         let path = NSTemporaryDirectory().stringByAppendingPathComponent("LibPhoneNumberSwift")
         var error:NSError?;
         if (!NSFileManager.defaultManager().fileExistsAtPath(path) && !NSFileManager.defaultManager().createDirectoryAtPath(path, withIntermediateDirectories: false, attributes: nil, error: &error)) {
-            println("Cache File Directory making fail \(error?)")
+            println("Cache File Directory making fail \(error)")
             return nil
         }
         return path.stringByAppendingPathComponent("libphonenumber.js")
@@ -119,7 +119,7 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
                     return
                 }
             }
-            if let error = error? {
+            if let error = error {
                 println("Response Error: \(error)")
             }
             println("JSON Parsing Error with: \(NSString(data: data!, encoding: NSUTF8StringEncoding)!)")
@@ -136,7 +136,7 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         self.context.exceptionHandler = {(context, exception) -> Void in
             println("#### Javascript Exception: \(exception)")
         }
-        if let result = self.context.evaluateScript(javascript)? {
+        if let result = self.context.evaluateScript(javascript) {
             println("Success Load libphonenumber library")
         } else {
             println("Fail evaluateScript libphonenumber library")
@@ -144,7 +144,7 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
 
         self.context.evaluateScript("var phoneUtil = i18n.phonenumbers.PhoneNumberUtil.getInstance();");
         var phoneUtil:JSValue? = self.context.globalObject?.objectForKeyedSubscript("phoneUtil")
-        if let phoneUtil = phoneUtil? {
+        if let phoneUtil = phoneUtil {
             if !phoneUtil.isUndefined() && !phoneUtil.isNull() {
                 self.phoneUtil = phoneUtil
                 println("Success Load LibPhoneNumber \(phoneUtil.toObject())")
@@ -166,8 +166,8 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
     }
 
     public override func getSupportedRegions() -> [String] {
-        if let result = self.phoneUtil?.invokeMethod("getSupportedRegions", withArguments:nil)?.toArray()? {
-            return result as [String]
+        if let result = self.phoneUtil?.invokeMethod("getSupportedRegions", withArguments:nil)?.toArray() {
+            return result as! [String]
         }
         return []
     }

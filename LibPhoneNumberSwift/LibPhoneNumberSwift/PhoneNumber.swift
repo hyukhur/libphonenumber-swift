@@ -8,10 +8,16 @@
 
 import Foundation
 
+public enum CountryCodeSource {
+    case FROM_NUMBER_WITH_PLUS_SIGN
+    case FROM_NUMBER_WITH_IDD
+    case FROM_NUMBER_WITHOUT_PLUS_SIGN
+    case FROM_DEFAULT_COUNTRY
+}
+
 public class PhoneNumber:Equatable {
     public init() {
     }
-
     public func setCountryCode(code:Int) -> PhoneNumber {
         return self
     }
@@ -24,7 +30,36 @@ public class PhoneNumber:Equatable {
     public func setRawInput(value:String) -> PhoneNumber {
         return self
     }
-
+    public func clear() {
+        
+    }
+    public func mergeFrom(other:PhoneNumber) -> PhoneNumber {
+        return self
+    }
+    public func setExtension(value:String) -> PhoneNumber {
+        return self
+    }
+    public func clearRawInput() -> PhoneNumber {
+        return self
+    }
+    public func setPreferredDomesticCarrierCode(value:String) -> PhoneNumber {
+        return self
+    }
+    public func setNumberOfLeadingZeros(value:Int) -> PhoneNumber {
+        return self
+    }
+    public func getCountryCodeSource() -> CountryCodeSource {
+        return CountryCodeSource.FROM_DEFAULT_COUNTRY
+    }
+    public func setCountryCodeSource(value:CountryCodeSource) -> PhoneNumber {
+        return self
+    }
+    public func hasCountryCodeSource() -> Bool {
+        return false
+    }
+    public func clearItalianLeadingZero() {
+        
+    }
 }
 
 public func == (lhs: PhoneNumber, rhs: PhoneNumber) -> Bool {

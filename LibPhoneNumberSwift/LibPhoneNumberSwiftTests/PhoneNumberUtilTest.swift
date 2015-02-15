@@ -68,9 +68,9 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         let globalNetworkCallingCodes:[Int] = phoneUtil.getSupportedGlobalNetworkCallingCodes()
         XCTAssertTrue(globalNetworkCallingCodes.count > 0, "\(globalNetworkCallingCodes.count)")
         globalNetworkCallingCodes.map({(callingCode:Int) -> Void in
-                                       XCTAssertTrue(callingCode > 0, "")
-                                       XCTAssertEqual(RegionCode.UN001, self.phoneUtil.getRegionCodeForCountryCode(callingCode), "")
-                                      })
+            XCTAssertTrue(callingCode > 0, "")
+            XCTAssertEqual(RegionCode.UN001, self.phoneUtil.getRegionCodeForCountryCode(callingCode), "")
+        })
     }
 
     func testGetInstanceLoadBadMetadata() {
@@ -473,8 +473,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
     }
 
     func testFormatOutOfCountryKeepingAlphaChars() {
-        let alphaNumericNumber:PhoneNumber = PhoneNumber()
-        alphaNumericNumber.setCountryCode(1).setNationalNumber(8007493524).setRawInput("1800 six-flag")
+        let alphaNumericNumber:PhoneNumber = PhoneNumber().setCountryCode(1).setNationalNumber(8007493524).setRawInput("1800 six-flag")
         XCTAssertEqual("0011 1 800 SIX-FLAG", phoneUtil.formatOutOfCountryKeepingAlphaChars(alphaNumericNumber, regionCallingFrom:RegionCode.AU))
 
         alphaNumericNumber.setRawInput("1-800-SIX-flag")
@@ -520,8 +519,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         XCTAssertEqual("+61 1-800-SIX-FLAG", phoneUtil.formatOutOfCountryKeepingAlphaChars(alphaNumericNumber, regionCallingFrom:RegionCode.AQ))
 
         // Testing the case with an invalid country calling code.
-        alphaNumericNumber.setCountryCode(0).setNationalNumber(18007493524)
-          .setRawInput("1-800-SIX-flag")
+        alphaNumericNumber.setCountryCode(0).setNationalNumber(18007493524).setRawInput("1-800-SIX-flag")
         // Uses the raw input only.
         XCTAssertEqual("1-800-SIX-flag", phoneUtil.formatOutOfCountryKeepingAlphaChars(alphaNumericNumber, regionCallingFrom:RegionCode.DE))
 
@@ -571,8 +569,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         arNumber.setPreferredDomesticCarrierCode("")
         XCTAssertEqual("01234 12-5678", phoneUtil.formatNationalNumberWithPreferredCarrierCode(arNumber, fallbackCarrierCode:"15"))
         // We don't support this for the US so there should be no change.
-        let usNumber:PhoneNumber = PhoneNumber()
-        usNumber.setCountryCode(1).setNationalNumber(4241231234).setPreferredDomesticCarrierCode("99")
+        let usNumber:PhoneNumber = PhoneNumber().setCountryCode(1).setNationalNumber(4241231234).setPreferredDomesticCarrierCode("99")
         XCTAssertEqual("424 123 1234", phoneUtil.format(usNumber, numberFormat:PhoneNumberFormat.NATIONAL))
         XCTAssertEqual("424 123 1234", phoneUtil.formatNationalNumberWithPreferredCarrierCode(usNumber, fallbackCarrierCode:"15"))
     }
@@ -819,8 +816,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
     func testIsPremiumRate() {
         XCTAssertEqual(PhoneNumberType.PREMIUM_RATE, phoneUtil.getNumberType(US_PREMIUM))
 
-        let premiumRateNumber:PhoneNumber = PhoneNumber()
-        premiumRateNumber.setCountryCode(39).setNationalNumber(892123)
+        let premiumRateNumber:PhoneNumber = PhoneNumber().setCountryCode(39).setNationalNumber(892123)
         XCTAssertEqual(PhoneNumberType.PREMIUM_RATE, phoneUtil.getNumberType(premiumRateNumber))
 
         premiumRateNumber.clear()
@@ -839,12 +835,10 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
     }
 
     func testIsTollFree() {
-        let tollFreeNumber:PhoneNumber = PhoneNumber()
-
-        tollFreeNumber.setCountryCode(1).setNationalNumber(8881234567)
+        let tollFreeNumber:PhoneNumber = PhoneNumber().setCountryCode(1).setNationalNumber(8881234567)
         XCTAssertEqual(PhoneNumberType.TOLL_FREE, phoneUtil.getNumberType(tollFreeNumber))
-
         tollFreeNumber.clear()
+
         tollFreeNumber.setCountryCode(39).setNationalNumber(803123)
         XCTAssertEqual(PhoneNumberType.TOLL_FREE, phoneUtil.getNumberType(tollFreeNumber))
 
@@ -865,8 +859,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         XCTAssertEqual(PhoneNumberType.MOBILE, phoneUtil.getNumberType(IT_MOBILE))
         XCTAssertEqual(PhoneNumberType.MOBILE, phoneUtil.getNumberType(AR_MOBILE))
 
-        let mobileNumber:PhoneNumber = PhoneNumber()
-        mobileNumber.setCountryCode(49).setNationalNumber(15123456789)
+        let mobileNumber:PhoneNumber = PhoneNumber().setCountryCode(49).setNationalNumber(15123456789)
         XCTAssertEqual(PhoneNumberType.MOBILE, phoneUtil.getNumberType(mobileNumber))
     }
 
@@ -885,20 +878,17 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
     }
 
     func testIsSharedCost() {
-        let gbNumber:PhoneNumber = PhoneNumber()
-        gbNumber.setCountryCode(44).setNationalNumber(8431231234)
+        let gbNumber:PhoneNumber = PhoneNumber().setCountryCode(44).setNationalNumber(8431231234)
         XCTAssertEqual(PhoneNumberType.SHARED_COST, phoneUtil.getNumberType(gbNumber))
     }
 
     func testIsVoip() {
-        let gbNumber:PhoneNumber = PhoneNumber()
-        gbNumber.setCountryCode(44).setNationalNumber(5631231234)
+        let gbNumber:PhoneNumber = PhoneNumber().setCountryCode(44).setNationalNumber(5631231234)
         XCTAssertEqual(PhoneNumberType.VOIP, phoneUtil.getNumberType(gbNumber))
     }
 
     func testIsPersonalNumber() {
-        let gbNumber:PhoneNumber = PhoneNumber()
-        gbNumber.setCountryCode(44).setNationalNumber(7031231234)
+        let gbNumber:PhoneNumber = PhoneNumber().setCountryCode(44).setNationalNumber(7031231234)
         XCTAssertEqual(PhoneNumberType.PERSONAL_NUMBER, phoneUtil.getNumberType(gbNumber))
     }
 
@@ -928,8 +918,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         XCTAssertFalse(phoneUtil.isValidNumber(bsInvalidNumber))
 
         // La Mayotte and Reunion use 'leadingDigits' to differentiate them.
-        let reNumber:PhoneNumber = PhoneNumber()
-        reNumber.setCountryCode(262).setNationalNumber(262123456)
+        let reNumber:PhoneNumber = PhoneNumber().setCountryCode(262).setNationalNumber(262123456)
         XCTAssertTrue(phoneUtil.isValidNumber(reNumber))
         XCTAssertTrue(phoneUtil.isValidNumberForRegion(reNumber, regionCode:RegionCode.RE))
         XCTAssertFalse(phoneUtil.isValidNumberForRegion(reNumber, regionCode:RegionCode.YT))
@@ -952,9 +941,8 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         XCTAssertFalse(phoneUtil.isValidNumberForRegion(INTERNATIONAL_TOLL_FREE, regionCode:RegionCode.US))
         XCTAssertFalse(phoneUtil.isValidNumberForRegion(INTERNATIONAL_TOLL_FREE, regionCode:RegionCode.ZZ))
 
-        let invalidNumber:PhoneNumber = PhoneNumber()
         // Invalid country calling codes.
-        invalidNumber.setCountryCode(3923).setNationalNumber(2366)
+        let invalidNumber:PhoneNumber = PhoneNumber().setCountryCode(3923).setNationalNumber(2366)
         XCTAssertFalse(phoneUtil.isValidNumberForRegion(invalidNumber, regionCode:RegionCode.ZZ))
         XCTAssertFalse(phoneUtil.isValidNumberForRegion(invalidNumber, regionCode:RegionCode.UN001))
         invalidNumber.setCountryCode(0)
@@ -965,8 +953,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
     func testIsNotValidNumber() {
         XCTAssertFalse(phoneUtil.isValidNumber(US_LOCAL_NUMBER))
 
-        let invalidNumber:PhoneNumber = PhoneNumber()
-        invalidNumber.setCountryCode(39).setNationalNumber(23661830000).setItalianLeadingZero(true)
+        let invalidNumber:PhoneNumber = PhoneNumber().setCountryCode(39).setNationalNumber(23661830000).setItalianLeadingZero(true)
         XCTAssertFalse(phoneUtil.isValidNumber(invalidNumber))
 
         invalidNumber.clear()
@@ -1038,7 +1025,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         XCTAssertEqual("0~0", phoneUtil.getNddPrefixForRegion(RegionCode.AO, stripNonDigits:false))
         XCTAssertEqual("00", phoneUtil.getNddPrefixForRegion(RegionCode.AO, stripNonDigits:true))
         // Test cases with invalid regions.
-        //    XCTAssertNil(phoneUtil.getNddPrefixForRegion(nil, stripNonDigits:false))
+        XCTAssertNil(phoneUtil.getNddPrefixForRegion("", stripNonDigits:false))
         XCTAssertNil(phoneUtil.getNddPrefixForRegion(RegionCode.ZZ, stripNonDigits:false))
         XCTAssertNil(phoneUtil.getNddPrefixForRegion(RegionCode.UN001, stripNonDigits:false))
         // CS is already deprecated so the library doesn't support it.
@@ -1080,8 +1067,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
 
         XCTAssertEqual(ValidationResult.TOO_LONG, phoneUtil.isPossibleNumberWithReason(US_LONG_NUMBER))
 
-        let number:PhoneNumber = PhoneNumber()
-        number.setCountryCode(0).setNationalNumber(2530000)
+        let number:PhoneNumber = PhoneNumber().setCountryCode(0).setNationalNumber(2530000)
         XCTAssertEqual(ValidationResult.INVALID_COUNTRY_CODE, phoneUtil.isPossibleNumberWithReason(number))
 
         number.clear()
@@ -1099,8 +1085,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         XCTAssertFalse(phoneUtil.isPossibleNumber(US_LONG_NUMBER))
         XCTAssertFalse(phoneUtil.isPossibleNumber(INTERNATIONAL_TOLL_FREE_TOO_LONG))
 
-        let number:PhoneNumber = PhoneNumber()
-        number.setCountryCode(1).setNationalNumber(253000)
+        let number:PhoneNumber = PhoneNumber().setCountryCode(1).setNationalNumber(253000)
         XCTAssertFalse(phoneUtil.isPossibleNumber(number))
 
         number.clear()
@@ -1117,10 +1102,8 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
 
     func testTruncateTooLongNumber() {
         // GB number 080 1234 5678, but entered with 4 extra digits at the end.
-        let tooLongNumber:PhoneNumber = PhoneNumber()
-        tooLongNumber.setCountryCode(44).setNationalNumber(80123456780123)
-        let validNumber:PhoneNumber = PhoneNumber()
-        validNumber.setCountryCode(44).setNationalNumber(8012345678)
+        let tooLongNumber:PhoneNumber = PhoneNumber().setCountryCode(44).setNationalNumber(80123456780123)
+        let validNumber:PhoneNumber = PhoneNumber().setCountryCode(44).setNationalNumber(8012345678)
         XCTAssertTrue(phoneUtil.truncateTooLongNumber(tooLongNumber))
         XCTAssertEqual(validNumber, tooLongNumber)
 
@@ -1150,9 +1133,8 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         XCTAssertEqual(validNumberCopy, validNumber)
 
         // Tests what happens when a number with invalid prefix is passed in.
-        let numberWithInvalidPrefix:PhoneNumber = PhoneNumber()
         // The test metadata says US numbers cannot have prefix 240.
-        numberWithInvalidPrefix.setCountryCode(1).setNationalNumber(2401234567)
+        let numberWithInvalidPrefix:PhoneNumber = PhoneNumber().setCountryCode(1).setNationalNumber(2401234567)
         let invalidNumberCopy:PhoneNumber = PhoneNumber().mergeFrom(numberWithInvalidPrefix)
         XCTAssertFalse(phoneUtil.truncateTooLongNumber(numberWithInvalidPrefix))
         // Tests the number is not modified.
@@ -1403,8 +1385,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         XCTAssertEqual(US_LOCAL_NUMBER, phoneUtil.parse("tel:2530000isub=12345phone-context=1-650", defaultRegion:RegionCode.US, error:&error))
         XCTAssertEqual(US_LOCAL_NUMBER, phoneUtil.parse("tel:2530000isub=12345phone-context=1234.com", defaultRegion:RegionCode.US, error:&error))
 
-        let nzNumber:PhoneNumber = PhoneNumber()
-        nzNumber.setCountryCode(64).setNationalNumber(64123456)
+        let nzNumber:PhoneNumber = PhoneNumber().setCountryCode(64).setNationalNumber(64123456)
         XCTAssertEqual(nzNumber, phoneUtil.parse("64(0)64123456", defaultRegion:RegionCode.NZ, error:&error))
         // Check that using a "/" is fine in a phone number.
         XCTAssertEqual(DE_NUMBER, phoneUtil.parse("301/23456", defaultRegion:RegionCode.DE, error:&error))
@@ -1419,19 +1400,16 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         // parse the output we produce when formatting the number.
         XCTAssertEqual(JP_STAR_NUMBER, phoneUtil.parse("+81 *2345", defaultRegion:RegionCode.JP, error:&error))
 
-        let shortNumber:PhoneNumber = PhoneNumber()
-        shortNumber.setCountryCode(64).setNationalNumber(12)
+        let shortNumber:PhoneNumber = PhoneNumber().setCountryCode(64).setNationalNumber(12)
         XCTAssertEqual(shortNumber, phoneUtil.parse("12", defaultRegion:RegionCode.NZ, error:&error))
     }
 
     func testParseNumberWithAlphaCharacters() {
         var error:NSError?
         // Test case with alpha characters.
-        let tollfreeNumber:PhoneNumber = PhoneNumber()
-        tollfreeNumber.setCountryCode(64).setNationalNumber(800332005)
+        let tollfreeNumber:PhoneNumber = PhoneNumber().setCountryCode(64).setNationalNumber(800332005)
         XCTAssertEqual(tollfreeNumber, phoneUtil.parse("0800 DDA 005", defaultRegion:RegionCode.NZ, error:&error))
-        let premiumNumber:PhoneNumber = PhoneNumber()
-        premiumNumber.setCountryCode(64).setNationalNumber(9003326005)
+        let premiumNumber:PhoneNumber = PhoneNumber().setCountryCode(64).setNationalNumber(9003326005)
         XCTAssertEqual(premiumNumber, phoneUtil.parse("0900 DDA 6005", defaultRegion:RegionCode.NZ, error:&error))
         // Not enough alpha characters for them to be considered intentional, so they are stripped.
         XCTAssertEqual(premiumNumber, phoneUtil.parse("0900 332 6005a", defaultRegion:RegionCode.NZ, error:&error))
@@ -1486,24 +1464,21 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
     func testParseNonAscii(){
         var error:NSError?
         // Using a full-width plus sign.
-        XCTAssertEqual(US_NUMBER, phoneUtil.parse("\\uFF0B1 (650) 253-0000", defaultRegion:RegionCode.SG, error:&error))
+        let nonAscii_FF0B1 = "\\uFF0B1 (650) 253-0000"
+        XCTAssertEqual(US_NUMBER, phoneUtil.parse(nonAscii_FF0B1, defaultRegion:RegionCode.SG, error:&error))
         // Using a soft hyphen U+00AD.
-        XCTAssertEqual(US_NUMBER, phoneUtil.parse("1 (650) 253\\u00AD-0000", defaultRegion:RegionCode.US, error:&error))
+        let nonAscii_00AD = "1 (650) 253\\u00AD-0000"
+        XCTAssertEqual(US_NUMBER, phoneUtil.parse(nonAscii_FF0B1, defaultRegion:RegionCode.US, error:&error))
         // The whole number, including punctuation, is here represented in full-width form.
-        XCTAssertEqual(US_NUMBER, phoneUtil.parse("\\uFF0B\\uFF11\\u3000\\uFF08\\uFF16\\uFF15\\uFF10\\uFF09" +
-                                                   "\\u3000\\uFF12\\uFF15\\uFF13\\uFF0D\\uFF10\\uFF10\\uFF10" +
-                                                   "\\uFF10",
-                                                  defaultRegion:RegionCode.SG, error:&error))
+        let nonAscii_Unicode = "\\uFF0B\\uFF11\\u3000\\uFF08\\uFF16\\uFF15\\uFF10\\uFF09\\u3000\\uFF12\\uFF15\\uFF13\\uFF0D\\uFF10\\uFF10\\uFF10\\uFF10"
+        XCTAssertEqual(US_NUMBER, phoneUtil.parse(nonAscii_FF0B1, defaultRegion:RegionCode.SG, error:&error))
         // Using U+30FC dash instead.
-        XCTAssertEqual(US_NUMBER, phoneUtil.parse("\\uFF0B\\uFF11\\u3000\\uFF08\\uFF16\\uFF15\\uFF10\\uFF09" +
-                                                   "\\u3000\\uFF12\\uFF15\\uFF13\\u30FC\\uFF10\\uFF10\\uFF10" +
-                                                   "\\uFF10",
-                                                  defaultRegion:RegionCode.SG, error:&error))
+        let nonAscii_30FC = "\\uFF0B\\uFF11\\u3000\\uFF08\\uFF16\\uFF15\\uFF10\\uFF09\\u3000\\uFF12\\uFF15\\uFF13\\u30FC\\uFF10\\uFF10\\uFF10\\uFF10"
+        XCTAssertEqual(US_NUMBER, phoneUtil.parse(nonAscii_30FC, defaultRegion:RegionCode.SG, error:&error))
 
         // Using a very strange decimal digit range (Mongolian digits).
-        XCTAssertEqual(US_NUMBER, phoneUtil.parse("\\u1811 \\u1816\\u1815\\u1810 " +
-                                                   "\\u1812\\u1815\\u1813 \\u1810\\u1810\\u1810\\u1810",
-                                                  defaultRegion:RegionCode.US, error:&error))
+        let nonAscii_Mongolian = "\\u1811 \\u1816\\u1815\\u1810 \\u1812\\u1815\\u1813 \\u1810\\u1810\\u1810\\u1810"
+        XCTAssertEqual(US_NUMBER, phoneUtil.parse(nonAscii_Mongolian, defaultRegion:RegionCode.US, error:&error))
         XCTAssertNil(error, "Should not have thrown an exception: \(error)")
     }
 
@@ -1520,8 +1495,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
     func testParseNationalNumberArgentina() {
         var error:NSError?
         // Test parsing mobile numbers of Argentina.
-        let arNumber:PhoneNumber = PhoneNumber()
-        arNumber.setCountryCode(54).setNationalNumber(93435551212)
+        let arNumber:PhoneNumber = PhoneNumber().setCountryCode(54).setNationalNumber(93435551212)
         XCTAssertEqual(arNumber, phoneUtil.parse("+54 9 343 555 1212", defaultRegion:RegionCode.AR, error:&error))
         XCTAssertEqual(arNumber, phoneUtil.parse("0343 15 555 1212", defaultRegion:RegionCode.AR, error:&error))
 
@@ -1555,8 +1529,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         XCTAssertEqual(AR_NUMBER, phoneUtil.parse("(0) 1187654321", defaultRegion:RegionCode.AR, error:&error))
         XCTAssertEqual(AR_NUMBER, phoneUtil.parse("0 1187654321", defaultRegion:RegionCode.AR, error:&error))
         XCTAssertEqual(AR_NUMBER, phoneUtil.parse("(0xx) 1187654321", defaultRegion:RegionCode.AR, error:&error))
-        let arFromUs:PhoneNumber = PhoneNumber()
-        arFromUs.setCountryCode(54).setNationalNumber(81429712)
+        let arFromUs:PhoneNumber = PhoneNumber().setCountryCode(54).setNationalNumber(81429712)
         // This test is intentionally constructed such that the number of digit after xx is larger than
         // 7, so that the number won't be mistakenly treated as an extension, as we allow extensions up
         // to 7 digits. This assumption is okay for now as all the countries where a carrier selection
@@ -1569,8 +1542,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
     func testParseNumbersMexico() {
         var error:NSError?
         // Test parsing fixed-line numbers of Mexico.
-        let mxNumber:PhoneNumber = PhoneNumber()
-        mxNumber.setCountryCode(52).setNationalNumber(4499780001)
+        let mxNumber:PhoneNumber = PhoneNumber().setCountryCode(52).setNationalNumber(4499780001)
         XCTAssertEqual(mxNumber, phoneUtil.parse("+52 (449)978-0001", defaultRegion:RegionCode.MX, error:&error))
         XCTAssertEqual(mxNumber, phoneUtil.parse("01 (449)978-0001", defaultRegion:RegionCode.MX, error:&error))
         XCTAssertEqual(mxNumber, phoneUtil.parse("(449)978-0001", defaultRegion:RegionCode.MX, error:&error))
@@ -1682,18 +1654,24 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         phoneUtil.parse(emptyNumber, defaultRegion:RegionCode.ZZ, error:&error)
         XCTAssertNotNil(error, "Empty error!.code, - should fail.")
         XCTAssertEqual(error!.code,  ErrorType.NOT_A_NUMBER.rawValue, "Wrong error type stored in exception.")
+        emptyNumber = ""
+        // Invalid region.
+        phoneUtil.parse(emptyNumber, defaultRegion:RegionCode.US, error:&error)
+        XCTAssertNotNil(error, "Empty error!.code, - should fail.")
+        XCTAssertEqual(error!.code,  ErrorType.NOT_A_NUMBER.rawValue, "Wrong error type stored in exception.")
 
-        //    var nullNumber = nil
-        //    // Invalid region.
-        //    phoneUtil.parse(nullNumber, defaultRegion:RegionCode.ZZ, error:&error)
-        //    XCTAssertNotNil(error, "Null string - should fail.")
-        //    XCTAssertEqual(error!.code,  ErrorType.NOT_A_NUMBER.rawValue, "Wrong error type stored in exception.")
-        //
-        //    nullNumber = nil
-        //    phoneUtil.parse(nullNumber, defaultRegion:RegionCode.US, error:&error)
-        //    XCTAssertNotNil(error, "Null string - should fail.")
-        //    XCTAssertEqual(error!.code,  ErrorType.NOT_A_NUMBER.rawValue, "Wrong error type stored in exception.")
-        //    XCTAssertNotNil(error, "Null string - but should not throw a null pointer exception.")
+// TODO: is nil checking somthing?
+//            var nullNumber = nil
+//            // Invalid region.
+//            phoneUtil.parse(nullNumber, defaultRegion:RegionCode.ZZ, error:&error)
+//            XCTAssertNotNil(error, "Null string - should fail.")
+//            XCTAssertEqual(error!.code,  ErrorType.NOT_A_NUMBER.rawValue, "Wrong error type stored in exception.")
+//
+//            nullNumber = nil
+//            phoneUtil.parse(nullNumber, defaultRegion:RegionCode.US, error:&error)
+//            XCTAssertNotNil(error, "Null string - should fail.")
+//            XCTAssertEqual(error!.code,  ErrorType.NOT_A_NUMBER.rawValue, "Wrong error type stored in exception.")
+//            XCTAssertNotNil(error, "Null string - but should not throw a null pointer exception.")
 
         var domainRfcPhoneContext = "tel:555-1234phone-context=www.google.com"
         phoneUtil.parse(domainRfcPhoneContext, defaultRegion:RegionCode.ZZ, error:&error)
@@ -1759,8 +1737,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
 
     func testParseExtensions() {
         var error:NSError?
-        let nzNumber:PhoneNumber = PhoneNumber()
-        nzNumber.setCountryCode(64).setNationalNumber(33316005).setExtension("3456")
+        let nzNumber:PhoneNumber = PhoneNumber().setCountryCode(64).setNationalNumber(33316005).setExtension("3456")
         XCTAssertEqual(nzNumber, phoneUtil.parse("03 331 6005 ext 3456", defaultRegion:RegionCode.NZ, error:&error))
         XCTAssertEqual(nzNumber, phoneUtil.parse("03-3316005x3456", defaultRegion:RegionCode.NZ, error:&error))
         XCTAssertEqual(nzNumber, phoneUtil.parse("03-3316005 int.3456", defaultRegion:RegionCode.NZ, error:&error))
@@ -1775,8 +1752,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         XCTAssertEqual(extnNumber, phoneUtil.parse("0~0 1800 7493 5247 ~1234", defaultRegion:RegionCode.PL, error:&error))
         // Verifying bug-fix where the last digit of a number was previously omitted if it was a 0 when
         // extracting the extension. Also verifying a few different cases of extensions.
-        let ukNumber:PhoneNumber = PhoneNumber()
-        ukNumber.setCountryCode(44).setNationalNumber(2034567890).setExtension("456")
+        let ukNumber:PhoneNumber = PhoneNumber().setCountryCode(44).setNationalNumber(2034567890).setExtension("456")
         XCTAssertEqual(ukNumber, phoneUtil.parse("+44 2034567890x456", defaultRegion:RegionCode.NZ, error:&error))
         XCTAssertEqual(ukNumber, phoneUtil.parse("+44 2034567890x456", defaultRegion:RegionCode.GB, error:&error))
         XCTAssertEqual(ukNumber, phoneUtil.parse("+44 2034567890 x456", defaultRegion:RegionCode.GB, error:&error))
@@ -1794,8 +1770,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         // "xt" only.
         XCTAssertEqual(ukNumber, phoneUtil.parse("+442034567890\\uFF58\\uFF54456", defaultRegion:RegionCode.GB, error:&error))
 
-        let usWithExtension:PhoneNumber = PhoneNumber()
-        usWithExtension.setCountryCode(1).setNationalNumber(8009013355).setExtension("7246433")
+        let usWithExtension:PhoneNumber = PhoneNumber().setCountryCode(1).setNationalNumber(8009013355).setExtension("7246433")
         XCTAssertEqual(usWithExtension, phoneUtil.parse("(800) 901-3355 x 7246433", defaultRegion:RegionCode.US, error:&error))
         XCTAssertEqual(usWithExtension, phoneUtil.parse("(800) 901-3355 , ext 7246433", defaultRegion:RegionCode.US, error:&error))
         XCTAssertEqual(usWithExtension, phoneUtil.parse("(800) 901-3355 ,extension 7246433", defaultRegion:RegionCode.US, error:&error))
@@ -1806,8 +1781,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         XCTAssertEqual(usWithExtension, phoneUtil.parse("(800) 901-3355 ext: 7246433", defaultRegion:RegionCode.US, error:&error))
 
         // Test that if a number has two extensions specified, we ignore the second.
-        let usWithTwoExtensionsNumber:PhoneNumber = PhoneNumber()
-        usWithTwoExtensionsNumber.setCountryCode(1).setNationalNumber(2121231234).setExtension("508")
+        let usWithTwoExtensionsNumber:PhoneNumber = PhoneNumber().setCountryCode(1).setNationalNumber(2121231234).setExtension("508")
         XCTAssertEqual(usWithTwoExtensionsNumber, phoneUtil.parse("(212)123-1234 x508/x1234", defaultRegion:RegionCode.US, error:&error))
         XCTAssertEqual(usWithTwoExtensionsNumber, phoneUtil.parse("(212)123-1234 x508/ x1234", defaultRegion:RegionCode.US, error:&error))
         XCTAssertEqual(usWithTwoExtensionsNumber, phoneUtil.parse("(212)123-1234 x508\\x1234", defaultRegion:RegionCode.US, error:&error))
@@ -1850,24 +1824,20 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
     func testParseItalianLeadingZeros() {
         var error:NSError?
         // Test the number "011".
-        let oneZero:PhoneNumber = PhoneNumber()
-        oneZero.setCountryCode(61).setNationalNumber(11).setItalianLeadingZero(true)
+        let oneZero:PhoneNumber = PhoneNumber().setCountryCode(61).setNationalNumber(11).setItalianLeadingZero(true)
         XCTAssertEqual(oneZero, phoneUtil.parse("011", defaultRegion:RegionCode.AU, error:&error))
 
         // Test the number "001".
-        let twoZeros:PhoneNumber = PhoneNumber()
-        twoZeros.setCountryCode(61).setNationalNumber(1).setItalianLeadingZero(true)
-          .setNumberOfLeadingZeros(2)
+        let twoZeros:PhoneNumber = PhoneNumber().setCountryCode(61).setNationalNumber(1).setItalianLeadingZero(true)
+            .setNumberOfLeadingZeros(2)
         XCTAssertEqual(twoZeros, phoneUtil.parse("001", defaultRegion:RegionCode.AU, error:&error))
 
         // Test the number "000". This number has 2 leading zeros.
-        let stillTwoZeros:PhoneNumber = PhoneNumber()
-        stillTwoZeros.setCountryCode(61).setNationalNumber(0).setItalianLeadingZero(true).setNumberOfLeadingZeros(2)
+        let stillTwoZeros:PhoneNumber = PhoneNumber().setCountryCode(61).setNationalNumber(0).setItalianLeadingZero(true).setNumberOfLeadingZeros(2)
         XCTAssertEqual(stillTwoZeros, phoneUtil.parse("000", defaultRegion:RegionCode.AU, error:&error))
 
         // Test the number "0000". This number has 3 leading zeros.
-        let threeZeros:PhoneNumber = PhoneNumber()
-        threeZeros.setCountryCode(61).setNationalNumber(0).setItalianLeadingZero(true).setNumberOfLeadingZeros(3)
+        let threeZeros:PhoneNumber = PhoneNumber().setCountryCode(61).setNationalNumber(0).setItalianLeadingZero(true).setNumberOfLeadingZeros(3)
         XCTAssertEqual(threeZeros, phoneUtil.parse("0000", defaultRegion:RegionCode.AU, error:&error))
         XCTAssertNil(error, "Should not have thrown an exception: \(error)")
     }
@@ -1875,8 +1845,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
     func testCountryWithNoNumberDesc() {
         var error:NSError?
         // Andorra is a country where we don't have PhoneNumberDesc info in the metadata.
-        let adNumber:PhoneNumber = PhoneNumber()
-        adNumber.setCountryCode(376).setNationalNumber(12345)
+        let adNumber:PhoneNumber = PhoneNumber().setCountryCode(376).setNationalNumber(12345)
         XCTAssertEqual("+376 12345", phoneUtil.format(adNumber, numberFormat:PhoneNumberFormat.INTERNATIONAL))
         XCTAssertEqual("+37612345", phoneUtil.format(adNumber, numberFormat:PhoneNumberFormat.E164))
         XCTAssertEqual("12345", phoneUtil.format(adNumber, numberFormat:PhoneNumberFormat.NATIONAL))
@@ -1935,7 +1904,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         var error:NSError?
         // Non-matches.
         XCTAssertEqual(MatchType.NO_MATCH, phoneUtil
-                                           .isNumberMatch("03 331 6005", secondString: "03 331 6006"))
+            .isNumberMatch("03 331 6005", secondString: "03 331 6006"))
         XCTAssertEqual(MatchType.NO_MATCH, phoneUtil.isNumberMatch("+800 1234 5678", secondString:"+1 800 1234 5678"))
         // Different country calling code, partial number match.
         XCTAssertEqual(MatchType.NO_MATCH, phoneUtil.isNumberMatch("+64 3 331-6005", secondString:"+16433316005"))
@@ -2003,10 +1972,8 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         // NSN matches, country calling code omitted for one number, extension missing for one.
         XCTAssertEqual(MatchType.SHORT_NSN_MATCH, phoneUtil.isNumberMatch("+64 3 331-6005", secondString:"3 331 6005#1234"))
         // One has Italian leading zero, one does not.
-        let italianNumberOne:PhoneNumber = PhoneNumber()
-        italianNumberOne.setCountryCode(39).setNationalNumber(1234).setItalianLeadingZero(true)
-        let italianNumberTwo:PhoneNumber = PhoneNumber()
-        italianNumberTwo.setCountryCode(39).setNationalNumber(1234)
+        let italianNumberOne:PhoneNumber = PhoneNumber().setCountryCode(39).setNationalNumber(1234).setItalianLeadingZero(true)
+        let italianNumberTwo:PhoneNumber = PhoneNumber().setCountryCode(39).setNationalNumber(1234)
         XCTAssertEqual(MatchType.SHORT_NSN_MATCH, phoneUtil.isNumberMatch(italianNumberOne, secondNumber:italianNumberTwo))
         // One has an extension, the other has an extension of "".
         italianNumberOne.setExtension("1234").clearItalianLeadingZero()
@@ -2020,19 +1987,19 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         // We have no-international-dialling rules for the US in our test metadata that say that
         // toll-free numbers cannot be dialled internationally.
         XCTAssertFalse(phoneUtil.canBeInternationallyDialled(US_TOLLFREE))
-
+        
         // Normal US numbers can be internationally dialled.
         XCTAssertTrue(phoneUtil.canBeInternationallyDialled(US_NUMBER))
-
+        
         // Invalid number.
         XCTAssertTrue(phoneUtil.canBeInternationallyDialled(US_LOCAL_NUMBER))
-
+        
         // We have no data for NZ - should return true.
         XCTAssertTrue(phoneUtil.canBeInternationallyDialled(NZ_NUMBER))
         XCTAssertTrue(phoneUtil.canBeInternationallyDialled(INTERNATIONAL_TOLL_FREE))
         XCTAssertNil(error, "Should not have thrown an exception: \(error)")
     }
-
+    
     func testIsAlphaNumber() {
         var error:NSError?
         XCTAssertTrue(phoneUtil.isAlphaNumber("1800 six-flags"))
@@ -2046,7 +2013,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         XCTAssertFalse(phoneUtil.isAlphaNumber("+800 1234-1234"))
         XCTAssertNil(error, "Should not have thrown an exception: \(error)")
     }
-
+    
     func testIsMobileNumberPortableRegion() {
         XCTAssertTrue(phoneUtil.isMobileNumberPortableRegion(RegionCode.US))
         XCTAssertTrue(phoneUtil.isMobileNumberPortableRegion(RegionCode.GB))

@@ -44,28 +44,28 @@ public class NumberFormat {
 }
 
 public class PhoneNumberDesc {
+    public var nationalNumberPattern = ""
+    public var possibleNumberPattern = ""
+    public var exampleNumber = ""
+
     public init() {
         // TODO: should be implemented
     }
     public func getNationalNumberPattern() -> String {
-        // TODO: should be implemented
-        return ""
+        return self.nationalNumberPattern
     }
     public func setNationalNumberPattern(value:String) -> PhoneNumberDesc {
-        // TODO: should be implemented
+        self.nationalNumberPattern = value
         return self
     }
     public func getPossibleNumberPattern() -> String {
-        // TODO: should be implemented
-        return ""
+        return self.possibleNumberPattern
     }
     public func exactlySameAs(other:PhoneNumberDesc) -> Bool {
-        // TODO: should be implemented
-        return false
+        return nationalNumberPattern == other.nationalNumberPattern && possibleNumberPattern == other.possibleNumberPattern && exampleNumber == other.exampleNumber;
     }
     public func getExampleNumber() -> String {
-        // TODO: should be implemented
-        return ""
+        return self.exampleNumber
     }
 }
 

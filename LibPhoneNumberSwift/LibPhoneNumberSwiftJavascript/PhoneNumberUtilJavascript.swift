@@ -43,6 +43,21 @@ extension NumberFormat {
     }
 }
 
+extension PhoneNumberDesc {
+    convenience init(javascriptValue:JSValue) {
+        self.init()
+        if let value = javascriptValue.invokeMethod("getNationalNumberPattern", withArguments: nil).toString() where value != "undefined"  {
+            self.nationalNumberPattern = value
+        }
+        if let value = javascriptValue.invokeMethod("getPossibleNumberPattern", withArguments: nil).toString() where value != "undefined"  {
+            self.possibleNumberPattern = value
+        }
+        if let value = javascriptValue.invokeMethod("getExampleNumber", withArguments: nil).toString() where value != "undefined"  {
+            self.exampleNumber = value
+        }
+    }
+}
+
 extension PhoneMetadata {
     convenience init(javascriptValue:JSValue) {
         self.init()
@@ -70,6 +85,21 @@ extension PhoneMetadata {
                 self.numberFormats.append(NumberFormat(javascriptValue:format))
                 format = value.invokeMethod("shift", withArguments:nil)
             }
+        }
+        if let value = javascriptValue.invokeMethod("getGeneralDesc", withArguments: nil) {
+            self.generalDesc = PhoneNumberDesc(javascriptValue:value)
+        }
+        if let value = javascriptValue.invokeMethod("getTollFree", withArguments: nil) {
+            self.tollFree = PhoneNumberDesc(javascriptValue:value)
+        }
+        if let value = javascriptValue.invokeMethod("getFixedLine", withArguments: nil) {
+            self.fixedLine = PhoneNumberDesc(javascriptValue:value)
+        }
+        if let value = javascriptValue.invokeMethod("getPremiumRate", withArguments: nil) {
+            self.premiumRate = PhoneNumberDesc(javascriptValue:value)
+        }
+        if let value = javascriptValue.invokeMethod("getSharedCost", withArguments: nil) {
+            self.sharedCost = PhoneNumberDesc(javascriptValue:value)
         }
     }
 }

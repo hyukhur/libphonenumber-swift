@@ -122,25 +122,25 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
 //        XCTAssertTrue(error?.description.rangeOfString("no/such/file_123") != nil, "Unexpected error")
 //    }
 
-//    func testGetInstanceLoadUSMetadata() {
-//        let metadata:PhoneMetadata = phoneUtil.getMetadataForRegion(RegionCode.US)!
-//        XCTAssertNotNil(metadata, "metadata load fail")
-//        XCTAssertEqual("US", metadata.getId())
-//        XCTAssertEqual(1, metadata.getCountryCode())
-//        XCTAssertEqual("011", metadata.getInternationalPrefix())
-//        XCTAssertTrue(metadata.hasNationalPrefix())
-//        XCTAssertEqual(2, metadata.numberFormatSize())
-//        XCTAssertEqual("(\\d{3})(\\d{3})(\\d{4})", metadata.getNumberFormat(1).getPattern(), "")
-//        XCTAssertEqual("$1 $2 $3", metadata.getNumberFormat(1).getFormat(), "")
-//        XCTAssertEqual("[13-689]\\d{9}|2[0-35-9]\\d{8}", metadata.getGeneralDesc().getNationalNumberPattern())
-//        XCTAssertEqual("\\d{7}(?:\\d{3})?", metadata.getGeneralDesc().getPossibleNumberPattern())
-//        XCTAssertTrue(metadata.getGeneralDesc().exactlySameAs(metadata.getFixedLine()))
-//        XCTAssertEqual("\\d{10}", metadata.getTollFree().getPossibleNumberPattern())
-//        XCTAssertEqual("900\\d{7}", metadata.getPremiumRate().getNationalNumberPattern())
-//        // No shared-cost data is available, so it should be initialised to "NA".
-//        XCTAssertEqual("NA", metadata.getSharedCost().getNationalNumberPattern())
-//        XCTAssertEqual("NA", metadata.getSharedCost().getPossibleNumberPattern())
-//    }
+    func testGetInstanceLoadUSMetadata() {
+        let metadata:PhoneMetadata = phoneUtil.getMetadataForRegion(RegionCode.US)!
+        XCTAssertNotNil(metadata, "metadata load fail")
+        XCTAssertEqual("US", metadata.getId())
+        XCTAssertEqual(1, metadata.getCountryCode())
+        XCTAssertEqual("011", metadata.getInternationalPrefix())
+        XCTAssertTrue(metadata.hasNationalPrefix())
+        XCTAssertEqual(2, metadata.numberFormatSize())
+        XCTAssertEqual("(\\d{3})(\\d{3})(\\d{4})", metadata.getNumberFormat(1).getPattern(), "")
+        XCTAssertEqual("$1 $2 $3", metadata.getNumberFormat(1).getFormat(), "")
+        XCTAssertEqual("[13-689]\\d{9}|2[0-35-9]\\d{8}", metadata.getGeneralDesc().getNationalNumberPattern())
+        XCTAssertEqual("\\d{7}(?:\\d{3})?", metadata.getGeneralDesc().getPossibleNumberPattern())
+        XCTAssertTrue(metadata.getGeneralDesc().exactlySameAs(metadata.getFixedLine()))
+        XCTAssertEqual("\\d{10}", metadata.getTollFree().getPossibleNumberPattern())
+        XCTAssertEqual("900\\d{7}", metadata.getPremiumRate().getNationalNumberPattern())
+        // No shared-cost data is available, so it should be initialised to "NA".
+        XCTAssertEqual("NA", metadata.getSharedCost().getNationalNumberPattern())
+        XCTAssertEqual("NA", metadata.getSharedCost().getPossibleNumberPattern())
+    }
 
 //    func testGetInstanceLoadDEMetadata() {
 //        let metadata:PhoneMetadata = phoneUtil.getMetadataForRegion(RegionCode.DE)

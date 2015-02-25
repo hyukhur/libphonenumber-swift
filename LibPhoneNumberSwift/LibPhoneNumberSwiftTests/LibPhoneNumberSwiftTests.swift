@@ -27,10 +27,8 @@ class LibPhoneNumberSwift_SwiftTests: XCTestCase {
     lazy var testDriver:PhoneNumberUtil = self.driver
 
     var driver:PhoneNumberUtil {
-        if let plist = NSURL(fileURLWithPath:"metadata/PhoneNumberMetadata.plist") {
-            return PhoneNumberUtil(URL:plist)
-        }
-        return PhoneNumberUtil()
+        let plist = NSURL(fileURLWithPath:"metadata/PhoneNumberMetadata.plist")!
+        return PhoneNumberUtil(URL:plist, countryCodeToRegionCodeMap:getCountryCodeToRegionCodeMap())
     }
 
     func testCompatibility() {
@@ -52,5 +50,9 @@ class LibPhoneNumberSwift_SwiftTests: XCTestCase {
 class LibPhoneNumberSwift_JavascriptTests: LibPhoneNumberSwift_SwiftTests {
     override var driver:PhoneNumberUtil {
         return PhoneNumberUtilJavascript.getInstance()
+    }
+
+    func testJavascriptLoad() {
+        XCTAssertNotNil((self.driver as! PhoneNumberUtilJavascript).phoneUtil, "Javascript Load Fail")
     }
 }

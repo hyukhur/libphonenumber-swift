@@ -100,12 +100,8 @@ public enum PhoneNumberType {
 }
 
 public class PhoneNumberUtil {
-    public class var REGION_CODE_FOR_NON_GEO_ENTITY:String {
-        // TODO: should be implemented
-        get {
-            return "001"
-        }
-    }
+    public static let REGION_CODE_FOR_NON_GEO_ENTITY = "001"
+    public static let NANPA_COUNTRY_CODE = 1
 
     public class var DEFAULT_METADATA_LOADER:MetadataLoader {
         // TODO: should be implemented
@@ -114,15 +110,31 @@ public class PhoneNumberUtil {
         }
     }
 
-    var metaData:Array<Dictionary<String, AnyObject>>
-    public init() {
-        self.metaData = [Dictionary()]
-    }
+    var metaData:Array<Dictionary<String, AnyObject>> = []
+    let countryCodeToRegionCodeMap:[Int:[String]]
+    var countryCodesForNonGeographicalRegion:Set<Int> = Set<Int>()
+    var supportedRegions:[String] = []
+    var nanpaRegions:[String] = []
 
-    public convenience init(URL:NSURL) {
-        self.init()
+    public init(URL:NSURL, countryCodeToRegionCodeMap:[Int:[String]]) {
         if let metaData = NSArray(contentsOfURL: URL) as? Array<Dictionary<String, AnyObject>> {
             self.metaData = metaData;
+        }
+        self.countryCodeToRegionCodeMap = countryCodeToRegionCodeMap
+        for (key:Int, value:[String]) in countryCodeToRegionCodeMap {
+            if (value.count == 1 && PhoneNumberUtil.REGION_CODE_FOR_NON_GEO_ENTITY == value.first ) {
+                self.countryCodesForNonGeographicalRegion.insert(key)
+            } else {
+                self.supportedRegions += value;
+            }
+        }
+        if let founded = find(self.supportedRegions, PhoneNumberUtil.REGION_CODE_FOR_NON_GEO_ENTITY) {
+            self.supportedRegions.removeAtIndex(founded)
+            NSLog("invalid metadata (country calling code was mapped to the non-geo entity as well as specific region(s))");
+        }
+
+        if let founded = countryCodeToRegionCodeMap[PhoneNumberUtil.NANPA_COUNTRY_CODE] {
+            self.nanpaRegions += founded
         }
     }
 
@@ -131,7 +143,7 @@ public class PhoneNumberUtil {
         error.memory = NSError(domain: "", code: -1, userInfo:[NSLocalizedDescriptionKey:""])
     }
 
-    // MARK: - APIs
+    // MARK: - Public instance APIs
     public func getSupportedRegions() -> [String] {
         return metaData.reduce([], combine: { (var result:[String], each) -> [String] in
             result.append(each["id"] as! String)
@@ -150,11 +162,11 @@ public class PhoneNumberUtil {
         // TODO: should be implemented
         return -1
     }
-    public func getMetadataForRegion(regionCode:String) -> PhoneMetadata {
+    public func getMetadataForRegion(regionCode:String) -> PhoneMetadata? {
         // TODO: should be implemented
         return PhoneMetadata()
     }
-    public func getMetadataForNonGeographicalRegion(countryCallingCode:Int) -> PhoneMetadata {
+    public func getMetadataForNonGeographicalRegion(countryCallingCode:Int) -> PhoneMetadata? {
         // TODO: should be implemented
         return PhoneMetadata()
     }

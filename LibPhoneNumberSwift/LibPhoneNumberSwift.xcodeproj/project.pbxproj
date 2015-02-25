@@ -10,7 +10,6 @@
 		4D00BBB21A766A17002084B8 /* PhoneNumberMetadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4D00BBB11A766A17002084B8 /* PhoneNumberMetadata.plist */; };
 		4D00BBB41A769DF0002084B8 /* PhoneNumberMetadataForTesting.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4D00BBB31A769DF0002084B8 /* PhoneNumberMetadataForTesting.plist */; };
 		4D83514A1A53C3E000585B79 /* PhoneNumberUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8351491A53C3E000585B79 /* PhoneNumberUtil.swift */; };
-		4D83514C1A54C19C00585B79 /* PhoneNumberUtilJavascript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D83514B1A54C19C00585B79 /* PhoneNumberUtilJavascript.swift */; };
 		4DA59CDF1A771E3D00EEBC58 /* PhoneMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA59CDE1A771E3D00EEBC58 /* PhoneMetadata.swift */; };
 		4DA6936A1A52E18A00565EAC /* LibPhoneNumberSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DA693691A52E18A00565EAC /* LibPhoneNumberSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4DA693701A52E18A00565EAC /* LibPhoneNumberSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DA693641A52E18A00565EAC /* LibPhoneNumberSwift.framework */; };
@@ -19,6 +18,7 @@
 		4DD315C51A77AEA400AF1C26 /* MetadataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD315C41A77AEA400AF1C26 /* MetadataLoader.swift */; };
 		4DD315CA1A77BDC300AF1C26 /* RegionCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD315C91A77BDC300AF1C26 /* RegionCode.swift */; };
 		4DDFB32E1A7916E70056CB04 /* PhoneNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDFB32D1A7916E70056CB04 /* PhoneNumber.swift */; };
+		4DFB68B61A906520007E96B0 /* PhoneNumberUtilJavascript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DFB68B41A906520007E96B0 /* PhoneNumberUtilJavascript.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,7 +35,6 @@
 		4D00BBB11A766A17002084B8 /* PhoneNumberMetadata.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = PhoneNumberMetadata.plist; path = metadata/PhoneNumberMetadata.plist; sourceTree = SOURCE_ROOT; };
 		4D00BBB31A769DF0002084B8 /* PhoneNumberMetadataForTesting.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = PhoneNumberMetadataForTesting.plist; path = metadata/PhoneNumberMetadataForTesting.plist; sourceTree = SOURCE_ROOT; };
 		4D8351491A53C3E000585B79 /* PhoneNumberUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumberUtil.swift; sourceTree = "<group>"; };
-		4D83514B1A54C19C00585B79 /* PhoneNumberUtilJavascript.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumberUtilJavascript.swift; sourceTree = "<group>"; };
 		4DA59CDE1A771E3D00EEBC58 /* PhoneMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneMetadata.swift; sourceTree = "<group>"; };
 		4DA693641A52E18A00565EAC /* LibPhoneNumberSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LibPhoneNumberSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DA693681A52E18A00565EAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -47,6 +46,7 @@
 		4DD315C41A77AEA400AF1C26 /* MetadataLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetadataLoader.swift; sourceTree = "<group>"; };
 		4DD315C91A77BDC300AF1C26 /* RegionCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegionCode.swift; sourceTree = "<group>"; };
 		4DDFB32D1A7916E70056CB04 /* PhoneNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumber.swift; sourceTree = "<group>"; };
+		4DFB68B41A906520007E96B0 /* PhoneNumberUtilJavascript.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumberUtilJavascript.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +72,7 @@
 			isa = PBXGroup;
 			children = (
 				4DA693661A52E18A00565EAC /* LibPhoneNumberSwift */,
+				4DFB68B51A906520007E96B0 /* LibPhoneNumberSwiftJavascript */,
 				4DA693731A52E18A00565EAC /* LibPhoneNumberSwiftTests */,
 				4DA693651A52E18A00565EAC /* Products */,
 			);
@@ -114,7 +115,6 @@
 				4DA693741A52E18A00565EAC /* Supporting Files */,
 				4DA693761A52E18A00565EAC /* LibPhoneNumberSwiftTests.swift */,
 				4DA693E51A52E4F000565EAC /* PhoneNumberUtilTest.swift */,
-				4D83514B1A54C19C00585B79 /* PhoneNumberUtilJavascript.swift */,
 				4DD315C91A77BDC300AF1C26 /* RegionCode.swift */,
 			);
 			path = LibPhoneNumberSwiftTests;
@@ -127,6 +127,14 @@
 				4DA693751A52E18A00565EAC /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4DFB68B51A906520007E96B0 /* LibPhoneNumberSwiftJavascript */ = {
+			isa = PBXGroup;
+			children = (
+				4DFB68B41A906520007E96B0 /* PhoneNumberUtilJavascript.swift */,
+			);
+			path = LibPhoneNumberSwiftJavascript;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -270,8 +278,8 @@
 			files = (
 				4DA693771A52E18A00565EAC /* LibPhoneNumberSwiftTests.swift in Sources */,
 				4DA693E61A52E4F000565EAC /* PhoneNumberUtilTest.swift in Sources */,
+				4DFB68B61A906520007E96B0 /* PhoneNumberUtilJavascript.swift in Sources */,
 				4DD315CA1A77BDC300AF1C26 /* RegionCode.swift in Sources */,
-				4D83514C1A54C19C00585B79 /* PhoneNumberUtilJavascript.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,7 +328,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -359,7 +367,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				VERSIONING_SYSTEM = "apple-generic";

@@ -9,35 +9,36 @@
 import Foundation
 
 public class NumberFormat {
+    public var pattern = ""
+    public var format = ""
+    public var leadingDigitsPattern = [String]()
+    public var nationalPrefixFormattingRule = ""
+
     public init() {
         // TODO: should be implemented
     }
     public func getPattern() -> String {
-        // TODO: should be implemented
-        return ""
+        return pattern
     }
     public func setPattern(value:String) -> NumberFormat {
-        // TODO: should be implemented
+        pattern = value
         return self
     }
     public func getFormat() -> String {
-        // TODO: should be implemented
-        return ""
+        return format
     }
     public func setFormat(value:String) -> NumberFormat {
-        // TODO: should be implemented
+        format = value
         return self
     }
     public func leadingDigitsPatternSize() -> Int {
-        // TODO: should be implemented
-        return 1
+        return leadingDigitsPattern.count
     }
     public func getLeadingDigitsPattern(index:Int) -> String {
-        // TODO: should be implemented
-        return ""
+        return leadingDigitsPattern[index]
     }
     public func setNationalPrefixFormattingRule(value:String) -> NumberFormat {
-        // TODO: should be implemented
+        nationalPrefixFormattingRule = value
         return self
     }
 }
@@ -73,76 +74,81 @@ public class PhoneMetadataCollection {
 }
 
 public class PhoneMetadata {
+    public var metadataID = ""
+    public var countryCode = -1
+    public var internationalPrefix = ""
+    public var nationalPrefix = ""
+    public var nationalPrefixForParsing = ""
+    public var nationalPrefixTransformRule = ""
+    public var numberFormats = [NumberFormat]()
+    public var intlNumberFormats = [NumberFormat]()
+    public var generalDesc = PhoneNumberDesc()
+    public var tollFree = PhoneNumberDesc()
+    public var fixedLine = PhoneNumberDesc()
+    public var premiumRate = PhoneNumberDesc()
+    public var sharedCost = PhoneNumberDesc()
+
     public init() {
         // TODO: should be implemented
     }
     public func getId() -> String {
-        // TODO: should be implemented
-        return ""
+        return metadataID
+    }
+    public func setId(value:String) {
+        metadataID = value
     }
     public func getCountryCode() -> Int {
-        // TODO: should be implemented
-        return -1
+        return countryCode
     }
     public func getInternationalPrefix() -> String {
-        // TODO: should be implemented
-        return ""
+        return internationalPrefix
     }
     public func hasNationalPrefix() -> Bool {
-        // TODO: should be implemented
-        return false
-    }
-    public func numberFormatSize() -> Int {
-        // TODO: should be implemented
-        return -1
+        return nationalPrefix != ""
     }
     public func getNationalPrefix() -> String {
-        // TODO: should be implemented
-        return ""
+        return nationalPrefix
     }
     public func getNationalPrefixForParsing() -> String {
-        // TODO: should be implemented
-        return ""
+        return nationalPrefixForParsing
     }
     public func setNationalPrefixForParsing(value:String) {
-        // TODO: should be implemented
+        nationalPrefixForParsing = value
     }
     public func getNationalPrefixTransformRule() -> String {
-        // TODO: should be implemented
-        return ""
+        return nationalPrefixTransformRule
     }
     public func setNationalPrefixTransformRule(value:String) {
-        // TODO: should be implemented
+        nationalPrefixTransformRule = value
+    }
+    public func numberFormatSize() -> Int {
+        return numberFormats.count
     }
     public func getNumberFormat(index:Int) -> NumberFormat {
-        // TODO: should be implemented
-        return NumberFormat()
+        return numberFormats[index]
+    }
+    public func addNumberFormat(numberFormat:NumberFormat) {
+        numberFormats.append(numberFormat)
     }
     public func getIntlNumberFormat(index:Int) -> NumberFormat {
-        // TODO: should be implemented
-        return NumberFormat()
+        return intlNumberFormats[index]
     }
     public func getGeneralDesc() -> PhoneNumberDesc {
-        // TODO: should be implemented
-        return PhoneNumberDesc()
+        return generalDesc
     }
     public func setGeneralDesc(phoneNumberDesc:PhoneNumberDesc) {
-        // TODO: should be implemented
+        generalDesc = phoneNumberDesc
     }
     public func getTollFree() -> PhoneNumberDesc {
-        // TODO: should be implemented
-        return PhoneNumberDesc()
+        return tollFree
     }
     public func getFixedLine() -> PhoneNumberDesc {
-        // TODO: should be implemented
-        return PhoneNumberDesc()
+        return fixedLine
     }
     public func getPremiumRate() -> PhoneNumberDesc {
-        // TODO: should be implemented
-        return PhoneNumberDesc()
+        return premiumRate
     }
     public func getSharedCost() -> PhoneNumberDesc {
-        // TODO: should be implemented
-        return PhoneNumberDesc()
+        return sharedCost
     }
 }

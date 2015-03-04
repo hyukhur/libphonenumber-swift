@@ -189,7 +189,7 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
             "&output_info=errors" +
             "&compilation_level=SIMPLE_OPTIMIZATIONS" +
             "&use_closure_library=true" +
-            "&code_url=" + libphonenumberJavascriptRepo + "phonemetadata.pb.js"
+            "&code_url=" + libphonenumberJavascriptRepo + "phonemetadata.pb.js" +
             "&code_url=" + libphonenumberJavascriptRepo + "phonenumber.pb.js" +
             "&code_url=" + libphonenumberJavascriptRepo + metadataFileName +
             "&code_url=" + libphonenumberJavascriptRepo + "phonenumberutil.js" +
@@ -199,12 +199,13 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
 
         let semaphore = dispatch_semaphore_create(0);
         var result:String?
-        let task = session.dataTaskWithRequest(request, completionHandler: {(data:NSData!, response:NSURLResponse!, error:NSError!) -> Void in
+        let task = session.downloadTaskWithRequest(request, completionHandler: { (location:NSURL!, response:NSURLResponse!, error:NSError!) -> Void in
             if let error = error {
                 println("Request Fail \(error)")
                 dispatch_semaphore_signal(semaphore);
                 return
             }
+            let data = NSData(contentsOfURL: location)
             if data == nil {
                 println("Request Fail without error")
                 dispatch_semaphore_signal(semaphore);
@@ -212,7 +213,7 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
             }
 
             var error: NSError?
-            if let json = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &error) as? NSDictionary {
+            if let data:NSData = data, json = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &error) as? NSDictionary {
                 if let error = json["errors"] as? NSArray {
                     println("Closure Compile Error: \(error)")
                     dispatch_semaphore_signal(semaphore);
@@ -248,8 +249,7 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         }
 
         self.context.evaluateScript("var phoneUtil = i18n.phonenumbers.PhoneNumberUtil.getInstance();");
-        var phoneUtil:JSValue? = self.context.globalObject?.objectForKeyedSubscript("phoneUtil")
-        if let phoneUtil = phoneUtil {
+        if let phoneUtil = self.context.globalObject?.objectForKeyedSubscript("phoneUtil") {
             if !phoneUtil.isUndefined() && !phoneUtil.isNull() {
                 self.phoneUtil = phoneUtil
                 println("Success Load LibPhoneNumber \(phoneUtil.toObject())")

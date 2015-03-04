@@ -16,15 +16,24 @@ public enum CountryCodeSource {
 }
 
 public class PhoneNumber:Equatable {
+    public var countryCode = 0
+    public var nationalNumber = 0
+    public var extensionFormat = ""
+    public var isItalianLeadingZero = false
+    public var numberOfLeadingZeros = 1
+    public var rawInput = ""
+    public var countryCodeSource = CountryCodeSource.FROM_NUMBER_WITH_PLUS_SIGN
+    public var preferredDomesticCarrierCode = ""
+
     public init() {
         // TODO: should be implemented
     }
     public func setCountryCode(code:Int) -> PhoneNumber {
-        // TODO: should be implemented
+        countryCode = code
         return self
     }
     public func setNationalNumber(nationalNumber:Int) -> PhoneNumber {
-        // TODO: should be implemented
+        self.nationalNumber = nationalNumber
         return self
     }
     public func setItalianLeadingZero(value:Bool) -> PhoneNumber {

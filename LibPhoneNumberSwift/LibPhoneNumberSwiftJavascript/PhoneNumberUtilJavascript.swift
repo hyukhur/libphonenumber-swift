@@ -86,6 +86,13 @@ extension PhoneMetadata {
                 format = value.invokeMethod("shift", withArguments:nil)
             }
         }
+        if let value = javascriptValue.invokeMethod("intlNumberFormatArray", withArguments: nil) {
+            var format = value.invokeMethod("shift", withArguments:nil)
+            while format.toString() != "undefined" {
+                self.intlNumberFormats.append(NumberFormat(javascriptValue:format))
+                format = value.invokeMethod("shift", withArguments:nil)
+            }
+        }
         if let value = javascriptValue.invokeMethod("getGeneralDesc", withArguments: nil) {
             self.generalDesc = PhoneNumberDesc(javascriptValue:value)
         }
@@ -309,7 +316,7 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         return -1
     }
     public override func getMetadataForRegion(regionCode:String) -> PhoneMetadata? {
-        if let result:JSValue = self.phoneUtil?.invokeMethod("getMetadataForRegion", withArguments: [regionCode]) where result.toDictionary() != nil {
+        if let result:JSValue = self.phoneUtil?.invokeMethod("getMetadataForRegion", withArguments: [regionCode]) where !(result.isNull() || result.isUndefined())  {
             return PhoneMetadata(javascriptValue:result)
         }
         return nil
@@ -321,7 +328,13 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         return nil
     }
     public override func isNumberGeographical(phoneNumber:PhoneNumber) -> Bool {
-        // TODO: should be implemented
+        let javascript = "var TMP = new i18n.phonenumbers.PhoneNumber();" +
+            "TMP.setCountryCode(\(phoneNumber.countryCode));" +
+            "TMP.setNationalNumber(\(phoneNumber.nationalNumber));" +
+            "phoneUtil.isNumberGeographical(TMP);"
+        if let result = self.context.evaluateScript(javascript) where result.isBoolean() {
+            return result.toBool()
+        }
         return false
     }
     public override func isLeadingZeroPossible(countryCallingCode:Int) -> Bool {

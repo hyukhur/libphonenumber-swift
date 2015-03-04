@@ -142,53 +142,53 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         XCTAssertEqual("NA", metadata.getSharedCost().getPossibleNumberPattern())
     }
 
-//    func testGetInstanceLoadDEMetadata() {
-//        let metadata:PhoneMetadata = phoneUtil.getMetadataForRegion(RegionCode.DE)
-//        XCTAssertEqual("DE", metadata.getId())
-//        XCTAssertEqual(49, metadata.getCountryCode())
-//        XCTAssertEqual("00", metadata.getInternationalPrefix())
-//        XCTAssertEqual("0", metadata.getNationalPrefix())
-//        XCTAssertEqual(6, metadata.numberFormatSize())
-//        XCTAssertEqual(1, metadata.getNumberFormat(5).leadingDigitsPatternSize())
-//        XCTAssertEqual("900", metadata.getNumberFormat(5).getLeadingDigitsPattern(0))
-//        XCTAssertEqual("(\\d{3})(\\d{3,4})(\\d{4})", metadata.getNumberFormat(5).getPattern())
-//        XCTAssertEqual("$1 $2 $3", metadata.getNumberFormat(5).getFormat())
-//        XCTAssertEqual("(?:[24-6]\\d{2}|3[03-9]\\d|[789](?:[1-9]\\d|0[2-9]))\\d{1,8}", metadata.getFixedLine().getNationalNumberPattern())
-//        XCTAssertEqual("\\d{2,14}", metadata.getFixedLine().getPossibleNumberPattern())
-//        XCTAssertEqual("30123456", metadata.getFixedLine().getExampleNumber())
-//        XCTAssertEqual("\\d{10}", metadata.getTollFree().getPossibleNumberPattern())
-//        XCTAssertEqual("900([135]\\d{6}|9\\d{7})", metadata.getPremiumRate().getNationalNumberPattern())
-//    }
-//
-//    func testGetInstanceLoadARMetadata() {
-//        let metadata:PhoneMetadata = phoneUtil.getMetadataForRegion(RegionCode.AR)
-//        XCTAssertEqual("AR", metadata.getId())
-//        XCTAssertEqual(54, metadata.getCountryCode())
-//        XCTAssertEqual("00", metadata.getInternationalPrefix())
-//        XCTAssertEqual("0", metadata.getNationalPrefix())
-//        XCTAssertEqual("0(?:(11|343|3715)15)?", metadata.getNationalPrefixForParsing())
-//        XCTAssertEqual("9$1", metadata.getNationalPrefixTransformRule())
-//        XCTAssertEqual("$2 15 $3-$4", metadata.getNumberFormat(2).getFormat())
-//        XCTAssertEqual("(9)(\\d{4})(\\d{2})(\\d{4})", metadata.getNumberFormat(3).getPattern())
-//        XCTAssertEqual("(9)(\\d{4})(\\d{2})(\\d{4})", metadata.getIntlNumberFormat(3).getPattern())
-//        XCTAssertEqual("$1 $2 $3 $4", metadata.getIntlNumberFormat(3).getFormat())
-//    }
-//
-//    func testGetInstanceLoadInternationalTollFreeMetadata() {
-//        let metadata:PhoneMetadata = phoneUtil.getMetadataForNonGeographicalRegion(800)
-//        XCTAssertEqual("001", metadata.getId())
-//        XCTAssertEqual(800, metadata.getCountryCode())
-//        XCTAssertEqual("$1 $2", metadata.getNumberFormat(0).getFormat())
-//        XCTAssertEqual("(\\d{4})(\\d{4})", metadata.getNumberFormat(0).getPattern())
-//        XCTAssertEqual("12345678", metadata.getGeneralDesc().getExampleNumber())
-//        XCTAssertEqual("12345678", metadata.getTollFree().getExampleNumber())
-//    }
-//
-//    func testIsNumberGeographical() {
-//        XCTAssertFalse(phoneUtil.isNumberGeographical(BS_MOBILE))                   // Bahamas, mobile phone number.
-//        XCTAssertTrue(phoneUtil.isNumberGeographical(AU_NUMBER))                    // Australian fixed line number.
-//        XCTAssertFalse(phoneUtil.isNumberGeographical(INTERNATIONAL_TOLL_FREE))     // International toll free number.
-//    }
+    func testGetInstanceLoadDEMetadata() {
+        let metadata:PhoneMetadata = phoneUtil.getMetadataForRegion(RegionCode.DE)!
+        XCTAssertEqual("DE", metadata.getId())
+        XCTAssertEqual(49, metadata.getCountryCode())
+        XCTAssertEqual("00", metadata.getInternationalPrefix())
+        XCTAssertEqual("0", metadata.getNationalPrefix())
+        XCTAssertEqual(6, metadata.numberFormatSize())
+        XCTAssertEqual(1, metadata.getNumberFormat(5).leadingDigitsPatternSize())
+        XCTAssertEqual("900", metadata.getNumberFormat(5).getLeadingDigitsPattern(0))
+        XCTAssertEqual("(\\d{3})(\\d{3,4})(\\d{4})", metadata.getNumberFormat(5).getPattern())
+        XCTAssertEqual("$1 $2 $3", metadata.getNumberFormat(5).getFormat())
+        XCTAssertEqual("(?:[24-6]\\d{2}|3[03-9]\\d|[789](?:[1-9]\\d|0[2-9]))\\d{1,8}", metadata.getFixedLine().getNationalNumberPattern())
+        XCTAssertEqual("\\d{2,14}", metadata.getFixedLine().getPossibleNumberPattern())
+        XCTAssertEqual("30123456", metadata.getFixedLine().getExampleNumber())
+        XCTAssertEqual("\\d{10}", metadata.getTollFree().getPossibleNumberPattern())
+        XCTAssertEqual("900([135]\\d{6}|9\\d{7})", metadata.getPremiumRate().getNationalNumberPattern())
+    }
+
+    func testGetInstanceLoadARMetadata() {
+        let metadata:PhoneMetadata = phoneUtil.getMetadataForRegion(RegionCode.AR)!
+        XCTAssertEqual("AR", metadata.getId())
+        XCTAssertEqual(54, metadata.getCountryCode())
+        XCTAssertEqual("00", metadata.getInternationalPrefix())
+        XCTAssertEqual("0", metadata.getNationalPrefix())
+        XCTAssertEqual("0(?:(11|343|3715)15)?", metadata.getNationalPrefixForParsing())
+        XCTAssertEqual("9$1", metadata.getNationalPrefixTransformRule())
+        XCTAssertEqual("$2 15 $3-$4", metadata.getNumberFormat(2).getFormat())
+        XCTAssertEqual("(9)(\\d{4})(\\d{2})(\\d{4})", metadata.getNumberFormat(3).getPattern())
+        XCTAssertEqual("(9)(\\d{4})(\\d{2})(\\d{4})", metadata.getIntlNumberFormat(3).getPattern())
+        XCTAssertEqual("$1 $2 $3 $4", metadata.getIntlNumberFormat(3).getFormat())
+    }
+
+    func testGetInstanceLoadInternationalTollFreeMetadata() {
+        let metadata:PhoneMetadata = phoneUtil.getMetadataForNonGeographicalRegion(800)!
+        XCTAssertEqual("001", metadata.getId())
+        XCTAssertEqual(800, metadata.getCountryCode())
+        XCTAssertEqual("$1 $2", metadata.getNumberFormat(0).getFormat())
+        XCTAssertEqual("(\\d{4})(\\d{4})", metadata.getNumberFormat(0).getPattern())
+        XCTAssertEqual("12345678", metadata.getGeneralDesc().getExampleNumber())
+        XCTAssertEqual("12345678", metadata.getTollFree().getExampleNumber())
+    }
+
+    func testIsNumberGeographical() {
+        XCTAssertFalse(phoneUtil.isNumberGeographical(BS_MOBILE))                   // Bahamas, mobile phone number.
+        XCTAssertTrue(phoneUtil.isNumberGeographical(AU_NUMBER))                    // Australian fixed line number.
+        XCTAssertFalse(phoneUtil.isNumberGeographical(INTERNATIONAL_TOLL_FREE))     // International toll free number.
+    }
 //
 //    func testIsLeadingZeroPossible() {
 //        XCTAssertTrue(phoneUtil.isLeadingZeroPossible(39))      // Italy

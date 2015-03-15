@@ -43,6 +43,39 @@ extension NumberFormat {
     }
 }
 
+var callCount:Int = 0
+extension PhoneNumber {
+    func invokeMethod(functionName:String, context:JSContext, lineNumber:Int = __LINE__) -> JSValue? {
+        let varName = "phoneNumber_\(lineNumber)_\(callCount++)"
+        var javascript = " " +
+            "var \(varName) = new i18n.phonenumbers.PhoneNumber();" +
+            "\(varName).setCountryCode(\(self.countryCode));" +
+        "\(varName).setNationalNumber(\(self.nationalNumber));"
+
+        if self.isItalianLeadingZero {
+            javascript += "\(varName).setItalianLeadingZero(\(self.isItalianLeadingZero));"
+        }
+        if self.countryCodeSource != CountryCodeSource.FROM_NUMBER_WITHOUT_PLUS_SIGN {
+            javascript += "\(varName).setCountryCodeSource(\(self.countryCodeSource.rawValue));"
+        }
+        if self.rawInput != "" {
+            javascript += "\(varName).setRawInput(\"\(self.rawInput)\");"
+        }
+        if self.extensionFormat != "" {
+            javascript += "\(varName).setExtensionFormat(\"\(self.extensionFormat)\");"
+        }
+        if self.numberOfLeadingZeros != 1 {
+            javascript += "\(varName).setNumberOfLeadingZeros(\(self.numberOfLeadingZeros));"
+        }
+        if self.preferredDomesticCarrierCode != "" {
+            javascript += "\(varName).setPreferredDomesticCarrierCode(\"\(self.preferredDomesticCarrierCode)\");"
+        }
+
+        javascript += "phoneUtil.\(functionName)(\(varName));"
+        return context.evaluateScript(javascript)
+    }
+}
+
 extension PhoneNumberDesc {
     convenience init(javascriptValue:JSValue) {
         self.init()
@@ -152,6 +185,7 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         if let path = cacheFilePath() {
             var error:NSError?;
             if let result = String(contentsOfFile: path, encoding: NSUTF8StringEncoding, error: &error) {
+                println("cache file hit: \(path)")
                 return result
             }
             if let error = error {
@@ -226,7 +260,6 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
                     dispatch_semaphore_signal(semaphore);
                     return
                 } else if let success = json["compiledCode"] as? String {
-                    println(success)
                     result = success
                     dispatch_semaphore_signal(semaphore);
                     return
@@ -259,7 +292,7 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         if let phoneUtil = self.context.globalObject?.objectForKeyedSubscript("phoneUtil") {
             if !phoneUtil.isUndefined() && !phoneUtil.isNull() {
                 self.phoneUtil = phoneUtil
-                println("Success Load LibPhoneNumber \(phoneUtil.toObject())")
+                println("Success Load LibPhoneNumber")
                 return true
             } else {
                 println("Fail Load LibPhoneNumber Object")
@@ -304,19 +337,19 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         return []
     }
     public override func getRegionCodeForCountryCode(callingCode:Int) -> String {
-        if let result = self.phoneUtil?.invokeMethod("getRegionCodeForCountryCode", withArguments: [callingCode])?.toString() {
-            return result
+        if let result = self.phoneUtil?.invokeMethod("getRegionCodeForCountryCode", withArguments: [callingCode]) where result.isString() {
+            return result.toString()
         }
         return ""
     }
     public override func getCountryCodeForRegion(countryCode:String) -> Int{
-        if let result = self.phoneUtil?.invokeMethod("getCountryCodeForRegion", withArguments: [countryCode])?.toNumber() {
-            return result.integerValue
+        if let result = self.phoneUtil?.invokeMethod("getCountryCodeForRegion", withArguments: [countryCode]) where result.isNumber() {
+            return result.toNumber().integerValue
         }
         return -1
     }
     public override func getMetadataForRegion(regionCode:String) -> PhoneMetadata? {
-        if let result:JSValue = self.phoneUtil?.invokeMethod("getMetadataForRegion", withArguments: [regionCode]) where !(result.isNull() || result.isUndefined())  {
+        if let result:JSValue = self.phoneUtil?.invokeMethod("getMetadataForRegion", withArguments: [regionCode]) where !(result.isNull() || result.isUndefined()) {
             return PhoneMetadata(javascriptValue:result)
         }
         return nil
@@ -328,25 +361,27 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         return nil
     }
     public override func isNumberGeographical(phoneNumber:PhoneNumber) -> Bool {
-        let javascript = "var TMP = new i18n.phonenumbers.PhoneNumber();" +
-            "TMP.setCountryCode(\(phoneNumber.countryCode));" +
-            "TMP.setNationalNumber(\(phoneNumber.nationalNumber));" +
-            "phoneUtil.isNumberGeographical(TMP);"
-        if let result = self.context.evaluateScript(javascript) where result.isBoolean() {
+        if let result = phoneNumber.invokeMethod(__FUNCTION__, context: self.context) where result.isBoolean() {
             return result.toBool()
         }
         return false
     }
     public override func isLeadingZeroPossible(countryCallingCode:Int) -> Bool {
-        // TODO: should be implemented
+        if let result:JSValue = self.phoneUtil?.invokeMethod("isLeadingZeroPossible", withArguments: [countryCallingCode]) where result.isBoolean()  {
+            return result.toBool()
+        }
         return false
     }
     public override func getLengthOfGeographicalAreaCode(phoneNumber:PhoneNumber) -> Int {
-        // TODO: should be implemented
+        if let result = phoneNumber.invokeMethod(__FUNCTION__, context: self.context) where result.isNumber() {
+            return result.toNumber().integerValue
+        }
         return -1
     }
     public override func getLengthOfNationalDestinationCode(phoneNumber:PhoneNumber) -> Int {
-        // TODO: should be implemented
+        if let result = phoneNumber.invokeMethod(__FUNCTION__, context: self.context) where result.isNumber() {
+            return result.toNumber().integerValue
+        }
         return -1
     }
     public override func getNationalSignificantNumber(phoneNumber:PhoneNumber) -> String {

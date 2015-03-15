@@ -8,14 +8,14 @@
 
 import Foundation
 
-public enum CountryCodeSource {
-    case FROM_NUMBER_WITH_PLUS_SIGN
-    case FROM_NUMBER_WITH_IDD
-    case FROM_NUMBER_WITHOUT_PLUS_SIGN
-    case FROM_DEFAULT_COUNTRY
+public enum CountryCodeSource: Int {
+    case FROM_NUMBER_WITH_PLUS_SIGN = 1
+    case FROM_NUMBER_WITH_IDD = 5
+    case FROM_NUMBER_WITHOUT_PLUS_SIGN = 10
+    case FROM_DEFAULT_COUNTRY = 20
 }
 
-public class PhoneNumber:Equatable {
+public class PhoneNumber:Equatable, Printable {
     public var countryCode = 0
     public var nationalNumber = 0
     public var extensionFormat = ""
@@ -37,50 +37,74 @@ public class PhoneNumber:Equatable {
         return self
     }
     public func setItalianLeadingZero(value:Bool) -> PhoneNumber {
-        // TODO: should be implemented
+        self.isItalianLeadingZero = value
         return self
     }
     public func setRawInput(value:String) -> PhoneNumber {
-        // TODO: should be implemented
+        self.rawInput = value
         return self
     }
     public func clear() {
-        // TODO: should be implemented
+        countryCode = 0
+        nationalNumber = 0
+        extensionFormat = ""
+        isItalianLeadingZero = false
+        numberOfLeadingZeros = 1
+        rawInput = ""
+        countryCodeSource = CountryCodeSource.FROM_NUMBER_WITH_PLUS_SIGN
+        preferredDomesticCarrierCode = ""
     }
     public func mergeFrom(other:PhoneNumber) -> PhoneNumber {
-        // TODO: should be implemented
+        countryCode = other.countryCode != 0 ?other.countryCode:self.countryCode
+        nationalNumber = other.nationalNumber != 0 ?other.nationalNumber:self.nationalNumber
+        extensionFormat = other.extensionFormat != "" ? other.extensionFormat:self.extensionFormat
+        isItalianLeadingZero = other.isItalianLeadingZero ? other.isItalianLeadingZero : self.isItalianLeadingZero
+        numberOfLeadingZeros = other.numberOfLeadingZeros != 1 ? other.numberOfLeadingZeros:self.numberOfLeadingZeros
+        rawInput = other.rawInput != "" ?other.rawInput:self.rawInput
+        countryCodeSource = other.countryCodeSource != CountryCodeSource.FROM_NUMBER_WITH_PLUS_SIGN ? other.countryCodeSource:self.countryCodeSource
+        preferredDomesticCarrierCode = other.preferredDomesticCarrierCode != "" ? other.preferredDomesticCarrierCode:self.preferredDomesticCarrierCode
         return self
     }
     public func setExtension(value:String) -> PhoneNumber {
-        // TODO: should be implemented
+        self.extensionFormat = value
         return self
     }
     public func clearRawInput() -> PhoneNumber {
-        // TODO: should be implemented
+        self.rawInput = ""
         return self
     }
     public func setPreferredDomesticCarrierCode(value:String) -> PhoneNumber {
-        // TODO: should be implemented
+        self.preferredDomesticCarrierCode = value
         return self
     }
     public func setNumberOfLeadingZeros(value:Int) -> PhoneNumber {
-        // TODO: should be implemented
+        self.numberOfLeadingZeros = value
         return self
     }
     public func getCountryCodeSource() -> CountryCodeSource {
-        // TODO: should be implemented
-        return CountryCodeSource.FROM_DEFAULT_COUNTRY
+        return countryCodeSource;
     }
     public func setCountryCodeSource(value:CountryCodeSource) -> PhoneNumber {
-        // TODO: should be implemented
+        self.countryCodeSource = value
         return self
     }
     public func hasCountryCodeSource() -> Bool {
-        // TODO: should be implemented
-        return false
+        return self.countryCodeSource != CountryCodeSource.FROM_NUMBER_WITH_PLUS_SIGN
     }
     public func clearItalianLeadingZero() {
-        // TODO: should be implemented
+        self.isItalianLeadingZero = false
+    }
+
+    public var description: String {
+        return "" +
+        "countryCode : \(countryCode)" +
+        "nationalNumber : \(nationalNumber)" +
+        "extensionFormat : \(extensionFormat)" +
+        "isItalianLeadingZero : \(isItalianLeadingZero)" +
+        "numberOfLeadingZeros : \(numberOfLeadingZeros)" +
+        "rawInput : \(rawInput)" +
+        "countryCodeSource : \(countryCodeSource)" +
+        "preferredDomesticCarrierCode : \(preferredDomesticCarrierCode)"
     }
 }
 

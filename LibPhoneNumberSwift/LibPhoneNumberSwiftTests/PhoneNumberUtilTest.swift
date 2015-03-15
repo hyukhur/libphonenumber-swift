@@ -189,83 +189,83 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         XCTAssertTrue(phoneUtil.isNumberGeographical(AU_NUMBER))                    // Australian fixed line number.
         XCTAssertFalse(phoneUtil.isNumberGeographical(INTERNATIONAL_TOLL_FREE))     // International toll free number.
     }
-//
-//    func testIsLeadingZeroPossible() {
-//        XCTAssertTrue(phoneUtil.isLeadingZeroPossible(39))      // Italy
-//        XCTAssertFalse(phoneUtil.isLeadingZeroPossible(1))      // USA
-//        XCTAssertTrue(phoneUtil.isLeadingZeroPossible(800))     // International toll free
-//        XCTAssertFalse(phoneUtil.isLeadingZeroPossible(979))    // International premium-rate
-//        XCTAssertFalse(phoneUtil.isLeadingZeroPossible(888))    // Not in metadata file, just default to false.
-//    }
-//
-//    func testGetLengthOfGeographicalAreaCode() {
-//        // Google MTV, which has area code "650".
-//        XCTAssertEqual(3, phoneUtil.getLengthOfGeographicalAreaCode(US_NUMBER))
-//
-//        // A North America toll-free number, which has no area code.
-//        XCTAssertEqual(0, phoneUtil.getLengthOfGeographicalAreaCode(US_TOLLFREE))
-//
-//        // Google London, which has area code "20".
-//        XCTAssertEqual(2, phoneUtil.getLengthOfGeographicalAreaCode(GB_NUMBER))
-//
-//        // A UK mobile phone, which has no area code.
-//        XCTAssertEqual(0, phoneUtil.getLengthOfGeographicalAreaCode(GB_MOBILE))
-//
-//        // Google Buenos Aires, which has area code "11".
-//        XCTAssertEqual(2, phoneUtil.getLengthOfGeographicalAreaCode(AR_NUMBER))
-//
-//        // Google Sydney, which has area code "2".
-//        XCTAssertEqual(1, phoneUtil.getLengthOfGeographicalAreaCode(AU_NUMBER))
-//
-//        // Italian numbers - there is no national prefix, but it still has an area code.
-//        XCTAssertEqual(2, phoneUtil.getLengthOfGeographicalAreaCode(IT_NUMBER))
-//
-//        // Google Singapore. Singapore has no area code and no national prefix.
-//        XCTAssertEqual(0, phoneUtil.getLengthOfGeographicalAreaCode(SG_NUMBER))
-//
-//        // An invalid US number (1 digit shorter), which has no area code.
-//        XCTAssertEqual(0, phoneUtil.getLengthOfGeographicalAreaCode(US_SHORT_BY_ONE_NUMBER))
-//
-//        // An international toll free number, which has no area code.
-//        XCTAssertEqual(0, phoneUtil.getLengthOfGeographicalAreaCode(INTERNATIONAL_TOLL_FREE))
-//    }
-//
-//    func testGetLengthOfNationalDestinationCode() {
-//        // Google MTV, which has national destination code (NDC) "650".
-//        XCTAssertEqual(3, phoneUtil.getLengthOfNationalDestinationCode(US_NUMBER))
-//
-//        // A North America toll-free number, which has NDC "800".
-//        XCTAssertEqual(3, phoneUtil.getLengthOfNationalDestinationCode(US_TOLLFREE))
-//
-//        // Google London, which has NDC "20".
-//        XCTAssertEqual(2, phoneUtil.getLengthOfNationalDestinationCode(GB_NUMBER))
-//
-//        // A UK mobile phone, which has NDC "7912".
-//        XCTAssertEqual(4, phoneUtil.getLengthOfNationalDestinationCode(GB_MOBILE))
-//
-//        // Google Buenos Aires, which has NDC "11".
-//        XCTAssertEqual(2, phoneUtil.getLengthOfNationalDestinationCode(AR_NUMBER))
-//
-//        // An Argentinian mobile which has NDC "911".
-//        XCTAssertEqual(3, phoneUtil.getLengthOfNationalDestinationCode(AR_MOBILE))
-//
-//        // Google Sydney, which has NDC "2".
-//        XCTAssertEqual(1, phoneUtil.getLengthOfNationalDestinationCode(AU_NUMBER))
-//
-//        // Google Singapore, which has NDC "6521".
-//        XCTAssertEqual(4, phoneUtil.getLengthOfNationalDestinationCode(SG_NUMBER))
-//
-//        // An invalid US number (1 digit shorter), which has no NDC.
-//        XCTAssertEqual(0, phoneUtil.getLengthOfNationalDestinationCode(US_SHORT_BY_ONE_NUMBER))
-//
-//        // A number containing an invalid country calling code, which shouldn't have any NDC.
-//        let number:PhoneNumber = PhoneNumber().setCountryCode(123).setNationalNumber(6502530000)
-//        XCTAssertEqual(0, phoneUtil.getLengthOfNationalDestinationCode(number))
-//
-//        // An international toll free number, which has NDC "1234".
-//        XCTAssertEqual(4, phoneUtil.getLengthOfNationalDestinationCode(INTERNATIONAL_TOLL_FREE))
-//    }
-//
+
+    func testIsLeadingZeroPossible() {
+        XCTAssertTrue(phoneUtil.isLeadingZeroPossible(39))      // Italy
+        XCTAssertFalse(phoneUtil.isLeadingZeroPossible(1))      // USA
+        XCTAssertTrue(phoneUtil.isLeadingZeroPossible(800))     // International toll free
+        XCTAssertFalse(phoneUtil.isLeadingZeroPossible(979))    // International premium-rate
+        XCTAssertFalse(phoneUtil.isLeadingZeroPossible(888))    // Not in metadata file, just default to false.
+    }
+
+    func testGetLengthOfGeographicalAreaCode() {
+        // Google MTV, which has area code "650".
+        XCTAssertEqual(3, phoneUtil.getLengthOfGeographicalAreaCode(US_NUMBER))
+
+        // A North America toll-free number, which has no area code.
+        XCTAssertEqual(0, phoneUtil.getLengthOfGeographicalAreaCode(US_TOLLFREE))
+
+        // Google London, which has area code "20".
+        XCTAssertEqual(2, phoneUtil.getLengthOfGeographicalAreaCode(GB_NUMBER))
+
+        // A UK mobile phone, which has no area code.
+        XCTAssertEqual(0, phoneUtil.getLengthOfGeographicalAreaCode(GB_MOBILE))
+
+        // Google Buenos Aires, which has area code "11".
+        XCTAssertEqual(2, phoneUtil.getLengthOfGeographicalAreaCode(AR_NUMBER))
+
+        // Google Sydney, which has area code "2".
+        XCTAssertEqual(1, phoneUtil.getLengthOfGeographicalAreaCode(AU_NUMBER))
+
+        // Italian numbers - there is no national prefix, but it still has an area code.
+        XCTAssertEqual(2, phoneUtil.getLengthOfGeographicalAreaCode(IT_NUMBER))
+
+        // Google Singapore. Singapore has no area code and no national prefix.
+        XCTAssertEqual(0, phoneUtil.getLengthOfGeographicalAreaCode(SG_NUMBER))
+
+        // An invalid US number (1 digit shorter), which has no area code.
+        XCTAssertEqual(0, phoneUtil.getLengthOfGeographicalAreaCode(US_SHORT_BY_ONE_NUMBER))
+
+        // An international toll free number, which has no area code.
+        XCTAssertEqual(0, phoneUtil.getLengthOfGeographicalAreaCode(INTERNATIONAL_TOLL_FREE))
+    }
+
+    func testGetLengthOfNationalDestinationCode() {
+        // Google MTV, which has national destination code (NDC) "650".
+        XCTAssertEqual(3, phoneUtil.getLengthOfNationalDestinationCode(US_NUMBER))
+
+        // A North America toll-free number, which has NDC "800".
+        XCTAssertEqual(3, phoneUtil.getLengthOfNationalDestinationCode(US_TOLLFREE))
+
+        // Google London, which has NDC "20".
+        XCTAssertEqual(2, phoneUtil.getLengthOfNationalDestinationCode(GB_NUMBER))
+
+        // A UK mobile phone, which has NDC "7912".
+        XCTAssertEqual(4, phoneUtil.getLengthOfNationalDestinationCode(GB_MOBILE))
+
+        // Google Buenos Aires, which has NDC "11".
+        XCTAssertEqual(2, phoneUtil.getLengthOfNationalDestinationCode(AR_NUMBER))
+
+        // An Argentinian mobile which has NDC "911".
+        XCTAssertEqual(3, phoneUtil.getLengthOfNationalDestinationCode(AR_MOBILE))
+
+        // Google Sydney, which has NDC "2".
+        XCTAssertEqual(1, phoneUtil.getLengthOfNationalDestinationCode(AU_NUMBER))
+
+        // Google Singapore, which has NDC "6521".
+        XCTAssertEqual(4, phoneUtil.getLengthOfNationalDestinationCode(SG_NUMBER))
+
+        // An invalid US number (1 digit shorter), which has no NDC.
+        XCTAssertEqual(0, phoneUtil.getLengthOfNationalDestinationCode(US_SHORT_BY_ONE_NUMBER))
+
+        // A number containing an invalid country calling code, which shouldn't have any NDC.
+        let number:PhoneNumber = PhoneNumber().setCountryCode(123).setNationalNumber(6502530000)
+        XCTAssertEqual(0, phoneUtil.getLengthOfNationalDestinationCode(number))
+
+        // An international toll free number, which has NDC "1234".
+        XCTAssertEqual(4, phoneUtil.getLengthOfNationalDestinationCode(INTERNATIONAL_TOLL_FREE))
+    }
+
 //    func testGetCountryMobileToken() {
 //        XCTAssertEqual("1", PhoneNumberUtil.getCountryMobileToken(phoneUtil.getCountryCodeForRegion(RegionCode.MX)))
 //

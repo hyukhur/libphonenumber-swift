@@ -319,14 +319,14 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
     // MARK: - Public instance APIs
 
     public override func getSupportedRegions() -> [String] {
-        if let result = self.phoneUtil?.invokeMethod("getSupportedRegions", withArguments:nil)?.toArray() {
+        if let result = self.phoneUtil?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments:nil)?.toArray() {
             return result as! [String]
         }
         return []
     }
 
     public override func getSupportedGlobalNetworkCallingCodes() -> [Int] {
-        if let codes = self.phoneUtil?.invokeMethod("getSupportedGlobalNetworkCallingCodes", withArguments: nil)?.toArray() {
+        if let codes = self.phoneUtil?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments: nil)?.toArray() {
             return codes.reduce([], combine: { (var result:[Int], value) -> [Int] in
                 if let code = value.integerValue {
                     result.append(code)
@@ -337,49 +337,49 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         return []
     }
     public override func getRegionCodeForCountryCode(callingCode:Int) -> String {
-        if let result = self.phoneUtil?.invokeMethod("getRegionCodeForCountryCode", withArguments: [callingCode]) where result.isString() {
+        if let result = self.phoneUtil?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments: [callingCode]) where result.isString() {
             return result.toString()
         }
         return ""
     }
     public override func getCountryCodeForRegion(countryCode:String) -> Int{
-        if let result = self.phoneUtil?.invokeMethod("getCountryCodeForRegion", withArguments: [countryCode]) where result.isNumber() {
+        if let result = self.phoneUtil?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments: [countryCode]) where result.isNumber() {
             return result.toNumber().integerValue
         }
         return -1
     }
     public override func getMetadataForRegion(regionCode:String) -> PhoneMetadata? {
-        if let result:JSValue = self.phoneUtil?.invokeMethod("getMetadataForRegion", withArguments: [regionCode]) where !(result.isNull() || result.isUndefined()) {
+        if let result:JSValue = self.phoneUtil?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments: [regionCode]) where !(result.isNull() || result.isUndefined()) {
             return PhoneMetadata(javascriptValue:result)
         }
         return nil
     }
     public override func getMetadataForNonGeographicalRegion(countryCallingCode:Int) -> PhoneMetadata? {
-        if let result:JSValue = self.phoneUtil?.invokeMethod("getMetadataForNonGeographicalRegion", withArguments: [countryCallingCode]) where result.toDictionary() != nil  {
+        if let result:JSValue = self.phoneUtil?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments: [countryCallingCode]) where result.toDictionary() != nil  {
             return PhoneMetadata(javascriptValue:result)
         }
         return nil
     }
     public override func isNumberGeographical(phoneNumber:PhoneNumber) -> Bool {
-        if let result = phoneNumber.invokeMethod(__FUNCTION__, context: self.context) where result.isBoolean() {
+        if let result = phoneNumber.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first!, context: self.context) where result.isBoolean() {
             return result.toBool()
         }
         return false
     }
     public override func isLeadingZeroPossible(countryCallingCode:Int) -> Bool {
-        if let result:JSValue = self.phoneUtil?.invokeMethod("isLeadingZeroPossible", withArguments: [countryCallingCode]) where result.isBoolean()  {
+        if let result:JSValue = self.phoneUtil?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments: [countryCallingCode]) where result.isBoolean()  {
             return result.toBool()
         }
         return false
     }
     public override func getLengthOfGeographicalAreaCode(phoneNumber:PhoneNumber) -> Int {
-        if let result = phoneNumber.invokeMethod(__FUNCTION__, context: self.context) where result.isNumber() {
+        if let result = phoneNumber.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first!, context: self.context) where result.isNumber() {
             return result.toNumber().integerValue
         }
         return -1
     }
     public override func getLengthOfNationalDestinationCode(phoneNumber:PhoneNumber) -> Int {
-        if let result = phoneNumber.invokeMethod(__FUNCTION__, context: self.context) where result.isNumber() {
+        if let result = phoneNumber.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first!, context: self.context) where result.isNumber() {
             return result.toNumber().integerValue
         }
         return -1

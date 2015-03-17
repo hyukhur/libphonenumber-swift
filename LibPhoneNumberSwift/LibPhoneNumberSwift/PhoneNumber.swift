@@ -97,14 +97,14 @@ public class PhoneNumber:Equatable, Printable {
 
     public var description: String {
         return "" +
-        "countryCode : \(countryCode)" +
-        "nationalNumber : \(nationalNumber)" +
-        "extensionFormat : \(extensionFormat)" +
-        "isItalianLeadingZero : \(isItalianLeadingZero)" +
-        "numberOfLeadingZeros : \(numberOfLeadingZeros)" +
-        "rawInput : \(rawInput)" +
-        "countryCodeSource : \(countryCodeSource)" +
-        "preferredDomesticCarrierCode : \(preferredDomesticCarrierCode)"
+        "countryCode : \(countryCode)\n" +
+        "nationalNumber : \(nationalNumber)\n" +
+        "extensionFormat : \(extensionFormat)\n" +
+        "isItalianLeadingZero : \(isItalianLeadingZero)\n" +
+        "numberOfLeadingZeros : \(numberOfLeadingZeros)\n" +
+        "rawInput : \(rawInput)\n" +
+        "countryCodeSource : \(countryCodeSource)\n" +
+        "preferredDomesticCarrierCode : \(preferredDomesticCarrierCode)\n"
     }
 }
 

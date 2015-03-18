@@ -88,9 +88,12 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
 //        return PhoneNumberUtil(URL:plist, countryCodeToRegionCodeMap: getCountryCodeToRegionCodeMap())
 //    }
     var driver:PhoneNumberUtil {
-        return PhoneNumberUtilJavascript.getInstance()
+        return PhoneNumberUtilJavascript()
     }
 
+    override func setUp() {
+        phoneUtil = self.driver
+    }
 
     func testGetSupportedRegions() {
         XCTAssertTrue(phoneUtil.getSupportedRegions().count > 1, "\(phoneUtil.getSupportedRegions().count)")

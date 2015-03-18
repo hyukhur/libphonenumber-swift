@@ -109,6 +109,6 @@ public class PhoneNumber:Equatable, Printable {
 }
 
 public func == (lhs: PhoneNumber, rhs: PhoneNumber) -> Bool {
-    // TODO: should be implemented
-    return false
+    let result = lhs.countryCode == rhs.countryCode && lhs.nationalNumber == rhs.nationalNumber && lhs.extensionFormat == rhs.extensionFormat && lhs.isItalianLeadingZero == rhs.isItalianLeadingZero && lhs.numberOfLeadingZeros == rhs.numberOfLeadingZeros && lhs.rawInput == rhs.rawInput && lhs.countryCodeSource == rhs.countryCodeSource && lhs.preferredDomesticCarrierCode == rhs.preferredDomesticCarrierCode
+    return result
 }

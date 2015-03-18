@@ -69,8 +69,8 @@ public enum ValidationResult {
 /**
 * Type of phone numbers.
 */
-public enum PhoneNumberType {
-    case FIXED_LINE,
+public enum PhoneNumberType:Int {
+    case FIXED_LINE = 0,
     MOBILE,
     // In some regions (e.g. the USA), it is impossible to distinguish between fixed-line and
     // mobile numbers by looking at the phone number itself.
@@ -96,7 +96,36 @@ public enum PhoneNumberType {
     VOICEMAIL,
     // A phone number is of type UNKNOWN when it does not fit any of the known patterns for a
     // specific region.
-    UNKNOWN
+    UNKNOWN = -1
+
+    public func toString() -> String {
+        switch self {
+        case .FIXED_LINE:
+            return "FIXED_LINE"
+        case .MOBILE:
+            return "MOBILE"
+        case .FIXED_LINE_OR_MOBILE:
+            return "FIXED_LINE_OR_MOBILE"
+        case .TOLL_FREE:
+            return "TOLL_FREE"
+        case .PREMIUM_RATE:
+            return "PREMIUM_RATE"
+        case .SHARED_COST:
+            return "SHARED_COST"
+        case  .VOIP:
+            return "VOIP"
+        case .PERSONAL_NUMBER:
+            return "PERSONAL_NUMBER"
+        case .PAGER:
+            return "PAGER"
+        case .UAN:
+            return "UAN"
+        case .VOICEMAIL:
+            return "VOICEMAIL"
+        case .UNKNOWN:
+            return "UNKNOWN"
+        }
+    }
 }
 
 public class PhoneNumberUtil {
@@ -190,11 +219,11 @@ public class PhoneNumberUtil {
         // TODO: should be implemented
         return ""
     }
-    public func getExampleNumber(regionCode:String) -> PhoneNumber {
+    public func getExampleNumber(regionCode:String) -> PhoneNumber? {
         // TODO: should be implemented
         return PhoneNumber()
     }
-    public func getExampleNumberForType(regionCode:String, phoneNumberType:PhoneNumberType) -> PhoneNumber {
+    public func getExampleNumberForType(regionCode:String, phoneNumberType:PhoneNumberType) -> PhoneNumber? {
         // TODO: should be implemented
         return PhoneNumber()
     }

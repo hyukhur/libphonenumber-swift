@@ -269,40 +269,40 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         XCTAssertEqual(4, phoneUtil.getLengthOfNationalDestinationCode(INTERNATIONAL_TOLL_FREE))
     }
 
-//    func testGetCountryMobileToken() {
-//        XCTAssertEqual("1", PhoneNumberUtil.getCountryMobileToken(phoneUtil.getCountryCodeForRegion(RegionCode.MX)))
-//
-//        // Country calling code for Sweden, which has no mobile token.
-//        XCTAssertEqual("", PhoneNumberUtil.getCountryMobileToken(phoneUtil.getCountryCodeForRegion(RegionCode.SE)))
-//    }
-//
-//    func testGetNationalSignificantNumber() {
-//        XCTAssertEqual("6502530000", phoneUtil.getNationalSignificantNumber(US_NUMBER))
-//
-//        // An Italian mobile number.
-//        XCTAssertEqual("345678901", phoneUtil.getNationalSignificantNumber(IT_MOBILE))
-//
-//        // An Italian fixed line number.
-//        XCTAssertEqual("0236618300", phoneUtil.getNationalSignificantNumber(IT_NUMBER))
-//
-//        XCTAssertEqual("12345678", phoneUtil.getNationalSignificantNumber(INTERNATIONAL_TOLL_FREE))
-//    }
-//
-//    func testGetExampleNumber() {
-//        XCTAssertEqual(DE_NUMBER, phoneUtil.getExampleNumber(RegionCode.DE))
-//
-//        XCTAssertEqual(DE_NUMBER, phoneUtil.getExampleNumberForType(RegionCode.DE, phoneNumberType: PhoneNumberType.FIXED_LINE))
-//        XCTAssertNil(phoneUtil.getExampleNumberForType(RegionCode.DE,phoneNumberType: PhoneNumberType.MOBILE))
-//        // For the US, the example number is placed under general description, and hence should be used
-//        // for both fixed line and mobile, so neither of these should return null.
-//        XCTAssertNotNil(phoneUtil.getExampleNumberForType(RegionCode.US, phoneNumberType: PhoneNumberType.FIXED_LINE))
-//        XCTAssertNotNil(phoneUtil.getExampleNumberForType(RegionCode.US, phoneNumberType: PhoneNumberType.MOBILE))
-//        // CS is an invalid region, so we have no data for it.
-//        XCTAssertNil(phoneUtil.getExampleNumberForType(RegionCode.CS, phoneNumberType:PhoneNumberType.MOBILE))
-//        // RegionCode 001 is reserved for supporting non-geographical country calling code. We don't
-//        // support getting an example number for it with this method.
-//        XCTAssertNil(phoneUtil.getExampleNumber(RegionCode.UN001))
-//    }
+    func testGetCountryMobileToken() {
+        XCTAssertEqual("1", phoneUtil.dynamicType.getCountryMobileToken(phoneUtil.getCountryCodeForRegion(RegionCode.MX)))
+
+        // Country calling code for Sweden, which has no mobile token.
+        XCTAssertEqual("", phoneUtil.dynamicType.getCountryMobileToken(phoneUtil.getCountryCodeForRegion(RegionCode.SE)))
+    }
+
+    func testGetNationalSignificantNumber() {
+        XCTAssertEqual("6502530000", phoneUtil.getNationalSignificantNumber(US_NUMBER))
+
+        // An Italian mobile number.
+        XCTAssertEqual("345678901", phoneUtil.getNationalSignificantNumber(IT_MOBILE))
+
+        // An Italian fixed line number.
+        XCTAssertEqual("0236618300", phoneUtil.getNationalSignificantNumber(IT_NUMBER))
+
+        XCTAssertEqual("12345678", phoneUtil.getNationalSignificantNumber(INTERNATIONAL_TOLL_FREE))
+    }
+
+    func testGetExampleNumber() {
+        XCTAssertEqual(DE_NUMBER, phoneUtil.getExampleNumber(RegionCode.DE)!)
+
+        XCTAssertEqual(DE_NUMBER, phoneUtil.getExampleNumberForType(RegionCode.DE, phoneNumberType: PhoneNumberType.FIXED_LINE)!)
+        XCTAssertNil(phoneUtil.getExampleNumberForType(RegionCode.DE,phoneNumberType: PhoneNumberType.MOBILE))
+        // For the US, the example number is placed under general description, and hence should be used
+        // for both fixed line and mobile, so neither of these should return null.
+        XCTAssertNotNil(phoneUtil.getExampleNumberForType(RegionCode.US, phoneNumberType: PhoneNumberType.FIXED_LINE))
+        XCTAssertNotNil(phoneUtil.getExampleNumberForType(RegionCode.US, phoneNumberType: PhoneNumberType.MOBILE))
+        // CS is an invalid region, so we have no data for it.
+        XCTAssertNil(phoneUtil.getExampleNumberForType(RegionCode.CS, phoneNumberType:PhoneNumberType.MOBILE))
+        // RegionCode 001 is reserved for supporting non-geographical country calling code. We don't
+        // support getting an example number for it with this method.
+        XCTAssertNil(phoneUtil.getExampleNumber(RegionCode.UN001))
+    }
 //
 //    func testGetExampleNumberForNonGeoEntity() {
 //        XCTAssertEqual(INTERNATIONAL_TOLL_FREE, phoneUtil.getExampleNumberForNonGeoEntity(800))

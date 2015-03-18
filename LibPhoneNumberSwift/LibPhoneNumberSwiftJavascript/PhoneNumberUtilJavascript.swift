@@ -74,6 +74,33 @@ extension PhoneNumber {
         javascript += "phoneUtil.\(functionName)(\(varName));"
         return context.evaluateScript(javascript)
     }
+    convenience init(javascriptValue:JSValue) {
+        self.init()
+        if let value = javascriptValue.invokeMethod("getCountryCode", withArguments: nil) where value.isNumber()  {
+            self.countryCode = value.toNumber().integerValue
+        }
+        if let value = javascriptValue.invokeMethod("getNationalNumber", withArguments: nil) where value.isNumber()  {
+            self.nationalNumber = value.toNumber().integerValue
+        }
+        if let value = javascriptValue.invokeMethod("getExtension", withArguments: nil) where value.isString()  {
+            self.extensionFormat = value.toString()
+        }
+        if let value = javascriptValue.invokeMethod("getItalianLeadingZero", withArguments: nil) where value.isBoolean()  {
+            self.isItalianLeadingZero = value.toBool()
+        }
+        if let value = javascriptValue.invokeMethod("getNumberOfLeadingZeros", withArguments: nil) where value.isNumber()  {
+            self.numberOfLeadingZeros = value.toNumber().integerValue
+        }
+        if let value = javascriptValue.invokeMethod("getRawInput", withArguments: nil) where value.isString()  {
+            self.rawInput = value.toString()
+        }
+        if let value = javascriptValue.invokeMethod("getCountryCodeSource", withArguments: nil) where value.isNumber()  {
+            self.countryCodeSource = CountryCodeSource(rawValue:value.toNumber().integerValue)!
+        }
+        if let value = javascriptValue.invokeMethod("getPreferredDomesticCarrierCode", withArguments: nil) where value.isString()  {
+            self.preferredDomesticCarrierCode = value.toString()
+        }
+    }
 }
 
 extension PhoneNumberDesc {
@@ -150,6 +177,7 @@ var sharedInstance: PhoneNumberUtilJavascript = PhoneNumberUtilJavascript()
 
 public class PhoneNumberUtilJavascript: PhoneNumberUtil {
     var phoneUtil:JSValue?
+    static var phoneUtilClass:JSValue?
     let context:JSContext = JSContext()
 
     class func getInstance() -> PhoneNumberUtilJavascript {
@@ -287,7 +315,11 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         } else {
             println("Fail evaluateScript libphonenumber library")
         }
-
+        if let phoneUtilClass = self.context.globalObject.objectForKeyedSubscript("i18n").objectForKeyedSubscript("phonenumbers").objectForKeyedSubscript("PhoneNumberUtil") {
+            if !phoneUtilClass.isUndefined() && !phoneUtilClass.isNull() {
+                self.dynamicType.phoneUtilClass = phoneUtilClass
+            }
+        }
         self.context.evaluateScript("var phoneUtil = i18n.phonenumbers.PhoneNumberUtil.getInstance();");
         if let phoneUtil = self.context.globalObject?.objectForKeyedSubscript("phoneUtil") {
             if !phoneUtil.isUndefined() && !phoneUtil.isNull() {
@@ -385,19 +417,29 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         return -1
     }
     public override func getNationalSignificantNumber(phoneNumber:PhoneNumber) -> String {
-        // TODO: should be implemented
+        if let result = phoneNumber.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first!, context: self.context) where result.isString() {
+            return result.toString()
+        }
         return ""
     }
-    public override func getExampleNumber(regionCode:String) -> PhoneNumber {
-        // TODO: should be implemented
-        return PhoneNumber()
+    public override func getExampleNumber(regionCode:String) -> PhoneNumber? {
+        if let result:JSValue = self.phoneUtil?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments: [regionCode]) where !(result.isNull() || result.isUndefined())  {
+            return PhoneNumber(javascriptValue:result)
+        }
+        return nil
     }
-    public override func getExampleNumberForType(regionCode:String, phoneNumberType:PhoneNumberType) -> PhoneNumber {
-        // TODO: should be implemented
-        return PhoneNumber()
+    public override func getExampleNumberForType(regionCode:String, phoneNumberType:PhoneNumberType) -> PhoneNumber? {
+        let functionName = __FUNCTION__.componentsSeparatedByString("(").first!
+        let javascript = "phoneUtil.\(functionName)(\"\(regionCode)\", i18n.phonenumbers.PhoneNumberType.\(phoneNumberType.toString()));"
+        if let result:JSValue = context.evaluateScript(javascript) where !(result.isNull() || result.isUndefined()) {
+            return PhoneNumber(javascriptValue:result)
+        }
+        return nil
     }
     public override func getExampleNumberForNonGeoEntity(countryCallingCode:Int) -> PhoneNumber {
-        // TODO: should be implemented
+        if let result:JSValue = self.phoneUtil?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments: [countryCallingCode]) where !(result.isNull() || result.isUndefined()) {
+            return PhoneNumber(javascriptValue:result)
+        }
         return PhoneNumber()
     }
     public override func format(number:PhoneNumber, numberFormat:PhoneNumberFormat) -> String {
@@ -522,5 +564,42 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
     public override func isMobileNumberPortableRegion(regionCode:String) -> Bool {
         // TODO: should be implemented
         return false
+    }
+
+    // MARK: - Class APIs
+
+    public override class func getCountryMobileToken(countryCode:Int) -> String {
+        if let result:JSValue = self.phoneUtilClass?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments: [countryCode]) where result.isString()  {
+            return result.toString()
+        }
+        return ""
+    }
+    public override class func convertAlphaCharactersInNumber(input:String) -> String {
+        // TODO: should be implemented
+        return ""
+    }
+    public override class func normalize(phoneNumberString:String) -> String {
+        // TODO: should be implemented
+        return ""
+    }
+    public override class func normalizeDigitsOnly(inputNumber:String) -> String {
+        // TODO: should be implemented
+        return ""
+    }
+    public override class func normalizeDiallableCharsOnly(inputNumber:String) -> String {
+        // TODO: should be implemented
+        return ""
+    }
+    public override class func isViablePhoneNumber(number:String) -> Bool {
+        // TODO: should be implemented
+        return false
+    }
+    public override class func extractPossibleNumber(number:String) -> String {
+        // TODO: should be implemented
+        return ""
+    }
+    public override class func nsNumberMatch(firstNumberIn:PhoneNumber, secondNumberIn:PhoneNumber) -> MatchType {
+        // TODO: should be implemented
+        return MatchType.NO_MATCH
     }
 }

@@ -22,8 +22,29 @@ import Foundation
 import LibPhoneNumberSwift
 import JavaScriptCore
 
+protocol JavascriptString {
+    func toJavascript(#lineNumber:Int) -> (variableName:String, javascript:String)
+}
 
-extension NumberFormat {
+extension JSContext {
+    func invokeMethodWithNew(functionName:String, args:[AnyObject], lineNumber:Int = __LINE__) -> JSValue? {
+        var create = ""
+        let arguments = join(", ", args.map({(arg:AnyObject) -> String in
+            if let nextJavascript = arg as? JavascriptString {
+                let javascript = nextJavascript.toJavascript(lineNumber:lineNumber)
+                create += javascript.javascript
+                return javascript.variableName
+            }
+            return arg.description
+        }))
+        let javascript = create + "phoneUtil.\(functionName)(\(arguments));"
+
+        return self.evaluateScript(javascript)
+    }
+}
+
+var callCount:Int = 0
+extension NumberFormat:JavascriptString {
     convenience init(javascriptValue:JSValue) {
         self.init()
         if let value = javascriptValue.invokeMethod("getPattern", withArguments: nil).toString() where value != "undefined"  {
@@ -41,39 +62,34 @@ extension NumberFormat {
             self.nationalPrefixFormattingRule = value
         }
     }
+    func toJavascript(lineNumber:Int = __LINE__) -> (variableName:String, javascript:String) {
+        let varName = "numberFormat_\(lineNumber)_\(callCount++)"
+        let pattern = self.pattern.stringByReplacingOccurrencesOfString("\\", withString: "\\\\")
+        let format = self.format.stringByReplacingOccurrencesOfString("\\", withString: "\\\\")
+        var javascript = " " +
+            "var \(varName) = new i18n.phonenumbers.NumberFormat();" +
+            "\(varName).setPattern(\"\(pattern)\");" +
+            "\(varName).setFormat(\"\(format)\");"
+
+        if self.leadingDigitsPattern.count > 0 {
+            let leadingDigitsPattern = self.leadingDigitsPattern.reduce("[", combine: { (string:String, format:String) -> String in
+                return "\(string) \"\(format)\","
+            }) + "]"
+            javascript += "\(varName).setLeadingDigitsPatternArray(\(leadingDigitsPattern));"
+        }
+        if self.nationalPrefixFormattingRule != "" {
+            javascript += "\(varName).setNationalPrefixFormattingRule(\(self.nationalPrefixFormattingRule));"
+        }
+        return (varName, javascript)
+    }
 }
 
-var callCount:Int = 0
-extension PhoneNumber {
-    func invokeMethod(functionName:String, context:JSContext, lineNumber:Int = __LINE__) -> JSValue? {
-        let varName = "phoneNumber_\(lineNumber)_\(callCount++)"
-        var javascript = " " +
-            "var \(varName) = new i18n.phonenumbers.PhoneNumber();" +
-            "\(varName).setCountryCode(\(self.countryCode));" +
-        "\(varName).setNationalNumber(\(self.nationalNumber));"
-
-        if self.isItalianLeadingZero {
-            javascript += "\(varName).setItalianLeadingZero(\(self.isItalianLeadingZero));"
-        }
-        if self.countryCodeSource != CountryCodeSource.FROM_NUMBER_WITHOUT_PLUS_SIGN {
-            javascript += "\(varName).setCountryCodeSource(\(self.countryCodeSource.rawValue));"
-        }
-        if self.rawInput != "" {
-            javascript += "\(varName).setRawInput(\"\(self.rawInput)\");"
-        }
-        if self.extensionFormat != "" {
-            javascript += "\(varName).setExtensionFormat(\"\(self.extensionFormat)\");"
-        }
-        if self.numberOfLeadingZeros != 1 {
-            javascript += "\(varName).setNumberOfLeadingZeros(\(self.numberOfLeadingZeros));"
-        }
-        if self.preferredDomesticCarrierCode != "" {
-            javascript += "\(varName).setPreferredDomesticCarrierCode(\"\(self.preferredDomesticCarrierCode)\");"
-        }
-
-        javascript += "phoneUtil.\(functionName)(\(varName));"
-        return context.evaluateScript(javascript)
-    }
+extension PhoneNumber:JavascriptString {
+//    func invokeMethod(functionName:String, args:String = "", context:JSContext, lineNumber:Int = __LINE__) -> JSValue? {
+//        let result = self.toJavascript(lineNumber:lineNumber)
+//        let javascript = result.javascript + "phoneUtil.\(functionName)(\(result.variableName)\(args));"
+//        return context.evaluateScript(javascript)
+//    }
     convenience init(javascriptValue:JSValue) {
         self.init()
         if let value = javascriptValue.invokeMethod("getCountryCode", withArguments: nil) where value.isNumber()  {
@@ -100,6 +116,33 @@ extension PhoneNumber {
         if let value = javascriptValue.invokeMethod("getPreferredDomesticCarrierCode", withArguments: nil) where value.isString()  {
             self.preferredDomesticCarrierCode = value.toString()
         }
+    }
+    func toJavascript(lineNumber:Int = __LINE__) -> (variableName:String, javascript:String) {
+        let varName = "phoneNumber_\(lineNumber)_\(callCount++)"
+        var javascript = " " +
+            "var \(varName) = new i18n.phonenumbers.PhoneNumber();" +
+            "\(varName).setCountryCode(\(self.countryCode));" +
+        "\(varName).setNationalNumber(\(self.nationalNumber));"
+
+        if self.isItalianLeadingZero {
+            javascript += "\(varName).setItalianLeadingZero(\(self.isItalianLeadingZero));"
+        }
+        if self.countryCodeSource != CountryCodeSource.FROM_NUMBER_WITHOUT_PLUS_SIGN {
+            javascript += "\(varName).setCountryCodeSource(\(self.countryCodeSource.rawValue));"
+        }
+        if self.rawInput != "" {
+            javascript += "\(varName).setRawInput(\"\(self.rawInput)\");"
+        }
+        if self.extensionFormat != "" {
+            javascript += "\(varName).setExtension(\"\(self.extensionFormat)\");"
+        }
+        if self.numberOfLeadingZeros != 1 {
+            javascript += "\(varName).setNumberOfLeadingZeros(\(self.numberOfLeadingZeros));"
+        }
+        if let preferredDomesticCarrierCode = self.preferredDomesticCarrierCode {
+            javascript += "\(varName).setPreferredDomesticCarrierCode(\"\(preferredDomesticCarrierCode)\");"
+        }
+        return (varName, javascript)
     }
 }
 
@@ -282,12 +325,12 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
             }
 
             var error: NSError?
-            if let data:NSData = data, json = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &error) as? NSDictionary {
+            if let data:NSData = data, json = NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments, error: &error) as? NSDictionary {
                 if let error = json["errors"] as? NSArray {
                     println("Closure Compile Error: \(error)")
                     dispatch_semaphore_signal(semaphore);
                     return
-                } else if let success = json["compiledCode"] as? String {
+                } else if let success = json["compiledCode"] as? String where error == nil {
                     result = success
                     dispatch_semaphore_signal(semaphore);
                     return
@@ -336,9 +379,11 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
     public init() {
         super.init(URL: NSURL(), countryCodeToRegionCodeMap: getCountryCodeToRegionCodeMap())
         var javascript:String? = loadJavascript()
-        if let javascriptDownloaded = downloadLibrary() where javascript == nil {
-            saveJavascript(javascriptDownloaded)
-            javascript = javascriptDownloaded
+        if javascript == nil {
+            if let javascriptDownloaded = downloadLibrary() {
+                saveJavascript(javascriptDownloaded)
+                javascript = javascriptDownloaded
+            }
         }
         if let javascript = javascript {
             if loadLibrary(javascript: javascript) == false {
@@ -393,7 +438,7 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         return nil
     }
     public override func isNumberGeographical(phoneNumber:PhoneNumber) -> Bool {
-        if let result = phoneNumber.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first!, context: self.context) where result.isBoolean() {
+        if let result = self.context.invokeMethodWithNew(__FUNCTION__.componentsSeparatedByString("(").first!, args: [phoneNumber]) where result.isBoolean() {
             return result.toBool()
         }
         return false
@@ -405,19 +450,19 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         return false
     }
     public override func getLengthOfGeographicalAreaCode(phoneNumber:PhoneNumber) -> Int {
-        if let result = phoneNumber.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first!, context: self.context) where result.isNumber() {
+        if let result = self.context.invokeMethodWithNew(__FUNCTION__.componentsSeparatedByString("(").first!, args: [phoneNumber]) where result.isNumber() {
             return result.toNumber().integerValue
         }
         return -1
     }
     public override func getLengthOfNationalDestinationCode(phoneNumber:PhoneNumber) -> Int {
-        if let result = phoneNumber.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first!, context: self.context) where result.isNumber() {
+        if let result = self.context.invokeMethodWithNew(__FUNCTION__.componentsSeparatedByString("(").first!, args: [phoneNumber]) where result.isNumber() {
             return result.toNumber().integerValue
         }
         return -1
     }
     public override func getNationalSignificantNumber(phoneNumber:PhoneNumber) -> String {
-        if let result = phoneNumber.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first!, context: self.context) where result.isString() {
+        if let result = self.context.invokeMethodWithNew(__FUNCTION__.componentsSeparatedByString("(").first!, args: [phoneNumber]) where result.isString() {
             return result.toString()
         }
         return ""
@@ -442,32 +487,57 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         }
         return PhoneNumber()
     }
-    public override func format(number:PhoneNumber, numberFormat:PhoneNumberFormat) -> String {
-        // TODO: should be implemented
+    public override func format(phoneNumber:PhoneNumber, numberFormat:PhoneNumberFormat) -> String {
+        let args = "i18n.phonenumbers.PhoneNumberFormat.\(numberFormat.toString())"
+        if let result = self.context.invokeMethodWithNew(__FUNCTION__.componentsSeparatedByString("(").first!, args: [phoneNumber, args]) where result.isString() {
+            return result.toString()
+        }
         return ""
     }
-    public override func formatOutOfCountryCallingNumber(number:PhoneNumber, regionCallingFrom:String) -> String {
-        // TODO: should be implemented
+    public override func formatOutOfCountryCallingNumber(phoneNumber:PhoneNumber, regionCallingFrom:String) -> String {
+        let args = "\"\(regionCallingFrom)\""
+        if let result = self.context.invokeMethodWithNew(__FUNCTION__.componentsSeparatedByString("(").first!, args: [phoneNumber, args]) where result.isString() {
+            return result.toString()
+        }
         return ""
     }
-    public override func formatOutOfCountryKeepingAlphaChars(number:PhoneNumber, regionCallingFrom:String) -> String {
-        // TODO: should be implemented
+    public override func formatOutOfCountryKeepingAlphaChars(phoneNumber:PhoneNumber, regionCallingFrom:String) -> String {
+        let args = "\"\(regionCallingFrom)\""
+        if let result = self.context.invokeMethodWithNew(__FUNCTION__.componentsSeparatedByString("(").first!, args: [phoneNumber, args]) where result.isString() {
+            return result.toString()
+        }
         return ""
     }
-    public override func formatNationalNumberWithCarrierCode(number:PhoneNumber, carrierCode:String) -> String {
-        // TODO: should be implemented
+    public override func formatNationalNumberWithCarrierCode(phoneNumber:PhoneNumber, carrierCode:String) -> String {
+        let args = "\"\(carrierCode)\""
+        if let result = self.context.invokeMethodWithNew(__FUNCTION__.componentsSeparatedByString("(").first!, args: [phoneNumber, args]) where result.isString() {
+            return result.toString()
+        }
         return ""
     }
-    public override func formatNationalNumberWithPreferredCarrierCode(number:PhoneNumber, fallbackCarrierCode:String) -> String {
-        // TODO: should be implemented
+    public override func formatNationalNumberWithPreferredCarrierCode(phoneNumber:PhoneNumber, fallbackCarrierCode:String) -> String {
+        let args = "\"\(fallbackCarrierCode)\""
+        if let result = self.context.invokeMethodWithNew(__FUNCTION__.componentsSeparatedByString("(").first!, args: [phoneNumber, args]) where result.isString() {
+            return result.toString()
+        }
         return ""
     }
-    public override func formatNumberForMobileDialing(number:PhoneNumber, regionCallingFrom:String, withFormatting:Bool) -> String {
-        // TODO: should be implemented
+    public override func formatNumberForMobileDialing(phoneNumber:PhoneNumber, regionCallingFrom:String, withFormatting:Bool) -> String {
+        let args = "\"\(regionCallingFrom)\", \(withFormatting)"
+        if let result = self.context.invokeMethodWithNew(__FUNCTION__.componentsSeparatedByString("(").first!, args: [phoneNumber, args]) where result.isString() {
+            return result.toString()
+        }
         return ""
     }
-    public override func formatByPattern(number:PhoneNumber, numberFormat:PhoneNumberFormat, userDefinedFormats:[NumberFormat]) -> String {
-        // TODO: should be implemented
+    public override func formatByPattern(phoneNumber:PhoneNumber, numberFormat:PhoneNumberFormat, userDefinedFormats:[NumberFormat]) -> String {
+        var args = [AnyObject]()
+        args.append(phoneNumber)
+        args.append("i18n.phonenumbers.PhoneNumberFormat.\(numberFormat.toString())")
+        args += userDefinedFormats as [AnyObject]
+
+        if let result = self.context.invokeMethodWithNew(__FUNCTION__.componentsSeparatedByString("(").first!, args: args) where result.isString() {
+            return result.toString()
+        }
         return ""
     }
     public override func parseAndKeepRawInput(numberToParse:String, defaultRegion:String, error:NSErrorPointer) -> PhoneNumber {
@@ -475,8 +545,11 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         error.memory = NSError(domain: "", code: -1, userInfo:[NSLocalizedDescriptionKey:""])
         return PhoneNumber()
     }
-    public override func formatInOriginalFormat(number:PhoneNumber, regionCallingFrom:String) -> String {
-        // TODO: should be implemented
+    public override func formatInOriginalFormat(phoneNumber:PhoneNumber, regionCallingFrom:String) -> String {
+        let args = "\"\(regionCallingFrom)\""
+        if let result = self.context.invokeMethodWithNew(__FUNCTION__.componentsSeparatedByString("(").first!, args: [phoneNumber, args]) where result.isString() {
+            return result.toString()
+        }
         return ""
     }
     public override func parse(numberToParse:String, defaultRegion:String, error:NSErrorPointer) -> PhoneNumber {
@@ -488,16 +561,20 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         // TODO: should be implemented
         return PhoneNumberType.UNKNOWN
     }
-    public override func isValidNumber(number:PhoneNumber) -> Bool {
-        // TODO: should be implemented
+    public override func isValidNumber(phoneNumber:PhoneNumber) -> Bool {
+        if let result = self.context.invokeMethodWithNew(__FUNCTION__.componentsSeparatedByString("(").first!, args: [phoneNumber]) where result.isBoolean() {
+            return result.toBool()
+        }
         return false
     }
     public override func isValidNumberForRegion(number:PhoneNumber, regionCode:String) -> Bool {
         // TODO: should be implemented
         return false
     }
-    public override func getRegionCodeForNumber(number:PhoneNumber) -> String {
-        // TODO: should be implemented
+    public override func getRegionCodeForNumber(phoneNumber:PhoneNumber) -> String {
+        if let result = self.context.invokeMethodWithNew(__FUNCTION__.componentsSeparatedByString("(").first!, args: [phoneNumber]) where result.isString() {
+            return result.toString()
+        }
         return ""
     }
     public override func getRegionCodesForCountryCode(countryCallingCode:Int) -> [String] {
@@ -505,27 +582,41 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         return [""]
     }
     public override func getNddPrefixForRegion(regionCode:String, stripNonDigits:Bool) -> String {
-        // TODO: should be implemented
+        if let result:JSValue = self.phoneUtil?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments: [regionCode, stripNonDigits]) where result.isString() {
+            return result.toString()
+        }
         return ""
     }
     public override func isNANPACountry(regionCode:String) -> Bool {
-        // TODO: should be implemented
+        if let result:JSValue = self.phoneUtil?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments: [regionCode]) where result.isBoolean() {
+            return result.toBool()
+        }
         return false
     }
-    public override func isPossibleNumber(number:PhoneNumber) -> Bool {
-        // TODO: should be implemented
+    public override func isPossibleNumber(phoneNumber:PhoneNumber) -> Bool {
+        if let result = self.context.invokeMethodWithNew(__FUNCTION__.componentsSeparatedByString("(").first!, args: [phoneNumber]) where result.isBoolean() {
+            return result.toBool()
+        }
         return false
     }
     public override func isPossibleNumber(number:String, regionDialingFrom:String) -> Bool {
-        // TODO: should be implemented
+        if let result:JSValue = self.phoneUtil?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments: [number, regionDialingFrom]) where result.isBoolean() {
+            return result.toBool()
+        }
         return false
     }
-    public override func isPossibleNumberWithReason(number:PhoneNumber) -> ValidationResult {
-        // TODO: should be implemented
+    public override func isPossibleNumberWithReason(phoneNumber:PhoneNumber) -> ValidationResult {
+        if let result = self.context.invokeMethodWithNew(__FUNCTION__.componentsSeparatedByString("(").first!, args: [phoneNumber]) where result.isNumber() {
+            if let validationResult = ValidationResult(rawValue:result.toNumber().integerValue) {
+                return validationResult
+            }
+        }
         return ValidationResult.TOO_SHORT
     }
-    public override func truncateTooLongNumber(number:PhoneNumber) -> Bool {
-        // TODO: should be implemented
+    public override func truncateTooLongNumber(phoneNumber:PhoneNumber) -> Bool {
+        if let result = self.context.invokeMethodWithNew(__FUNCTION__.componentsSeparatedByString("(").first!, args: [phoneNumber]) where result.isBoolean() {
+            return result.toBool()
+        }
         return false
     }
     public override func maybeStripNationalPrefixAndCarrierCode(number:String, metadata:PhoneMetadata, carrierCode:String) -> Bool {
@@ -553,16 +644,22 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         // TODO: should be implemented
         return MatchType.NOT_A_NUMBER
     }
-    public override func canBeInternationallyDialled(number:PhoneNumber) -> Bool {
-        // TODO: should be implemented
+    public override func canBeInternationallyDialled(phoneNumber:PhoneNumber) -> Bool {
+        if let result = self.context.invokeMethodWithNew(__FUNCTION__.componentsSeparatedByString("(").first!, args: [phoneNumber]) where result.isBoolean() {
+            return result.toBool()
+        }
         return false
     }
     public override func isAlphaNumber(number:String) -> Bool {
-        // TODO: should be implemented
+        if let result:JSValue = self.phoneUtil?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments: [number]) where result.isBoolean() {
+            return result.toBool()
+        }
         return false
     }
     public override func isMobileNumberPortableRegion(regionCode:String) -> Bool {
-        // TODO: should be implemented
+        if let result:JSValue = self.phoneUtil?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments: [regionCode]) where result.isBoolean() {
+            return result.toBool()
+        }
         return false
     }
 
@@ -575,31 +672,100 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         return ""
     }
     public override class func convertAlphaCharactersInNumber(input:String) -> String {
-        // TODO: should be implemented
+        if let result:JSValue = self.phoneUtilClass?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments: [input]) where result.isString()  {
+            return result.toString()
+        }
         return ""
     }
     public override class func normalize(phoneNumberString:String) -> String {
-        // TODO: should be implemented
+        if let result:JSValue = self.phoneUtilClass?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments: [phoneNumberString]) where result.isString()  {
+            return result.toString()
+        }
         return ""
     }
     public override class func normalizeDigitsOnly(inputNumber:String) -> String {
-        // TODO: should be implemented
+        if let result:JSValue = self.phoneUtilClass?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments: [inputNumber]) where result.isString()  {
+            return result.toString()
+        }
         return ""
     }
     public override class func normalizeDiallableCharsOnly(inputNumber:String) -> String {
         // TODO: should be implemented
+        let functionName = __FUNCTION__.componentsSeparatedByString("(").first
+        if let result:JSValue = self.phoneUtilClass?.invokeMethod(functionName, withArguments: [inputNumber]) where result.isString()  {
+            return result.toString()
+        }
         return ""
     }
     public override class func isViablePhoneNumber(number:String) -> Bool {
-        // TODO: should be implemented
+        if let result:JSValue = self.phoneUtilClass?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments: [number]) where result.isBoolean()  {
+            return result.toBool()
+        }
         return false
     }
     public override class func extractPossibleNumber(number:String) -> String {
-        // TODO: should be implemented
+        if let result:JSValue = self.phoneUtilClass?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments: [number]) where result.isString()  {
+            return result.toString()
+        }
         return ""
     }
     public override class func nsNumberMatch(firstNumberIn:PhoneNumber, secondNumberIn:PhoneNumber) -> MatchType {
-        // TODO: should be implemented
+        var varName = "phoneNumber_firstNumberIn"
+        var javascript = " " +
+            "var \(varName) = new i18n.phonenumbers.PhoneNumber();" +
+            "\(varName).setCountryCode(\(firstNumberIn.countryCode));" +
+        "\(varName).setNationalNumber(\(firstNumberIn.nationalNumber));"
+
+        if firstNumberIn.isItalianLeadingZero {
+            javascript += "\(varName).setItalianLeadingZero(\(firstNumberIn.isItalianLeadingZero));"
+        }
+        if firstNumberIn.countryCodeSource != CountryCodeSource.FROM_NUMBER_WITHOUT_PLUS_SIGN {
+            javascript += "\(varName).setCountryCodeSource(\(firstNumberIn.countryCodeSource.rawValue));"
+        }
+        if firstNumberIn.rawInput != "" {
+            javascript += "\(varName).setRawInput(\"\(firstNumberIn.rawInput)\");"
+        }
+        if firstNumberIn.extensionFormat != "" {
+            javascript += "\(varName).setExtension(\"\(firstNumberIn.extensionFormat)\");"
+        }
+        if firstNumberIn.numberOfLeadingZeros != 1 {
+            javascript += "\(varName).setNumberOfLeadingZeros(\(firstNumberIn.numberOfLeadingZeros));"
+        }
+        if firstNumberIn.preferredDomesticCarrierCode != "" {
+            javascript += "\(varName).setPreferredDomesticCarrierCode(\"\(firstNumberIn.preferredDomesticCarrierCode)\");"
+        }
+
+        varName = "phoneNumber_secondNumberIn"
+        javascript = " " +
+            "var \(varName) = new i18n.phonenumbers.PhoneNumber();" +
+            "\(varName).setCountryCode(\(secondNumberIn.countryCode));" +
+        "\(varName).setNationalNumber(\(secondNumberIn.nationalNumber));"
+
+        if secondNumberIn.isItalianLeadingZero {
+            javascript += "\(varName).setItalianLeadingZero(\(secondNumberIn.isItalianLeadingZero));"
+        }
+        if secondNumberIn.countryCodeSource != CountryCodeSource.FROM_NUMBER_WITHOUT_PLUS_SIGN {
+            javascript += "\(varName).setCountryCodeSource(\(secondNumberIn.countryCodeSource.rawValue));"
+        }
+        if secondNumberIn.rawInput != "" {
+            javascript += "\(varName).setRawInput(\"\(secondNumberIn.rawInput)\");"
+        }
+        if secondNumberIn.extensionFormat != "" {
+            javascript += "\(varName).setExtension(\"\(secondNumberIn.extensionFormat)\");"
+        }
+        if secondNumberIn.numberOfLeadingZeros != 1 {
+            javascript += "\(varName).setNumberOfLeadingZeros(\(secondNumberIn.numberOfLeadingZeros));"
+        }
+        if secondNumberIn.preferredDomesticCarrierCode != "" {
+            javascript += "\(varName).setPreferredDomesticCarrierCode(\"\(secondNumberIn.preferredDomesticCarrierCode)\");"
+        }
+
+        javascript += "i18n.phonenumbers.PhoneNumberUtil.nsNumberMatch(phoneNumber_firstNumberIn, phoneNumber_secondNumberIn);"
+        if let result:JSValue = self.phoneUtilClass?.context.evaluateScript(javascript) where result.isNumber() {
+            if let type = MatchType(rawValue:result.toNumber().integerValue) {
+                return type
+            }
+        }
         return MatchType.NO_MATCH
     }
 }

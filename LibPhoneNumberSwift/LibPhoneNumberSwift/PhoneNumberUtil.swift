@@ -20,11 +20,15 @@ import Foundation
 * Note: If you are considering storing the number in a neutral format, you are highly advised to
 * use the PhoneNumber class.
 */
-public enum PhoneNumberFormat {
-    case E164
-    case INTERNATIONAL
-    case NATIONAL
-    case RFC3966
+public enum PhoneNumberFormat:Int {
+    case E164 = 0,
+    INTERNATIONAL,
+    NATIONAL,
+    RFC3966
+    static let strings = ["E164", "INTERNATIONAL", "NATIONAL", "RFC3966"]
+    public func toString() -> String {
+        return PhoneNumberFormat.strings[self.rawValue]
+    }
 }
 
 
@@ -48,22 +52,22 @@ public enum ErrorType:Int {
 /**
 * Types of phone number matches. See detailed description beside the isNumberMatch() method.
 */
-public enum MatchType {
-    case NOT_A_NUMBER
-    case NO_MATCH
-    case SHORT_NSN_MATCH
-    case NSN_MATCH
-    case EXACT_MATCH
+public enum MatchType:Int {
+    case NOT_A_NUMBER = 0,
+    NO_MATCH,
+    SHORT_NSN_MATCH,
+    NSN_MATCH,
+    EXACT_MATCH
 }
 
 /**
 * Possible outcomes when testing if a PhoneNumber is possible.
 */
-public enum ValidationResult {
-    case IS_POSSIBLE
-    case INVALID_COUNTRY_CODE
-    case TOO_SHORT
-    case TOO_LONG
+public enum ValidationResult:Int {
+    case IS_POSSIBLE = 0,
+    INVALID_COUNTRY_CODE,
+    TOO_SHORT,
+    TOO_LONG
 }
 
 /**

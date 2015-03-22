@@ -23,7 +23,7 @@ public class PhoneNumber:Equatable, Printable {
     public var numberOfLeadingZeros = 1
     public var rawInput = ""
     public var countryCodeSource = CountryCodeSource.FROM_NUMBER_WITH_PLUS_SIGN
-    public var preferredDomesticCarrierCode = ""
+    public var preferredDomesticCarrierCode:String?
 
     public init() {
         // TODO: should be implemented
@@ -52,7 +52,7 @@ public class PhoneNumber:Equatable, Printable {
         numberOfLeadingZeros = 1
         rawInput = ""
         countryCodeSource = CountryCodeSource.FROM_NUMBER_WITH_PLUS_SIGN
-        preferredDomesticCarrierCode = ""
+        preferredDomesticCarrierCode = nil
     }
     public func mergeFrom(other:PhoneNumber) -> PhoneNumber {
         countryCode = other.countryCode != 0 ?other.countryCode:self.countryCode
@@ -62,7 +62,7 @@ public class PhoneNumber:Equatable, Printable {
         numberOfLeadingZeros = other.numberOfLeadingZeros != 1 ? other.numberOfLeadingZeros:self.numberOfLeadingZeros
         rawInput = other.rawInput != "" ?other.rawInput:self.rawInput
         countryCodeSource = other.countryCodeSource != CountryCodeSource.FROM_NUMBER_WITH_PLUS_SIGN ? other.countryCodeSource:self.countryCodeSource
-        preferredDomesticCarrierCode = other.preferredDomesticCarrierCode != "" ? other.preferredDomesticCarrierCode:self.preferredDomesticCarrierCode
+        preferredDomesticCarrierCode = other.preferredDomesticCarrierCode != nil && other.preferredDomesticCarrierCode != "" ? other.preferredDomesticCarrierCode:self.preferredDomesticCarrierCode
         return self
     }
     public func setExtension(value:String) -> PhoneNumber {

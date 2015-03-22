@@ -73,7 +73,7 @@ public enum ValidationResult:Int {
 /**
 * Type of phone numbers.
 */
-public enum PhoneNumberType:Int {
+public enum PhoneNumberType:Int, Equatable {
     case FIXED_LINE = 0,
     MOBILE,
     // In some regions (e.g. the USA), it is impossible to distinguish between fixed-line and
@@ -130,6 +130,11 @@ public enum PhoneNumberType:Int {
             return "UNKNOWN"
         }
     }
+}
+
+public func == (lhs: PhoneNumberType, rhs: PhoneNumberType) -> Bool {
+    let result = lhs.rawValue == rhs.rawValue
+    return result
 }
 
 public class PhoneNumberUtil {

@@ -738,7 +738,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         // Uses default extension prefix:
         XCTAssertEqual("03-331 6005 ext. 1234", phoneUtil.format(nzNumber, numberFormat:PhoneNumberFormat.NATIONAL))
         // Uses RFC 3966 syntax.
-        XCTAssertEqual("tel:+64-3-331-6005ext=1234", phoneUtil.format(nzNumber, numberFormat:PhoneNumberFormat.RFC3966))
+        XCTAssertEqual("tel:+64-3-331-6005;ext=1234", phoneUtil.format(nzNumber, numberFormat:PhoneNumberFormat.RFC3966))
         // Extension prefix overridden in the territory information for the US:
         let usNumberWithExtension:PhoneNumber = PhoneNumber().mergeFrom(US_NUMBER).setExtension("4567")
         XCTAssertEqual("650 253 0000 extn. 4567", phoneUtil.format(usNumberWithExtension, numberFormat:PhoneNumberFormat.NATIONAL))

@@ -34,6 +34,8 @@ extension JSContext {
                 let javascript = nextJavascript.toJavascript(lineNumber:lineNumber)
                 create += javascript.javascript
                 return javascript.variableName
+            } else if let next = arg as? Bool {
+                return next ? "true" : "false"
             }
             return arg.description
         }))
@@ -595,8 +597,15 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         return ""
     }
     public override func parseAndKeepRawInput(numberToParse:String, defaultRegion:String, error:NSErrorPointer) -> PhoneNumber {
-        // TODO: should be implemented
-        error.memory = NSError(domain: "", code: -1, userInfo:[NSLocalizedDescriptionKey:""])
+        let previousExceptionHandler = self.context.exceptionHandler
+        self.context.exceptionHandler = {(context, exception:JSValue!) -> Void in
+            error.memory = NSError(domain: "", code: -1, userInfo:[NSLocalizedDescriptionKey:exception.toString()])
+        }
+        if let result:JSValue = self.phoneUtil?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments: [numberToParse, defaultRegion]) where !(result.isNull() || result.isUndefined()) {
+            self.context.exceptionHandler = previousExceptionHandler
+            return PhoneNumber(javascriptValue:result)
+        }
+        self.context.exceptionHandler = previousExceptionHandler
         return PhoneNumber()
     }
     public override func formatInOriginalFormat(phoneNumber:PhoneNumber, regionCallingFrom:String) -> String {
@@ -607,8 +616,16 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         return ""
     }
     public override func parse(numberToParse:String, defaultRegion:String, error:NSErrorPointer) -> PhoneNumber {
-        // TODO: should be implemented
-        error.memory = NSError(domain: "", code: -1, userInfo:[NSLocalizedDescriptionKey:""])
+        let previousExceptionHandler = self.context.exceptionHandler
+        self.context.exceptionHandler = {(context, exception:JSValue!) -> Void in
+//            let type = ErrorType.parse(exception.toString())
+            error.memory = NSError(domain: "", code: -1, userInfo:[NSLocalizedDescriptionKey:exception.toString()])
+        }
+        if let result:JSValue = self.phoneUtil?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments: [numberToParse, defaultRegion]) where !(result.isNull() || result.isUndefined()) {
+            self.context.exceptionHandler = previousExceptionHandler
+            return PhoneNumber(javascriptValue:result)
+        }
+        self.context.exceptionHandler = previousExceptionHandler
         return PhoneNumber()
     }
     public override func getNumberType(phoneNumber:PhoneNumber) -> PhoneNumberType {
@@ -701,8 +718,15 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         return CountryCodeSource.FROM_DEFAULT_COUNTRY
     }
     public override func maybeExtractCountryCode(number:String, defaultRegionMetadata:PhoneMetadata, nationalNumber:String, keepRawInput:Bool, phoneNumber:PhoneNumber, error:NSErrorPointer) -> Int {
-        // TODO: should be implemented
-        error.memory = NSError(domain: "", code: -1, userInfo:[NSLocalizedDescriptionKey:""])
+        let previousExceptionHandler = self.context.exceptionHandler
+        self.context.exceptionHandler = {(context, exception:JSValue!) -> Void in
+            error.memory = NSError(domain: "", code: -1, userInfo:[NSLocalizedDescriptionKey:exception.toString()])
+        }
+        if let result:JSValue = self.context.invokeMethodWithNew(__FUNCTION__.componentsSeparatedByString("(").first!, args: [number, defaultRegionMetadata, nationalNumber, keepRawInput, phoneNumber]) where result.isNumber() {
+            self.context.exceptionHandler = previousExceptionHandler
+            return result.toNumber().integerValue
+        }
+        self.context.exceptionHandler = previousExceptionHandler
         return -1
     }
     public override func isNumberMatch(firstString:String, secondString:String) -> MatchType {

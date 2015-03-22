@@ -47,6 +47,22 @@ public enum ErrorType:Int {
     case TOO_SHORT_NSN
     // This indicates the string had more digits than any valid phone number could have.
     case TOO_LONG
+    public static func parse(text:String) -> ErrorType? {
+        switch text {
+        case "Invalid country calling code":
+            return INVALID_COUNTRY_CODE
+        case "The string supplied did not seem to be a phone number":
+            return NOT_A_NUMBER
+        case "Phone number too short after IDD":
+            return TOO_SHORT_AFTER_IDD
+        case "The string supplied is too short to be a phone number":
+            return TOO_SHORT_NSN
+        case "The string supplied is too long to be a phone number":
+            return TOO_LONG
+        default:
+            return nil
+        }
+    }
 }
 
 /**

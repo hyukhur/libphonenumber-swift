@@ -31,8 +31,9 @@ public enum PhoneNumberFormat:Int {
     }
 }
 
-
+public let ErrorDomain = "LibPhoneNumberErrorDomain"
 public enum ErrorType:Int {
+    case UNKOWN = -1
     case INVALID_COUNTRY_CODE = 0
     // This generally indicates the string passed in had less than 3 digits in it. More
     // specifically, the number failed to match the regular expression VALID_PHONE_NUMBER in
@@ -47,7 +48,7 @@ public enum ErrorType:Int {
     case TOO_SHORT_NSN
     // This indicates the string had more digits than any valid phone number could have.
     case TOO_LONG
-    public static func parse(text:String) -> ErrorType? {
+    public static func parse(text:String) -> ErrorType {
         switch text {
         case "Invalid country calling code":
             return INVALID_COUNTRY_CODE
@@ -60,7 +61,7 @@ public enum ErrorType:Int {
         case "The string supplied is too long to be a phone number":
             return TOO_LONG
         default:
-            return nil
+            return UNKOWN
         }
     }
 }

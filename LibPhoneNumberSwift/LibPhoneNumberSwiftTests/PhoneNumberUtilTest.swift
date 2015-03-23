@@ -1461,9 +1461,9 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         // Lots of leading + signs before the possible number.
         var maliciousNumber = "6000"
         for (var i = 0 ; i < 6000 ; i++) {
-            maliciousNumber + "+"
+            maliciousNumber += "+"
         }
-        maliciousNumber + "12222-33-244 extensioB 343+"
+        maliciousNumber += "12222-33-244 extensioB 343+"
         phoneUtil.parse(maliciousNumber, defaultRegion:RegionCode.US, error:&error)
         XCTAssertNotNil(error, "This should not parse without throwing an exception " + maliciousNumber)
         XCTAssertEqual(error!.code, ErrorType.TOO_LONG.rawValue,"Wrong error type stored in exception.")

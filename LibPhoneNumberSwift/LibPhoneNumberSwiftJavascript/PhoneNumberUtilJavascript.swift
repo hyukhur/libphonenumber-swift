@@ -599,7 +599,8 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
     public override func parseAndKeepRawInput(numberToParse:String, defaultRegion:String, error:NSErrorPointer) -> PhoneNumber {
         let previousExceptionHandler = self.context.exceptionHandler
         self.context.exceptionHandler = {(context, exception:JSValue!) -> Void in
-            error.memory = NSError(domain: "", code: -1, userInfo:[NSLocalizedDescriptionKey:exception.toString()])
+            let type:ErrorType = ErrorType.parse(exception.toString())
+            error.memory = NSError(domain:ErrorDomain, code:type.rawValue, userInfo:[NSLocalizedDescriptionKey:exception.toString()])
         }
         if let result:JSValue = self.phoneUtil?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments: [numberToParse, defaultRegion]) where !(result.isNull() || result.isUndefined()) {
             self.context.exceptionHandler = previousExceptionHandler
@@ -618,8 +619,8 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
     public override func parse(numberToParse:String, defaultRegion:String, error:NSErrorPointer) -> PhoneNumber {
         let previousExceptionHandler = self.context.exceptionHandler
         self.context.exceptionHandler = {(context, exception:JSValue!) -> Void in
-//            let type = ErrorType.parse(exception.toString())
-            error.memory = NSError(domain: "", code: -1, userInfo:[NSLocalizedDescriptionKey:exception.toString()])
+            let type:ErrorType = ErrorType.parse(exception.toString())
+            error.memory = NSError(domain:ErrorDomain, code:type.rawValue, userInfo:[NSLocalizedDescriptionKey:exception.toString()])
         }
         if let result:JSValue = self.phoneUtil?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments: [numberToParse, defaultRegion]) where !(result.isNull() || result.isUndefined()) {
             self.context.exceptionHandler = previousExceptionHandler
@@ -720,7 +721,8 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
     public override func maybeExtractCountryCode(number:String, defaultRegionMetadata:PhoneMetadata, nationalNumber:String, keepRawInput:Bool, phoneNumber:PhoneNumber, error:NSErrorPointer) -> Int {
         let previousExceptionHandler = self.context.exceptionHandler
         self.context.exceptionHandler = {(context, exception:JSValue!) -> Void in
-            error.memory = NSError(domain: "", code: -1, userInfo:[NSLocalizedDescriptionKey:exception.toString()])
+            let type:ErrorType = ErrorType.parse(exception.toString())
+            error.memory = NSError(domain:ErrorDomain, code:type.rawValue, userInfo:[NSLocalizedDescriptionKey:exception.toString()])
         }
         if let result:JSValue = self.context.invokeMethodWithNew(__FUNCTION__.componentsSeparatedByString("(").first!, args: [number, defaultRegionMetadata, nationalNumber, keepRawInput, phoneNumber]) where result.isNumber() {
             self.context.exceptionHandler = previousExceptionHandler

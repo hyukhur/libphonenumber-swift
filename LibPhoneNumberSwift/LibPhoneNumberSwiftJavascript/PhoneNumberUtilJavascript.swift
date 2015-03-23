@@ -732,7 +732,7 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         return -1
     }
     public override func isNumberMatch(firstString:String, secondString:String) -> MatchType {
-        if let result = self.context.invokeMethodWithNew(__FUNCTION__.componentsSeparatedByString("(").first!, args: [firstString, secondString]) where result.isNumber() {
+        if let result = self.context.invokeMethodWithNew(__FUNCTION__.componentsSeparatedByString("(").first!, args: ["'\(firstString)'", "'\(secondString)'"]) where result.isNumber() {
             if let type = MatchType(rawValue: result.toNumber().integerValue) {
                 return type
             }
@@ -740,7 +740,7 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         return MatchType.NOT_A_NUMBER
     }
     public override func isNumberMatch(firstNumber:PhoneNumber, secondString:String) -> MatchType {
-        if let result = self.context.invokeMethodWithNew(__FUNCTION__.componentsSeparatedByString("(").first!, args: [firstNumber, secondString]) where result.isNumber() {
+        if let result = self.context.invokeMethodWithNew(__FUNCTION__.componentsSeparatedByString("(").first!, args: [firstNumber, "'\(secondString)'"]) where result.isNumber() {
             if let type = MatchType(rawValue: result.toNumber().integerValue) {
                 return type
             }
@@ -767,12 +767,12 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         }
         return false
     }
-    public override func isMobileNumberPortableRegion(regionCode:String) -> Bool {
-        if let result:JSValue = self.phoneUtil?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments: [regionCode]) where result.isBoolean() {
-            return result.toBool()
-        }
-        return false
-    }
+//    public override func isMobileNumberPortableRegion(regionCode:String) -> Bool {
+//        if let result:JSValue = self.phoneUtil?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments: [regionCode]) where result.isBoolean() {
+//            return result.toBool()
+//        }
+//        return false
+//    }
 
     // MARK: - Class APIs
 

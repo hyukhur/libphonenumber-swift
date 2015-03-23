@@ -1738,7 +1738,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         // Test parsing RFC3966 format with a phone context.
         XCTAssertEqual(NZ_NUMBER, phoneUtil.parse("tel:03-331-6005;phone-context=+64", defaultRegion:RegionCode.ZZ, error:&error))
         XCTAssertEqual(NZ_NUMBER, phoneUtil.parse("  tel:03-331-6005;phone-context=+64", defaultRegion:RegionCode.ZZ, error:&error))
-        XCTAssertEqual(NZ_NUMBER, phoneUtil.parse("tel:03-331-6005;isub=12345phone-context=+64", defaultRegion:RegionCode.ZZ, error:&error))
+        XCTAssertEqual(NZ_NUMBER, phoneUtil.parse("tel:03-331-6005;isub=12345;phone-context=+64", defaultRegion:RegionCode.ZZ, error:&error))
 
         // It is important that we set the carrier code to an empty string, since we used
         // ParseAndKeepRawInput and no carrier code was found.
@@ -1798,7 +1798,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         XCTAssertEqual(ukNumber, phoneUtil.parse("+44 2034567890 x 456  ", defaultRegion:RegionCode.GB, error:&error))
         XCTAssertEqual(ukNumber, phoneUtil.parse("+44 2034567890  X 456", defaultRegion:RegionCode.GB, error:&error))
         XCTAssertEqual(ukNumber, phoneUtil.parse("+44-2034567890;ext=456", defaultRegion:RegionCode.GB, error:&error))
-        XCTAssertEqual(ukNumber, phoneUtil.parse("tel:2034567890;ext=456phone-context=+44", defaultRegion:RegionCode.ZZ, error:&error))
+        XCTAssertEqual(ukNumber, phoneUtil.parse("tel:2034567890;ext=456;phone-context=+44", defaultRegion:RegionCode.ZZ, error:&error))
         // Full-width extension, "extn" only.
         XCTAssertEqual(ukNumber, phoneUtil.parse("+442034567890\u{FF45}\u{FF58}\u{FF54}\u{FF4E}456", defaultRegion:RegionCode.GB, error:&error))
         // "xtn" only.

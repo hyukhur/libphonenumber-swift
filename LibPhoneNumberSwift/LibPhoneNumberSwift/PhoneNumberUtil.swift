@@ -20,7 +20,7 @@ import Foundation
 * Note: If you are considering storing the number in a neutral format, you are highly advised to
 * use the PhoneNumber class.
 */
-public enum PhoneNumberFormat:Int {
+public enum PhoneNumberFormat:Int, Printable {
     case E164 = 0,
     INTERNATIONAL,
     NATIONAL,
@@ -29,10 +29,15 @@ public enum PhoneNumberFormat:Int {
     public func toString() -> String {
         return PhoneNumberFormat.strings[self.rawValue]
     }
+    public var description: String {
+        get {
+            return self.toString()
+        }
+    }
 }
 
 public let ErrorDomain = "LibPhoneNumberErrorDomain"
-public enum ErrorType:Int {
+public enum ErrorType:Int, Printable {
     case UNKOWN = -1
     case INVALID_COUNTRY_CODE = 0
     // This generally indicates the string passed in had less than 3 digits in it. More
@@ -48,20 +53,18 @@ public enum ErrorType:Int {
     case TOO_SHORT_NSN
     // This indicates the string had more digits than any valid phone number could have.
     case TOO_LONG
+    static let strings = ["Invalid country calling code",
+             "The string supplied did not seem to be a phone number", "Phone number too short after IDD", "The string supplied is too short to be a phone number", "The string supplied is too long to be a phone number"]
     public static func parse(text:String) -> ErrorType {
-        switch text {
-        case "Invalid country calling code":
-            return INVALID_COUNTRY_CODE
-        case "The string supplied did not seem to be a phone number":
-            return NOT_A_NUMBER
-        case "Phone number too short after IDD":
-            return TOO_SHORT_AFTER_IDD
-        case "The string supplied is too short to be a phone number":
-            return TOO_SHORT_NSN
-        case "The string supplied is too long to be a phone number":
-            return TOO_LONG
-        default:
+        if let index = find(self.strings, text), result = self(rawValue: index) {
+            return result
+        } else {
             return UNKOWN
+        }
+    }
+    public var description: String {
+        get {
+            return ErrorType.strings[self.rawValue]
         }
     }
 }
@@ -69,28 +72,41 @@ public enum ErrorType:Int {
 /**
 * Types of phone number matches. See detailed description beside the isNumberMatch() method.
 */
-public enum MatchType:Int {
+public enum MatchType:Int, Printable {
     case NOT_A_NUMBER = 0,
     NO_MATCH,
     SHORT_NSN_MATCH,
     NSN_MATCH,
     EXACT_MATCH
+    static let strings = ["NOT_A_NUMBER", "NO_MATCH", "SHORT_NSN_MATCH", "NSN_MATCH", "EXACT_MATCH"]
+    public var description: String {
+        get {
+            return MatchType.strings[self.rawValue]
+        }
+    }
 }
 
 /**
 * Possible outcomes when testing if a PhoneNumber is possible.
 */
-public enum ValidationResult:Int {
+public enum ValidationResult:Int, Printable {
     case IS_POSSIBLE = 0,
     INVALID_COUNTRY_CODE,
     TOO_SHORT,
     TOO_LONG
+
+    static let strings = ["IS_POSSIBLE", "INVALID_COUNTRY_CODE", "TOO_SHORT", "TOO_LONG"]
+    public var description: String {
+        get {
+            return ValidationResult.strings[self.rawValue]
+        }
+    }
 }
 
 /**
 * Type of phone numbers.
 */
-public enum PhoneNumberType:Int, Equatable {
+public enum PhoneNumberType:Int, Equatable, Printable {
     case FIXED_LINE = 0,
     MOBILE,
     // In some regions (e.g. the USA), it is impossible to distinguish between fixed-line and
@@ -119,32 +135,17 @@ public enum PhoneNumberType:Int, Equatable {
     // specific region.
     UNKNOWN = -1
 
+    static let strings = ["FIXED_LINE", "MOBILE", "FIXED_LINE_OR_MOBILE", "TOLL_FREE", "PREMIUM_RATE", "SHARED_COST", "VOIP", "PERSONAL_NUMBER", "PAGER", "UAN", "VOICEMAIL"]
+
     public func toString() -> String {
-        switch self {
-        case .FIXED_LINE:
-            return "FIXED_LINE"
-        case .MOBILE:
-            return "MOBILE"
-        case .FIXED_LINE_OR_MOBILE:
-            return "FIXED_LINE_OR_MOBILE"
-        case .TOLL_FREE:
-            return "TOLL_FREE"
-        case .PREMIUM_RATE:
-            return "PREMIUM_RATE"
-        case .SHARED_COST:
-            return "SHARED_COST"
-        case  .VOIP:
-            return "VOIP"
-        case .PERSONAL_NUMBER:
-            return "PERSONAL_NUMBER"
-        case .PAGER:
-            return "PAGER"
-        case .UAN:
-            return "UAN"
-        case .VOICEMAIL:
-            return "VOICEMAIL"
-        case .UNKNOWN:
+        if self == UNKNOWN {
             return "UNKNOWN"
+        }
+        return PhoneNumberType.strings[self.rawValue]
+    }
+    public var description: String {
+        get {
+            return self.toString()
         }
     }
 }

@@ -141,7 +141,7 @@ extension PhoneNumber:JavascriptString {
         if self.numberOfLeadingZeros != 1 {
             javascript += "\(varName).setNumberOfLeadingZeros(\(self.numberOfLeadingZeros));"
         }
-        if let preferredDomesticCarrierCode = self.preferredDomesticCarrierCode {
+        if let preferredDomesticCarrierCode = self.preferredDomesticCarrierCode where count(preferredDomesticCarrierCode) > 0 {
             javascript += "\(varName).setPreferredDomesticCarrierCode(\"\(preferredDomesticCarrierCode)\");"
         }
         return (varName, javascript)

@@ -658,8 +658,10 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
     public override func getRegionCodesForCountryCode(countryCallingCode:Int) -> [String] {
         if let result:JSValue = self.phoneUtil?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments: [countryCallingCode]) where !(result.isNumber() || result.isUndefined()) {
             return result.toArray().map({
-                if $0.isString() {
-                    return $0.toString()
+                if let jsValue = $0 as? JSValue where jsValue.isString() {
+                    return jsValue.toString()
+                } else if let string = $0 as? String {
+                    return string
                 }
                 return ""
             })
@@ -685,7 +687,7 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         return false
     }
     public override func isPossibleNumber(number:String, regionDialingFrom:String) -> Bool {
-        if let result:JSValue = self.phoneUtil?.invokeMethod(__FUNCTION__.componentsSeparatedByString("(").first, withArguments: [number, regionDialingFrom]) where result.isBoolean() {
+        if let result:JSValue = self.phoneUtil?.invokeMethod("isPossibleNumberString", withArguments: [number, regionDialingFrom]) where result.isBoolean() {
             return result.toBool()
         }
         return false

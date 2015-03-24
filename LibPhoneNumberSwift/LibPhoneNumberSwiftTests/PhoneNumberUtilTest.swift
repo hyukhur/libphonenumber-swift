@@ -1061,11 +1061,11 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         XCTAssertEqual("0~0", phoneUtil.getNddPrefixForRegion(RegionCode.AO, stripNonDigits:false))
         XCTAssertEqual("00", phoneUtil.getNddPrefixForRegion(RegionCode.AO, stripNonDigits:true))
         // Test cases with invalid regions.
-        XCTAssertNil(phoneUtil.getNddPrefixForRegion("", stripNonDigits:false))
-        XCTAssertNil(phoneUtil.getNddPrefixForRegion(RegionCode.ZZ, stripNonDigits:false))
-        XCTAssertNil(phoneUtil.getNddPrefixForRegion(RegionCode.UN001, stripNonDigits:false))
+        XCTAssertEqual("", phoneUtil.getNddPrefixForRegion("", stripNonDigits:false))
+        XCTAssertEqual("", phoneUtil.getNddPrefixForRegion(RegionCode.ZZ, stripNonDigits:false))
+        XCTAssertEqual("", phoneUtil.getNddPrefixForRegion(RegionCode.UN001, stripNonDigits:false))
         // CS is already deprecated so the library doesn't support it.
-        XCTAssertNil(phoneUtil.getNddPrefixForRegion(RegionCode.CS, stripNonDigits:false))
+        XCTAssertEqual("", phoneUtil.getNddPrefixForRegion(RegionCode.CS, stripNonDigits:false))
     }
 
     func testIsNANPACountry() {

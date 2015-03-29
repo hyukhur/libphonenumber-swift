@@ -39,9 +39,9 @@ extension JSContext {
             }
             return arg.description
         }))
-        let javascript = create + "phoneUtil.\(functionName)(\(arguments));"
+        let evaluatingJavascript = create + "phoneUtil.\(functionName)(\(arguments));"
 
-        return self.evaluateScript(javascript)
+        return self.evaluateScript(evaluatingJavascript)
     }
 }
 
@@ -87,11 +87,6 @@ extension NumberFormat:JavascriptString {
 }
 
 extension PhoneNumber:JavascriptString {
-//    func invokeMethod(functionName:String, args:String = "", context:JSContext, lineNumber:Int = __LINE__) -> JSValue? {
-//        let result = self.toJavascript(lineNumber:lineNumber)
-//        let javascript = result.javascript + "phoneUtil.\(functionName)(\(result.variableName)\(args));"
-//        return context.evaluateScript(javascript)
-//    }
     convenience init(javascriptValue:JSValue) {
         self.init()
         if let value = javascriptValue.invokeMethod("getCountryCode", withArguments: nil) where value.isNumber()  {
@@ -141,7 +136,7 @@ extension PhoneNumber:JavascriptString {
         if self.numberOfLeadingZeros != 1 {
             javascript += "\(varName).setNumberOfLeadingZeros(\(self.numberOfLeadingZeros));"
         }
-        if let preferredDomesticCarrierCode = self.preferredDomesticCarrierCode where count(preferredDomesticCarrierCode) > 0 {
+        if let preferredDomesticCarrierCode = self.preferredDomesticCarrierCode {
             javascript += "\(varName).setPreferredDomesticCarrierCode(\"\(preferredDomesticCarrierCode)\");"
         }
         return (varName, javascript)
@@ -844,8 +839,8 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         if firstNumberIn.numberOfLeadingZeros != 1 {
             javascript += "\(varName).setNumberOfLeadingZeros(\(firstNumberIn.numberOfLeadingZeros));"
         }
-        if firstNumberIn.preferredDomesticCarrierCode != "" {
-            javascript += "\(varName).setPreferredDomesticCarrierCode(\"\(firstNumberIn.preferredDomesticCarrierCode)\");"
+        if let preferredDomesticCarrierCode = firstNumberIn.preferredDomesticCarrierCode {
+            javascript += "\(varName).setPreferredDomesticCarrierCode(\"\(preferredDomesticCarrierCode)\");"
         }
 
         varName = "phoneNumber_secondNumberIn"
@@ -869,8 +864,8 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         if secondNumberIn.numberOfLeadingZeros != 1 {
             javascript += "\(varName).setNumberOfLeadingZeros(\(secondNumberIn.numberOfLeadingZeros));"
         }
-        if secondNumberIn.preferredDomesticCarrierCode != "" {
-            javascript += "\(varName).setPreferredDomesticCarrierCode(\"\(secondNumberIn.preferredDomesticCarrierCode)\");"
+        if let preferredDomesticCarrierCode = secondNumberIn.preferredDomesticCarrierCode {
+            javascript += "\(varName).setPreferredDomesticCarrierCode(\"\(preferredDomesticCarrierCode)\");"
         }
 
         javascript += "i18n.phonenumbers.PhoneNumberUtil.nsNumberMatch(phoneNumber_firstNumberIn, phoneNumber_secondNumberIn);"

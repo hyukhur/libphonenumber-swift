@@ -8,11 +8,21 @@
 
 import Foundation
 
-public enum CountryCodeSource: Int {
+public enum CountryCodeSource: Int, Printable {
     case FROM_NUMBER_WITH_PLUS_SIGN = 1
     case FROM_NUMBER_WITH_IDD = 5
     case FROM_NUMBER_WITHOUT_PLUS_SIGN = 10
     case FROM_DEFAULT_COUNTRY = 20
+    static let strings = [FROM_NUMBER_WITH_PLUS_SIGN:"FROM_NUMBER_WITH_PLUS_SIGN", FROM_NUMBER_WITH_IDD:"FROM_NUMBER_WITH_IDD", FROM_NUMBER_WITHOUT_PLUS_SIGN:"FROM_NUMBER_WITHOUT_PLUS_SIGN", FROM_DEFAULT_COUNTRY:"FROM_DEFAULT_COUNTRY"]
+    public var description: String {
+        get {
+            if let string = CountryCodeSource.strings[self] {
+                return string
+            } else {
+                return "\(self.rawValue)"
+            }
+        }
+    }
 }
 
 public class PhoneNumber:Equatable, Printable {

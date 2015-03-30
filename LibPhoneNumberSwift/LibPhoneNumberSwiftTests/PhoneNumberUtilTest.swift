@@ -1323,7 +1323,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         var countryCallingCode = 1
         var numberToFill = ""
         XCTAssertEqual(countryCallingCode, phoneUtil.maybeExtractCountryCode(phoneNumber, defaultRegionMetadata:metadata, nationalNumber:numberToFill, keepRawInput:true, phoneNumber:number, error:&error), "Did not extract country calling code \(countryCallingCode) correctly.")
-        XCTAssertEqual(CountryCodeSource.FROM_NUMBER_WITH_IDD, number.getCountryCodeSource(), "Did not figure out CountryCodeSource correctly")
+        XCTAssertEqual(CountryCodeSource.FROM_NUMBER_WITH_IDD, number.getCountryCodeSource()!, "Did not figure out CountryCodeSource correctly")
         // Should strip and normalize national significant number.
         XCTAssertEqual(strippedNumber, numberToFill, "Did not strip off the country calling code correctly.")
         XCTAssertNil(error, "Should not have thrown an exception: \(error)")
@@ -1333,7 +1333,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         countryCallingCode = 64
         error = nil
         XCTAssertEqual(countryCallingCode, phoneUtil.maybeExtractCountryCode(phoneNumber, defaultRegionMetadata:metadata, nationalNumber:numberToFill, keepRawInput:true, phoneNumber:number, error:&error), "Did not extract country calling code \(countryCallingCode) correctly.")
-        XCTAssertEqual(CountryCodeSource.FROM_NUMBER_WITH_PLUS_SIGN, number.getCountryCodeSource(), "Did not figure out CountryCodeSource correctly")
+        XCTAssertEqual(CountryCodeSource.FROM_NUMBER_WITH_PLUS_SIGN, number.getCountryCodeSource()!, "Did not figure out CountryCodeSource correctly")
         XCTAssertNil(error, "Should not have thrown an exception: \(error)")
         number.clear()
 
@@ -1341,14 +1341,14 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         countryCallingCode = 800
         error = nil
         XCTAssertEqual(countryCallingCode, phoneUtil.maybeExtractCountryCode(phoneNumber, defaultRegionMetadata:metadata, nationalNumber:numberToFill, keepRawInput:true, phoneNumber:number, error:&error), "Did not extract country calling code \(countryCallingCode) correctly.")
-        XCTAssertEqual(CountryCodeSource.FROM_NUMBER_WITH_PLUS_SIGN, number.getCountryCodeSource(), "Did not figure out CountryCodeSource correctly")
+        XCTAssertEqual(CountryCodeSource.FROM_NUMBER_WITH_PLUS_SIGN, number.getCountryCodeSource()!, "Did not figure out CountryCodeSource correctly")
         XCTAssertNil(error, "Should not have thrown an exception: \(error)")
         number.clear()
 
         phoneNumber = "2345-6789"
         error = nil
         XCTAssertEqual(0, phoneUtil.maybeExtractCountryCode(phoneNumber, defaultRegionMetadata:metadata, nationalNumber:numberToFill, keepRawInput:true, phoneNumber:number, error:&error), "Should not have extracted a country calling code - no international prefix present.")
-        XCTAssertEqual(CountryCodeSource.FROM_DEFAULT_COUNTRY, number.getCountryCodeSource(), "Did not figure out CountryCodeSource correctly")
+        XCTAssertEqual(CountryCodeSource.FROM_DEFAULT_COUNTRY, number.getCountryCodeSource()!, "Did not figure out CountryCodeSource correctly")
         XCTAssertNil(error, "Should not have thrown an exception: \(error)")
         number.clear()
 
@@ -1362,7 +1362,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         countryCallingCode = 1
         error = nil
         XCTAssertEqual(countryCallingCode, phoneUtil.maybeExtractCountryCode(phoneNumber, defaultRegionMetadata:metadata, nationalNumber:numberToFill, keepRawInput:true, phoneNumber:number, error:&error), "Should have extracted the country calling code of the region passed in")
-        XCTAssertEqual(CountryCodeSource.FROM_NUMBER_WITHOUT_PLUS_SIGN, number.getCountryCodeSource(), "Did not figure out CountryCodeSource correctly")
+        XCTAssertEqual(CountryCodeSource.FROM_NUMBER_WITHOUT_PLUS_SIGN, number.getCountryCodeSource()!, "Did not figure out CountryCodeSource correctly")
         XCTAssertNil(error, "Should not have thrown an exception: \(error)")
         number.clear()
 
@@ -1384,7 +1384,7 @@ class PhoneNumberUtil_SwiftTests: XCTestCase {
         phoneNumber = "(1 610) 619"
         error = nil
         XCTAssertEqual(0, phoneUtil.maybeExtractCountryCode(phoneNumber, defaultRegionMetadata:metadata, nationalNumber:numberToFill, keepRawInput:true, phoneNumber:number, error:&error), "Should not have extracted a country calling code - too short number both before and after extraction of uncertain country calling code.")
-        XCTAssertEqual(CountryCodeSource.FROM_DEFAULT_COUNTRY, number.getCountryCodeSource(), "Did not figure out CountryCodeSource correctly")
+        XCTAssertEqual(CountryCodeSource.FROM_DEFAULT_COUNTRY, number.getCountryCodeSource()!, "Did not figure out CountryCodeSource correctly")
         XCTAssertNil(error, "Should not have thrown an exception: \(error)")
     }
 

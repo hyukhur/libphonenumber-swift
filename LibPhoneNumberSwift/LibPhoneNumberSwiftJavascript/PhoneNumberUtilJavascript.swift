@@ -108,10 +108,12 @@ extension PhoneNumber:JavascriptString {
             self.rawInput = value.toString()
         }
         if let value = javascriptValue.invokeMethod("getCountryCodeSource", withArguments: nil) where value.isNumber()  {
-            self.countryCodeSource = CountryCodeSource(rawValue:value.toNumber().integerValue)!
+            self.countryCodeSource = CountryCodeSource(rawValue:value.toNumber().integerValue)
         }
         if let value = javascriptValue.invokeMethod("getPreferredDomesticCarrierCode", withArguments: nil) where value.isString()  {
-            self.preferredDomesticCarrierCode = value.toString()
+            if value.toString() != "" {
+                self.preferredDomesticCarrierCode = value.toString()
+            }
         }
     }
     func toJavascript(lineNumber:Int = __LINE__) -> (variableName:String, javascript:String) {
@@ -124,8 +126,8 @@ extension PhoneNumber:JavascriptString {
         if self.isItalianLeadingZero {
             javascript += "\(varName).setItalianLeadingZero(\(self.isItalianLeadingZero));"
         }
-        if self.countryCodeSource != CountryCodeSource.FROM_NUMBER_WITHOUT_PLUS_SIGN {
-            javascript += "\(varName).setCountryCodeSource(\(self.countryCodeSource.rawValue));"
+        if let countryCodeSource = self.countryCodeSource {
+            javascript += "\(varName).setCountryCodeSource(\(countryCodeSource.rawValue));"
         }
         if self.rawInput != "" {
             javascript += "\(varName).setRawInput(\"\(self.rawInput)\");"
@@ -827,8 +829,8 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         if firstNumberIn.isItalianLeadingZero {
             javascript += "\(varName).setItalianLeadingZero(\(firstNumberIn.isItalianLeadingZero));"
         }
-        if firstNumberIn.countryCodeSource != CountryCodeSource.FROM_NUMBER_WITHOUT_PLUS_SIGN {
-            javascript += "\(varName).setCountryCodeSource(\(firstNumberIn.countryCodeSource.rawValue));"
+        if let countryCodeSource = firstNumberIn.countryCodeSource {
+            javascript += "\(varName).setCountryCodeSource(\(countryCodeSource.rawValue));"
         }
         if firstNumberIn.rawInput != "" {
             javascript += "\(varName).setRawInput(\"\(firstNumberIn.rawInput)\");"
@@ -852,8 +854,8 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         if secondNumberIn.isItalianLeadingZero {
             javascript += "\(varName).setItalianLeadingZero(\(secondNumberIn.isItalianLeadingZero));"
         }
-        if secondNumberIn.countryCodeSource != CountryCodeSource.FROM_NUMBER_WITHOUT_PLUS_SIGN {
-            javascript += "\(varName).setCountryCodeSource(\(secondNumberIn.countryCodeSource.rawValue));"
+        if let countryCodeSource = secondNumberIn.countryCodeSource {
+            javascript += "\(varName).setCountryCodeSource(\(countryCodeSource.rawValue));"
         }
         if secondNumberIn.rawInput != "" {
             javascript += "\(varName).setRawInput(\"\(secondNumberIn.rawInput)\");"

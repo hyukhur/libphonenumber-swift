@@ -32,7 +32,7 @@ public class PhoneNumber:Equatable, Printable {
     public var isItalianLeadingZero = false
     public var numberOfLeadingZeros = 1
     public var rawInput = ""
-    public var countryCodeSource:CountryCodeSource? = CountryCodeSource.FROM_NUMBER_WITH_PLUS_SIGN
+    public var countryCodeSource:CountryCodeSource?
     public var preferredDomesticCarrierCode:String?
 
     public init() {

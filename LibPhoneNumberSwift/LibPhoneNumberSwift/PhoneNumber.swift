@@ -61,7 +61,7 @@ public class PhoneNumber:Equatable, Printable {
         isItalianLeadingZero = false
         numberOfLeadingZeros = 1
         rawInput = ""
-        countryCodeSource = CountryCodeSource.FROM_NUMBER_WITH_PLUS_SIGN
+        countryCodeSource = nil
         preferredDomesticCarrierCode = nil
     }
     public func mergeFrom(other:PhoneNumber) -> PhoneNumber {
@@ -94,6 +94,13 @@ public class PhoneNumber:Equatable, Printable {
     public func getCountryCodeSource() -> CountryCodeSource? {
         return countryCodeSource;
     }
+    public func getCountryCodeSourceOrDefault() -> CountryCodeSource {
+        if let countryCodeSource = self.countryCodeSource {
+            return countryCodeSource
+        } else {
+            return CountryCodeSource.FROM_NUMBER_WITH_PLUS_SIGN
+        }
+    }
     public func setCountryCodeSource(value:CountryCodeSource) -> PhoneNumber {
         self.countryCodeSource = value
         return self
@@ -119,6 +126,13 @@ public class PhoneNumber:Equatable, Printable {
 }
 
 public func == (lhs: PhoneNumber, rhs: PhoneNumber) -> Bool {
-    let result = lhs.countryCode == rhs.countryCode && lhs.nationalNumber == rhs.nationalNumber && lhs.extensionFormat == rhs.extensionFormat && lhs.isItalianLeadingZero == rhs.isItalianLeadingZero && lhs.numberOfLeadingZeros == rhs.numberOfLeadingZeros && lhs.rawInput == rhs.rawInput && lhs.countryCodeSource == rhs.countryCodeSource && lhs.preferredDomesticCarrierCode == rhs.preferredDomesticCarrierCode
+    let result = lhs.countryCode == rhs.countryCode &&
+        lhs.nationalNumber == rhs.nationalNumber &&
+        lhs.extensionFormat == rhs.extensionFormat &&
+        lhs.isItalianLeadingZero == rhs.isItalianLeadingZero &&
+        lhs.numberOfLeadingZeros == rhs.numberOfLeadingZeros &&
+        lhs.rawInput == rhs.rawInput &&
+        ((lhs.countryCodeSource == nil && rhs.countryCodeSource == nil) || lhs.countryCodeSource == rhs.countryCodeSource) &&
+        lhs.preferredDomesticCarrierCode == rhs.preferredDomesticCarrierCode
     return result
 }

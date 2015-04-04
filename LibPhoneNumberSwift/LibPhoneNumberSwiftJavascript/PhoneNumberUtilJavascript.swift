@@ -40,7 +40,7 @@ extension JSContext {
             return arg.description
         }))
         let evaluatingJavascript = create + "phoneUtil.\(functionName)(\(arguments));"
-
+        print(evaluatingJavascript)
         return self.evaluateScript(evaluatingJavascript)
     }
 }
@@ -218,7 +218,7 @@ extension PhoneMetadata:JavascriptString {
             "\(varName).setNationalPrefixForParsing(\"\(self.nationalPrefixForParsing)\");"
 
         if self.metadataID != "" {
-            javascript += "\(varName).setMetadataID(\"\(self.metadataID)\");"
+            javascript += "\(varName).setId(\"\(self.metadataID)\");"
         }
         if self.countryCode != -1 {
             javascript += "\(varName).setCountryCode(\(self.countryCode));"
@@ -241,8 +241,9 @@ extension PhoneMetadata:JavascriptString {
                 return string + js.javascript
             })
             javascript += numberFormats
-            let numberFormatsNames = "[" + join(", ", numberFormatsObjects) + "]"
-            javascript += "\(varName).setNumberFormatsArray(\(numberFormatsNames));"
+            javascript += join("", numberFormatsObjects.map({
+                return "\(varName).addNumberFormat(\($0));"
+            }))
         }
         numberFormats = self.intlNumberFormats
         if numberFormats.count > 0 {
@@ -253,8 +254,9 @@ extension PhoneMetadata:JavascriptString {
                 return string + js.javascript
             })
             javascript += numberFormats
-            let numberFormatsNames = "[" + join(", ", numberFormatsObjects) + "]"
-            javascript += "\(varName).setIntlNumberFormatsArray(\(numberFormatsNames));"
+            javascript += join("", numberFormatsObjects.map({
+                return "\(varName).addIntlNumberFormat(\($0));"
+            }))
         }
         /*
         public var generalDesc = PhoneNumberDesc()
@@ -718,6 +720,8 @@ public class PhoneNumberUtilJavascript: PhoneNumberUtil {
         return CountryCodeSource.FROM_DEFAULT_COUNTRY
     }
     public override func maybeExtractCountryCode(number:String, defaultRegionMetadata:PhoneMetadata, nationalNumber:String, keepRawInput:Bool, phoneNumber:PhoneNumber, error:NSErrorPointer) -> Int {
+        let number = "\"\(number)\""
+        let nationalNumber = "\"\(nationalNumber)\""
         let previousExceptionHandler = self.context.exceptionHandler
         self.context.exceptionHandler = {(context, exception:JSValue!) -> Void in
             let type:ErrorType = ErrorType.parse(exception.toString())

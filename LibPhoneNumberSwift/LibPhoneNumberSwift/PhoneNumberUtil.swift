@@ -352,10 +352,10 @@ public class PhoneNumberUtil {
         // TODO: should be implemented
         return CountryCodeSource.FROM_DEFAULT_COUNTRY
     }
-    public func maybeExtractCountryCode(number:String, defaultRegionMetadata:PhoneMetadata, nationalNumber:String, keepRawInput:Bool, phoneNumber:PhoneNumber, error:NSErrorPointer) -> Int {
+    public func maybeExtractCountryCode(number:String, defaultRegionMetadata:PhoneMetadata, keepRawInput:Bool, phoneNumber:PhoneNumber, error:NSErrorPointer) -> (countryCallingCode:Int, nationalNumber:String, phoneNumber:PhoneNumber) {
         // TODO: should be implemented
         error.memory = NSError(domain: "", code: -1, userInfo:[NSLocalizedDescriptionKey:""])
-        return -1
+        return (-1, "", phoneNumber)
     }
     public func isNumberMatch(firstString:String, secondString:String) -> MatchType {
         // TODO: should be implemented

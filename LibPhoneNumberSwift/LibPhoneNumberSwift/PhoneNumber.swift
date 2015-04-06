@@ -65,15 +65,31 @@ public class PhoneNumber:Equatable, Printable {
         preferredDomesticCarrierCode = nil
     }
     public func mergeFrom(other:PhoneNumber) -> PhoneNumber {
-        countryCode = other.countryCode != 0 ?other.countryCode:self.countryCode
-        nationalNumber = other.nationalNumber != 0 ?other.nationalNumber:self.nationalNumber
-        extensionFormat = other.extensionFormat != "" ? other.extensionFormat:self.extensionFormat
-        isItalianLeadingZero = other.isItalianLeadingZero ? other.isItalianLeadingZero : self.isItalianLeadingZero
-        numberOfLeadingZeros = other.numberOfLeadingZeros != 1 ? other.numberOfLeadingZeros:self.numberOfLeadingZeros
-        rawInput = other.rawInput != "" ?other.rawInput:self.rawInput
-        countryCodeSource = other.countryCodeSource != CountryCodeSource.FROM_NUMBER_WITH_PLUS_SIGN ? other.countryCodeSource:self.countryCodeSource
-        preferredDomesticCarrierCode = other.preferredDomesticCarrierCode != nil && other.preferredDomesticCarrierCode != "" ? other.preferredDomesticCarrierCode:self.preferredDomesticCarrierCode
-        return self
+        if (other.countryCode != 0) {
+            setCountryCode(other.countryCode);
+        }
+        if (other.nationalNumber != 0) {
+            setNationalNumber(other.nationalNumber);
+        }
+        if (other.extensionFormat != "") {
+            setExtension(other.extensionFormat);
+        }
+        if (other.isItalianLeadingZero) {
+            setItalianLeadingZero(other.isItalianLeadingZero);
+        }
+        if (other.numberOfLeadingZeros != 1) {
+            setNumberOfLeadingZeros(other.numberOfLeadingZeros);
+        }
+        if (other.rawInput != "") {
+            setRawInput(other.rawInput);
+        }
+        if let countryCodeSource = other.countryCodeSource {
+            setCountryCodeSource(countryCodeSource);
+        }
+        if let preferredDomesticCarrierCode = other.preferredDomesticCarrierCode {
+            setPreferredDomesticCarrierCode(preferredDomesticCarrierCode);
+        }
+        return self;
     }
     public func setExtension(value:String) -> PhoneNumber {
         self.extensionFormat = value
@@ -106,7 +122,7 @@ public class PhoneNumber:Equatable, Printable {
         return self
     }
     public func hasCountryCodeSource() -> Bool {
-        return self.countryCodeSource != CountryCodeSource.FROM_NUMBER_WITH_PLUS_SIGN
+        return self.countryCodeSource != nil
     }
     public func clearItalianLeadingZero() {
         self.isItalianLeadingZero = false
